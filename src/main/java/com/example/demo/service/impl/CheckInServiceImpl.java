@@ -16,6 +16,7 @@ import java.util.List;
 public class CheckInServiceImpl implements CheckInService {
     @Resource
     private CheckInDao checkInDao;
+
     /**
      * 创建签到
      *
@@ -47,7 +48,7 @@ public class CheckInServiceImpl implements CheckInService {
      */
     @Override
     public List<CheckIn> getCheckInListByUserAndCourse(Integer userId, Integer courseId) {
-        return checkInDao.getCheckInListByUserAndCourse(userId,courseId);
+        return checkInDao.getCheckInListByUserAndCourse(userId, courseId);
     }
 
     /**
