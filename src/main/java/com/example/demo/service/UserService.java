@@ -21,7 +21,7 @@ public interface UserService {
      * @param user 要更新的User
      * @return 更新好的User
      */
-    int updateUser(User user);
+    long updateUser(User user);
 
     /**
      * 获取用户信息

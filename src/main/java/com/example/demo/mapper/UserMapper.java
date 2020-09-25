@@ -26,7 +26,7 @@ public interface UserMapper {
      * @return 更新好的User
      */
     @Update("update user set username=#{user.username},password=#{user.password},stu_no=#{user.stuNo},mail=#{user.mail},status=#{user.status.code},photo_id=#{user.photoId},nick=#{user.nick},school=#{user.school},academy=#{user.academy},major=#{user.major},friend_id=#{user.friendId},avatar=#{user.avatar} where id=#{user.id}")
-    int updateUser(@Param("user") User user);
+    long updateUser(@Param("user") User user);
 
     /**
      * 获取用户信息

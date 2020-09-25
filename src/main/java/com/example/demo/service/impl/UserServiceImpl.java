@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
      * @return 更新好的User
      */
     @Override
-    public int updateUser(User user) {
+    public long updateUser(User user) {
         return userMapper.updateUser(user);
     }
 
