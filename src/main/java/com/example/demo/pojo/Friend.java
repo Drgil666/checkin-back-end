@@ -3,7 +3,6 @@ package com.example.demo.pojo;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class Friend {
      * 记录id
      */
     @Id
-    private Integer id;
+    private String id;
     /**
      * 用户id
      */
@@ -28,6 +27,5 @@ public class Friend {
     /**
      * 该用户好友
      */
-    @DBRef
-    private List<User> friendId;
+    private List<Integer> friends;
 }
