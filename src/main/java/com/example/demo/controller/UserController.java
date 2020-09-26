@@ -47,7 +47,18 @@ public class UserController {
             }
         }
     }
-//    @ResponseBody
-//    @GetMapping("/check")
-//    public
+    @ResponseBody
+    @GetMapping()
+    public Response<User> user(@RequestParam("userId") Integer userId)
+    {
+        User user=userService.getUser(userId);
+        if(user!=null)
+        {
+            return Response.createSuc(user);
+        }
+        else
+        {
+            return Response.createErr("获取用户失败!");
+        }
+    }
 }
