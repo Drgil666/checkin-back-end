@@ -33,6 +33,9 @@ public class FriendDaoImpl implements FriendDao {
      */
     @Override
     public Friend createFriend(int userId, int friend) {
+        if (userId == friend) {
+            return null;
+        }
         Friend friend1 = getFriend(userId);
         if (friend1 == null) {
             friend1 = new Friend();
