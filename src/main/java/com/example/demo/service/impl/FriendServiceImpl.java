@@ -26,7 +26,7 @@ public class FriendServiceImpl implements FriendService {
      * @return 是否创建成功
      */
     @Override
-    public boolean createFriend(int userId, int friend) {
+    public Friend createFriend(int userId, int friend) {
         return friendDao.createFriend(userId, friend);
     }
 

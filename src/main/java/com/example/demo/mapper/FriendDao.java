@@ -17,7 +17,7 @@ public interface FriendDao {
      * @param friend 朋友id
      * @return 是否创建成功
      */
-    boolean createFriend(int userId, int friend);
+    Friend createFriend(int userId, int friend);
 
     /**
      * 获取好友信息列表

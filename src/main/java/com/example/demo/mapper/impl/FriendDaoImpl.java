@@ -32,7 +32,7 @@ public class FriendDaoImpl implements FriendDao {
      * @return 是否创建成功
      */
     @Override
-    public boolean createFriend(int userId, int friend) {
+    public Friend createFriend(int userId, int friend) {
         Friend friend1 = getFriend(userId);
         if (friend1 == null) {
             friend1 = new Friend();
@@ -41,14 +41,14 @@ public class FriendDaoImpl implements FriendDao {
             list.add(friend);
             friend1.setFriends(list);
             mongoTemplate.insert(friend1);
-            return true;
+            return friend1;
         }
         if (friend1.getFriends().contains(friend)) {
-            return false;
+            return null;
         }
         friend1.getFriends().add(friend);
         mongoTemplate.save(friend1);
-        return true;
+        return friend1;
     }
 
     /**
