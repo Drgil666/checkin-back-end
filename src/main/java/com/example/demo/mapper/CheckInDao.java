@@ -11,6 +11,7 @@ import java.util.List;
 public interface CheckInDao {
     /**
      * 创建签到
+     *
      * @param checkIn 签到
      * @return 带有id的签到
      */
@@ -18,6 +19,7 @@ public interface CheckInDao {
 
     /**
      * 更新签到
+     *
      * @param checkIn 签到
      * @return 影响行数
      */
@@ -25,14 +27,16 @@ public interface CheckInDao {
 
     /**
      * 通过用户id和课程id获取签到记录
-     * @param userId 用户id
+     *
+     * @param userId   用户id
      * @param courseId 课程id
      * @return 签到列表
      */
-    List<CheckIn> getCheckInListByUserAndCourse(Integer userId,Integer courseId);
+    List<CheckIn> getCheckInListByUserAndCourse(Integer userId, Integer courseId);
 
     /**
      * 通过id查找签到记录
+     *
      * @param id 签到id
      * @return 签到记录
      */
@@ -40,6 +44,7 @@ public interface CheckInDao {
 
     /**
      * 批量删除签到
+     *
      * @param id 要删除的列表
      * @return 影响的行数
      */
