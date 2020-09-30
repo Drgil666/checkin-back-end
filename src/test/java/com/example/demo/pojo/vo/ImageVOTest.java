@@ -19,6 +19,8 @@ class ImageVOTest {
         hashMap.put("test1","111");
         hashMap.put("test2","222");
         String content= JSON.toJSONString(hashMap);
-        System.out.println(ImageVO.writeToBase64(content,200,200));
+        String imageString=ImageVO.writeToBase64(content,200,200);
+        System.out.println(imageString);
+        //根据业务具体需求来看,可能需要+22(意义是去掉开头的"data:image/png;base64,")
     }
 }
