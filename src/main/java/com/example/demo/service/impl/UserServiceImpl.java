@@ -50,4 +50,15 @@ public class UserServiceImpl implements UserService {
     public User getUser(Integer id) {
         return userMapper.getUser(id);
     }
+
+    /**
+     * 查询用户名是否存在
+     *
+     * @param username 用户名
+     * @return 对应id
+     */
+    @Override
+    public Integer isExist(String username) {
+        return userMapper.isExist(username);
+    }
 }

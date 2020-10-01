@@ -36,4 +36,13 @@ public interface UserMapper {
      */
     @Select("select * from user where id=#{id}")
     User getUser(@Param("id") Integer id);
+
+    /**
+     * 查询用户名是否存在
+     *
+     * @param username 用户名
+     * @return 对应id
+     */
+    @Select("select id from user where username=#{username} limit 1")
+    Integer isExist(@Param("username") String username);
 }

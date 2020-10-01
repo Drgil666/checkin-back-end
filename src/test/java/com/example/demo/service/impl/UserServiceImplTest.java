@@ -52,4 +52,8 @@ public class UserServiceImplTest {
         System.out.println(user.getMail());
     }
 
+    @Test
+    void isExist() {
+        System.out.println(userService.isExist("15613"));
+    }
 }

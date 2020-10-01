@@ -28,11 +28,17 @@ public class UserController {
     public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                userService.createUser(request.getData());
-                if (request.getData().getId() != null) {
-                    return Response.createSuc(request.getData());
-                } else {
-                    return Response.createErr("创建用户失败!");
+                if(userService.isExist(request.getData().getUsername())!=null) {
+                    userService.createUser(request.getData());
+                    if (request.getData().getId() != null) {
+                        return Response.createSuc(request.getData());
+                    } else {
+                        return Response.createErr("创建用户失败!");
+                    }
+                }
+                else
+                {
+                    return Response.createErr("用户已存在!");
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
@@ -47,17 +53,14 @@ public class UserController {
             }
         }
     }
+
     @ResponseBody
     @GetMapping()
-    public Response<User> user(@RequestParam("userId") Integer userId)
-    {
-        User user=userService.getUser(userId);
-        if(user!=null)
-        {
+    public Response<User> user(@RequestParam("userId") Integer userId) {
+        User user = userService.getUser(userId);
+        if (user != null) {
             return Response.createSuc(user);
-        }
-        else
-        {
+        } else {
             return Response.createErr("获取用户失败!");
         }
     }

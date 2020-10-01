@@ -38,14 +38,14 @@ class FriendServiceImplTest {
 
     @Test
     void deleteFriend() {
-        List<Integer> id=new ArrayList<>();
+        List<Integer> id = new ArrayList<>();
         id.add(3);
-        System.out.println(friendService.deleteFriend(1,id));
+        System.out.println(friendService.deleteFriend(1, id));
     }
 
     @Test
     void getFriendUserList() {
-        List<User> users=friendService.getFriendUserList(friendService.getFriend(1));
+        List<User> users = friendService.getFriendUserList(friendService.getFriend(1));
         System.out.println(users);
     }
 }
