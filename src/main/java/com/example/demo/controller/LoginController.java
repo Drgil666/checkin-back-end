@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.pojo.Response;
-import com.example.demo.pojo.vo.UserCheck;
 import com.example.demo.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -27,15 +26,11 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping()
-    public Response<UserCheck> login(@RequestBody Map<String ,String > map) {
-        String username=map.get("username");
-        String password=map.get("password");
+    public Response<Date> login(@RequestBody Map<String, String> map) {
+        String username = map.get("username");
+        String password = map.get("password");
         if (loginService.login(username, password)) {
-            UserCheck userCheck = new UserCheck();
-            userCheck.setUsername(username);
-            userCheck.setPassword(password);
-            userCheck.setLogTime(new Date());
-            return Response.createSuc(userCheck);
+            return Response.createSuc(new Date());
         }
         return Response.createErr("用户名或密码错误!");
     }
