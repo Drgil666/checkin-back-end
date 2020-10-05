@@ -35,7 +35,7 @@ public class LoginController {
         if (result.getFirst()) {
             Map<String, Object> P = new HashMap<>();
             P.put("id", result.getSecond());
-            P.put("LogTime", new Date());
+            P.put("logTime", new Date());
             return Response.createSuc(P);
         }
         return Response.createErr("用户名或密码错误!");
