@@ -37,7 +37,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     /**
-     * 通过name查找课程列表
+     * 通过name获取课程列表
      *
      * @param name 查找的课程名
      * @return 课程列表
