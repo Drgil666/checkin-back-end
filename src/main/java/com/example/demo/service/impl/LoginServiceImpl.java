@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.vo.Encryption;
+import com.example.demo.pojo.vo.Pair;
 import com.example.demo.service.LoginService;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,18 @@ public class LoginServiceImpl implements LoginService {
      * @return 是否成功
      */
     @Override
-    public boolean login(String username, String password) {
+    public Pair<Boolean, Integer> login(String username, String password) {
         Integer userId = userMapper.isExist(username);
+        Pair<Boolean, Integer> result = new Pair<>();
         if (userId != null) {
-            return userMapper.getUser(userId).getPassword().equals(Encryption.encodePassword(password));
+            if (userMapper.getUser(userId).getPassword().equals(Encryption.encodePassword(password))) {
+                result.setFirst(Boolean.TRUE);
+                result.setSecond(userId);
+                return result;
+            }
         }
-        return false;
+        result.setFirst(Boolean.FALSE);
+        result.setSecond(null);
+        return result;
     }
 }

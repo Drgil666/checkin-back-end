@@ -28,16 +28,14 @@ public class UserController {
     public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if(userService.isExist(request.getData().getUsername())!=null) {
+                if (userService.isExist(request.getData().getUsername()) != null) {
                     userService.createUser(request.getData());
                     if (request.getData().getId() != null) {
                         return Response.createSuc(request.getData());
                     } else {
                         return Response.createErr("创建用户失败!");
                     }
-                }
-                else
-                {
+                } else {
                     return Response.createErr("用户已存在!");
                 }
             }
@@ -63,5 +61,11 @@ public class UserController {
         } else {
             return Response.createErr("获取用户失败!");
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/check")
+    public String check() {
+        return "ok2";
     }
 }
