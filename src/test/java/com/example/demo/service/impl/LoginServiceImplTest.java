@@ -9,8 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Gilbert
  * @date 2020/10/1 21:34
@@ -22,7 +20,7 @@ class LoginServiceImplTest {
     private LoginService loginService;
 
     @Test
-    void login() {
+    void login() throws Exception {
         System.out.println(loginService.login("11", "22"));
     }
 }

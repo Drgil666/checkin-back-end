@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.User;
+import com.example.demo.pojo.vo.RsaEncrypt;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,8 @@ public class UserServiceImpl implements UserService {
      * @return 带有id的用户
      */
     @Override
-    public boolean createUser(User user) {
+    public boolean createUser(User user) throws Exception {
+        user.setPassword(RsaEncrypt.encrypt(user.getPassword()));
         return userMapper.createUser(user);
     }
 
@@ -36,7 +38,8 @@ public class UserServiceImpl implements UserService {
      * @return 更新好的User
      */
     @Override
-    public long updateUser(User user) {
+    public long updateUser(User user) throws Exception {
+        user.setPassword(RsaEncrypt.encrypt(user.getPassword()));
         return userMapper.updateUser(user);
     }
 

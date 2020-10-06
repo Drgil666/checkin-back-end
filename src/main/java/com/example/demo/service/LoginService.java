@@ -15,5 +15,5 @@ public interface LoginService {
      * @param password 密码
      * @return 是否成功
      */
-    Pair<Boolean, Integer> login(String username, String password);
+    Pair<Boolean, Integer> login(String username, String password) throws Exception;
 }

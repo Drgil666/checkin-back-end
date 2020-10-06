@@ -25,7 +25,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping()
-    public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
+    public Response<User> user(@RequestBody CUDRequest<User, Integer> request) throws Exception{
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {

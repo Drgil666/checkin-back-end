@@ -28,12 +28,12 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping()
-    public Response<Map<String, Object>> login(@RequestBody Map<String, String> map) {
+    public Response<Map<String, Object>> login(@RequestBody Map<String, String> map) throws Exception {
         String username = map.get("username");
         String password = map.get("password");
         Pair<Boolean, Integer> result = loginService.login(username, password);
         if (result.getFirst()) {
-            Map<String, Object> P = new HashMap<>();
+            Map<String, Object> P = new HashMap<>(10);
             P.put("id", result.getSecond());
             P.put("logTime", new Date());
             return Response.createSuc(P);

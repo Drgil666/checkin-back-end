@@ -14,7 +14,7 @@ public interface UserService {
      * @param user 要注册的用户
      * @return 是否创建成功
      */
-    boolean createUser(User user);
+    boolean createUser(User user) throws Exception;
 
     /**
      * 更新用户
@@ -22,7 +22,7 @@ public interface UserService {
      * @param user 要更新的User
      * @return 更新好的User
      */
-    long updateUser(User user);
+    long updateUser(User user) throws Exception;
 
     /**
      * 获取用户信息
