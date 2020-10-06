@@ -29,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
         Integer userId = userMapper.isExist(username);
         Pair<Boolean, Integer> result = new Pair<>();
         if (userId != null) {
-            if (userMapper.getUser(userId).getPassword().equals(RsaEncrypt.encrypt(password))) {
+            if (RsaEncrypt.decrypt(userMapper.getUser(userId).getPassword()).equals(password)) {
                 result.setFirst(Boolean.TRUE);
                 result.setSecond(userId);
                 return result;
