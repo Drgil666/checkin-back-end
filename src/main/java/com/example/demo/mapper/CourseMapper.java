@@ -42,4 +42,12 @@ public interface CourseMapper {
      * @return 课程列表
      */
     List<Course> getCourseByName(String name);
+
+    /**
+     * 删除课程
+     *
+     * @param id 删除的课程
+     * @return 是否删除成功
+     */
+    Course deleteCourse(Integer id);
 }

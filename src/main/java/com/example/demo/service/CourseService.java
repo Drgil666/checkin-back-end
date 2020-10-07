@@ -36,4 +36,12 @@ public interface CourseService {
      * @return 课程
      */
     Course getCourse(Integer id);
+
+    /**
+     * 删除课程
+     *
+     * @param id 删除的课程
+     * @return 是否删除成功
+     */
+    Course deleteCourse(Integer id);
 }

@@ -58,5 +58,13 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.getCourseById(id);
     }
 
-
+    /**
+     * 删除课程
+     *
+     * @param id 删除的课程
+     * @return 是否删除成功
+     */
+    public Course deleteCourse(Integer id) {
+        return courseMapper.deleteCourse(id);
+    }
 }
