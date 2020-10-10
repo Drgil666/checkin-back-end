@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
      * @return 课程
      */
     @Override
-    public Course createCourse(Course course) {
+    public boolean createCourse(Course course) {
         return courseMapper.createCourse(course);
     }
 
@@ -66,7 +66,7 @@ public class CourseServiceImpl implements CourseService {
      * @return 是否删除成功
      */
     @Override
-    public Course deleteCourse(Integer id) {
+    public long deleteCourse(Integer id) {
         return courseMapper.deleteCourse(id);
     }
 

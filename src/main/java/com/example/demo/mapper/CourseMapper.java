@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+/**
+ * @author yutao
+ */
 @Mapper
 public interface CourseMapper {
     /**
@@ -15,7 +18,7 @@ public interface CourseMapper {
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("insert into course (name,introduction,teacher) values  (#{course.name},#{course.introduction},#{course.teacher})")
-    Course createCourse(@Param("course") Course course);
+    boolean createCourse(@Param("course") Course course);
 
     /**
      * 更新课程
@@ -41,6 +44,7 @@ public interface CourseMapper {
      * @param name 课程name
      * @return 课程列表
      */
+    @Select("select * from course where name=#{name}")
     List<Course> getCourseByName(@Param("name") String name);
 
     /**
@@ -49,7 +53,8 @@ public interface CourseMapper {
      * @param id 删除的课程
      * @return 是否删除成功
      */
-    Course deleteCourse(Integer id);
+    @Delete("delete from course where id=#{id}")
+    long deleteCourse(@Param("id") Integer id);
 
     /**
      * 查询课程名是否存在
@@ -57,5 +62,6 @@ public interface CourseMapper {
      * @param name 用户名
      * @return 对应id
      */
+    @Select("select id from course where name=#{name}")
     Integer isExist(@Param("name") String name);
 }

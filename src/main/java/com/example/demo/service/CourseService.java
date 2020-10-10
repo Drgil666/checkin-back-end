@@ -15,7 +15,7 @@ public interface CourseService {
      * @param course 要创建的课程
      * @return 是否创建成功
      */
-    Course createCourse(Course course);
+    boolean createCourse(Course course);
 
     /**
      * 更新课程
@@ -47,7 +47,7 @@ public interface CourseService {
      * @param id 删除的课程
      * @return 是否删除成功
      */
-    Course deleteCourse(Integer id);
+    long deleteCourse(Integer id);
 
     /**
      * 查询课程名是否存在

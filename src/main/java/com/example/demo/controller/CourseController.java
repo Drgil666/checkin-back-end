@@ -28,16 +28,16 @@ public class CourseController {
     public Response<Course> course(@RequestBody CUDRequest<Course, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if (courseService.isExist(request.getData().getName()) != null) {
-                    courseService.createCourse(request.getData());
-                    if (request.getData().getId() != null) {
-                        return Response.createSuc(request.getData());
-                    } else {
-                        return Response.createErr("创建课程失败!");
-                    }
+//                if (courseService.isExist(request.getData().getName()) != null) {
+                courseService.createCourse(request.getData());
+                if (request.getData().getId() != null) {
+                    return Response.createSuc(request.getData());
                 } else {
-                    return Response.createErr("课程已存在!");
+                    return Response.createErr("创建课程失败!");
                 }
+//                } else {
+//                    return Response.createErr("课程已存在!");
+//                }
             }
             case CUDRequest.UPDATE_METHOD: {
                 if (courseService.updateCourse(request.getData()) == 1) {
