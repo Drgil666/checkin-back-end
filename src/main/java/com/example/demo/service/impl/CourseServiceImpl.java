@@ -4,6 +4,7 @@ package com.example.demo.service.impl;
 import com.example.demo.mapper.CourseMapper;
 import com.example.demo.pojo.Course;
 import com.example.demo.service.CourseService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
      * @return 课程
      */
     @Override
-    public Course updateCourse(Course course) {
+    public long updateCourse(Course course) {
         return courseMapper.updateCourse(course);
     }
 
@@ -64,7 +65,19 @@ public class CourseServiceImpl implements CourseService {
      * @param id 删除的课程
      * @return 是否删除成功
      */
+    @Override
     public Course deleteCourse(Integer id) {
         return courseMapper.deleteCourse(id);
+    }
+
+    /**
+     * 查询课程名是否存在
+     *
+     * @param name 用户名
+     * @return 对应id
+     */
+    @Override
+    public Integer isExist(@Param("name") String name) {
+        return courseMapper.isExist(name);
     }
 }
