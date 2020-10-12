@@ -4,7 +4,7 @@ package com.example.demo.service.impl;
 import com.example.demo.DemoApplication;
 import com.example.demo.pojo.Course;
 import com.example.demo.service.CourseService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
-public class CourseServicelmplTest {
+public class CourseServiceImplTest {
     @Resource
     private CourseService courseService;
 
@@ -31,6 +31,7 @@ public class CourseServicelmplTest {
     @Test
     void updateCourse() {
         Course course = courseService.getCourse(1);
+        course.setName("math");
         System.out.println(courseService.updateCourse(course));
         System.out.println(course.getName());
     }
@@ -49,11 +50,11 @@ public class CourseServicelmplTest {
 
     @Test
     void deleteCourse() {
-        System.out.println(courseService.deleteCourse(1));
+        System.out.println(courseService.deleteCourse(3));
     }
 
-    @Test
+/*    @Test
     void isExist() {
         System.out.println(courseService.isExist("math2"));
-    }
+    }*/
 }

@@ -55,13 +55,4 @@ public interface CourseMapper {
      */
     @Delete("delete from course where id=#{id}")
     long deleteCourse(@Param("id") Integer id);
-
-    /**
-     * 查询课程名是否存在
-     *
-     * @param name 用户名
-     * @return 对应id
-     */
-    @Select("select id from course where name=#{name}")
-    Integer isExist(@Param("name") String name);
 }
