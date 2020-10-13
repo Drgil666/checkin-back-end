@@ -57,4 +57,13 @@ public class CourseServiceImplTest {
         System.out.println(courseService.deleteCourse(id));
     }
 
+    @Test
+    void getCourseListById() {
+        Integer id=5;
+        List<Course> courseList=courseService.getCourseListById(id);
+        for(Course course:courseList)
+        {
+            System.out.println(course.getId());
+        }
+    }
 }

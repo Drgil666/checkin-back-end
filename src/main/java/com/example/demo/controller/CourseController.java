@@ -58,7 +58,7 @@ public class CourseController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Course> course(@RequestParam("courseId") Integer id) {
+    public Response<Course> getCourse(@RequestParam("courseId") Integer id) {
         Course course = courseService.getCourse(id);
         if (course != null) {
             return Response.createSuc(course);
@@ -68,11 +68,22 @@ public class CourseController {
     }
 
     @ResponseBody
-    @GetMapping("/find")
-    public Response<List<Course>> course(@RequestParam("name") String name) {
+    @GetMapping("/find1")
+    public Response<List<Course>> getCourseListByName(@RequestParam("name") String name) {
         List<Course> course = courseService.getCourseListByName(name);
         if (course != null) {
             return Response.createSuc(course);
+        } else {
+            return Response.createErr("获取课程失败!");
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/find2")
+    public Response<List<Course>> getCourseListById(@RequestParam("userId") Integer userId) {
+        List<Course> courseList = courseService.getCourseListById(userId);
+        if (courseList != null) {
+            return Response.createSuc(courseList);
         } else {
             return Response.createErr("获取课程失败!");
         }
