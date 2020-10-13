@@ -51,7 +51,7 @@ public class CourseServiceImplTest {
 
     @Test
     void deleteCourse() {
-        List<Integer> id=new ArrayList<>();
+        List<Integer> id = new ArrayList<>();
         id.add(1);
         id.add(4);
         System.out.println(courseService.deleteCourse(id));

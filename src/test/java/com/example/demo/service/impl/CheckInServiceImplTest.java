@@ -33,11 +33,10 @@ public class CheckInServiceImplTest {
 
     @Test
     void updateCheckIn() {
-       CheckIn checkin = checkInService.getCheckIn(1);
+        CheckIn checkin = checkInService.getCheckIn(1);
         System.out.println(checkInService.updateCheckIn(checkin));
         System.out.println(checkin.getCourseId());
     }
-
 
 
 }

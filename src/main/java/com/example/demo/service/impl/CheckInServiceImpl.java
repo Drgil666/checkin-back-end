@@ -1,15 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.mapper.CheckInMapper;
-import com.example.demo.mapper.UserCourseMapper;
 import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.UserCourse;
 import com.example.demo.service.CheckInService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Service
 public class CheckInServiceImpl implements CheckInService {
@@ -23,9 +19,10 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 带有id的签到
      */
     @Override
-    public boolean createCheckIn(CheckIn checkin){
+    public boolean createCheckIn(CheckIn checkin) {
         return checkInMapper.createCheckIn(checkin);
     }
+
     /**
      * 更新签到
      *
@@ -33,10 +30,11 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 更新好的签到
      */
     @Override
-    public long updateCheckIn(CheckIn checkin){
+    public long updateCheckIn(CheckIn checkin) {
 
         return checkInMapper.updateCheckIn(checkin);
     }
+
     /**
      * 获取签到信息
      *
@@ -44,7 +42,7 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 签到
      */
     @Override
-    public CheckIn getCheckIn(Integer id){
+    public CheckIn getCheckIn(Integer id) {
         return checkInMapper.getCheckIn(id);
     }
 }

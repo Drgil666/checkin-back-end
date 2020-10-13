@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
+/**
+ * @author chen
+ */
 @Controller
 @Slf4j
 @RequestMapping("/api/course/users")
@@ -24,21 +27,15 @@ public class UserCourseController {
 
     @ResponseBody
     @PostMapping()
-    public Response<UserCourse> usercourse(@RequestBody CUDRequest<UserCourse, Integer> request) {
+    public Response<UserCourse> userCourse(@RequestBody CUDRequest<UserCourse, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                //if(usercourseService.isExist(request.getData().getUsername())!=null) {
                 usercourseService.createUserCourse(request.getData());
                 if (request.getData().getStuId() != null) {
                     return Response.createSuc(request.getData());
                 } else {
                     return Response.createErr("添加学生失败!");
                 }
-                //}
-                //  else
-                //{
-                //  return Response.createErr("用户已存在!");
-                //}
             }
             case CUDRequest.UPDATE_METHOD: {
                 if (usercourseService.updateUserCourse(request.getData()) == 1) {

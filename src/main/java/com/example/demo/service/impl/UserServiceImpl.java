@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
      * @return 带有id的用户
      */
     @Override
-    public boolean createUser(User user){
+    public boolean createUser(User user) {
         return userMapper.createUser(user);
     }
 
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
      * @return 更新好的User
      */
     @Override
-    public long updateUser(User user){
+    public long updateUser(User user) {
         return userMapper.updateUser(user);
     }
 

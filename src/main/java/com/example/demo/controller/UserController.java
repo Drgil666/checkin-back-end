@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 
 /**
  * @author Gilbert
- * @date 2020/9/24 16:28
+ * @Date 2020/9/24 16:28
  */
 @Controller
 @Slf4j
@@ -25,7 +25,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping()
-    public Response<User> user(@RequestBody CUDRequest<User, Integer> request){
+    public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {

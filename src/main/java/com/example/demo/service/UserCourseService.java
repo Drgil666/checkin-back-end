@@ -13,6 +13,7 @@ public interface UserCourseService {
      * @return 是否创建成功
      */
     boolean createUserCourse(UserCourse userCourse);
+
     /**
      * 更添加签到次数
      *
@@ -20,6 +21,7 @@ public interface UserCourseService {
      * @return 更新好的UserCourse
      */
     long updateUserCourse(UserCourse userCourse);
+
     /**
      * 获取用户课程信息
      *
