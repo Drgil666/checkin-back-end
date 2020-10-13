@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * @author Gilbert
- * @date 2020/9/25 16:32
+ * @Date 2020/9/25 16:32
  */
 @Data
 public class CheckIn {
@@ -33,14 +33,6 @@ public class CheckIn {
     /**
      * 照片
      */
-    private String photoId;
-    /**
-     * 签到状态
-     */
     private Integer status;
-    /**
-     * 签到位置
-     */
-    private Object position;
-    //TODO:具体格式仍待商榷
+
 }
