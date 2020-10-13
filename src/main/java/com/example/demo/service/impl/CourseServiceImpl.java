@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author yutao
+ */
 @Service
 public class CourseServiceImpl implements CourseService {
     @Resource
