@@ -1,29 +1,32 @@
 package com.example.demo.mapper;
 
-import com.example.demo.pojo.User;
 import com.example.demo.pojo.UserCourse;
 import org.apache.ibatis.annotations.*;
 
+/**
+ * @author chentao
+ */
 @Mapper
 public interface UserCourseMapper {
     /**
      * 为学生添加课程
      *
-     * @param usercourse 要更新的uesrcourse ,stu_id,course_id,要加入的学生id和课程id
+     * @param userCourse 要更新的uesrCourse ,stu_id,course_id,要加入的学生id和课程id
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into usercourse (stu_id,course_id,count) values (#{usercourse.stuId},#{usercourse.courseId},#{usercourse.count})")
-    boolean createUserCourse(@Param("usercourse") UserCourse usercourse);
+    @Insert("insert into usercourse (stu_id,course_id,count) values (#{userCourse.stuId},#{userCourse.courseId},#{userCourse.count})")
+    boolean createUserCourse(@Param("userCourse") UserCourse userCourse);
 
     /**
      * 更添加签到次数
      *
-     * @param usercourse 要更新的usercourse count 要更新的签到次数
+     * @param userCourse 要更新的userCourse count 要更新的签到次数
      * @return 更新好的User
      */
-    @Insert("update usercourse set count=#{usercourse.count} where stu_id=#{usercourse.stuId} and course_id=#{usercourse.courseId}")
-   long updateUsercourse(@Param("usercourse") UserCourse usercourse);
+    @Insert("update usercourse set count=#{userCourse.count} where stu_id=#{userCourse.stuId} and course_id=#{userCourse.courseId}")
+    long updateUserCourse(@Param("userCourse") UserCourse userCourse);
+
     /**
      * 获取用户课程签到信息
      *

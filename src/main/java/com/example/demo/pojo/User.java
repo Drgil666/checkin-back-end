@@ -16,11 +16,6 @@ public class User {
      */
     private String username;
     /**
-     * 密码(已加密的)
-     */
-    private String password;
-    //TODO:密码的加密实现
-    /**
      * 学号
      */
     private String stuNo;

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author yutao
+ */
 @Service
 public class CourseServiceImpl implements CourseService {
     @Resource
@@ -65,7 +68,7 @@ public class CourseServiceImpl implements CourseService {
      * @return 是否删除成功
      */
     @Override
-    public long deleteCourse(Integer id) {
+    public long deleteCourse(List<Integer> id) {
         return courseMapper.deleteCourse(id);
     }
 }

@@ -21,7 +21,7 @@ public class UserServiceImplTest {
     private UserService userService;
 
     @Test
-    void createUser() throws Exception{
+    void createUser() {
         User user = new User();
         user.setSchool(0);
         user.setAcademy(0);
@@ -34,13 +34,12 @@ public class UserServiceImplTest {
         user.setPhotoId("111");
         user.setStuNo("120");
         user.setUsername("112233");
-        user.setPassword("test111");
         userService.createUser(user);
         System.out.println(user.getId());
     }
 
     @Test
-    void updateUser() throws Exception{
+    void updateUser() {
         User user = userService.getUser(1);
         System.out.println(userService.updateUser(user));
         System.out.println(user.getMail());

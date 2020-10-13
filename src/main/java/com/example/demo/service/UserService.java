@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.User;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Gilbert
@@ -14,7 +13,7 @@ public interface UserService {
      * @param user 要注册的用户
      * @return 是否创建成功
      */
-    boolean createUser(User user) throws Exception;
+    boolean createUser(User user);
 
     /**
      * 更新用户
@@ -22,7 +21,7 @@ public interface UserService {
      * @param user 要更新的User
      * @return 更新好的User
      */
-    long updateUser(User user) throws Exception;
+    long updateUser(User user);
 
     /**
      * 获取用户信息
@@ -38,5 +37,5 @@ public interface UserService {
      * @param username 用户名
      * @return 对应id
      */
-    Integer isExist(@Param("username") String username);
+    Integer isExist(String username);
 }

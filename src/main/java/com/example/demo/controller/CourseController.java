@@ -44,7 +44,7 @@ public class CourseController {
                 }
             }
             case CUDRequest.DELETE_METHOD: {
-                if (courseService.deleteCourse(request.getData().getId()) == 1) {
+                if (courseService.deleteCourse(request.getKey()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "删除失败!");

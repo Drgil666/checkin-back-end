@@ -1,23 +1,25 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.UserCourse;
-import org.apache.ibatis.annotations.Param;
 
+/**
+ * @author chen
+ */
 public interface UserCourseService {
     /**
      * 为学生添加课程
      *
-     * @param usercourse 要更新的uesrcourse ,stu_id,course_id,要加入的学生id和课程id
+     * @param userCourse 要更新的userCourse ,stu_id,course_id,要加入的学生id和课程id
      * @return 是否创建成功
      */
-    boolean createUserCourse(UserCourse usercourse);
+    boolean createUserCourse(UserCourse userCourse);
     /**
      * 更添加签到次数
      *
-     * @param usercourse 要更新的usercourse count 要更新的签到次数
-     * @return 更新好的Usercourse
+     * @param userCourse 要更新的userCourse count 要更新的签到次数
+     * @return 更新好的UserCourse
      */
-    long updateUsercourse(UserCourse usercourse);
+    long updateUserCourse(UserCourse userCourse);
     /**
      * 获取用户课程信息
      *

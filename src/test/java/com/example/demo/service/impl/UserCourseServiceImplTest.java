@@ -2,8 +2,6 @@ package com.example.demo.service.impl;
 
 
 import com.example.demo.DemoApplication;
-import com.example.demo.mapper.UserCourseMapper;
-import com.example.demo.pojo.User;
 import com.example.demo.pojo.UserCourse;
 import com.example.demo.service.UserCourseService;
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,7 @@ public class UserCourseServiceImplTest {
     @Test
     void createUserCourse() {
         UserCourse usercourse = new UserCourse();
-       usercourse.setStuId(5);
+        usercourse.setStuId(5);
         usercourse.setCourseId(2);
         usercourse.setCount(0);
         usercourseService.createUserCourse(usercourse);
@@ -32,7 +30,7 @@ public class UserCourseServiceImplTest {
     @Test
     void updateUserCourse() {
         UserCourse usercourse = usercourseService.getUserCourse(5);
-        System.out.println(usercourseService.updateUsercourse(usercourse));
+        System.out.println(usercourseService.updateUserCourse(usercourse));
         System.out.println(usercourse.getStuId());
     }
 }
