@@ -68,7 +68,18 @@ public class CourseServiceImpl implements CourseService {
      * @return 是否删除成功
      */
     @Override
-    public long deleteCourse(Integer id) {
+    public long deleteCourse(List<Integer> id) {
         return courseMapper.deleteCourse(id);
+    }
+
+    /**
+     * 根据用户id查找学生课程列表
+     *
+     * @param id 学生id
+     * @return 对应的课程列表
+     */
+    @Override
+    public List<Course> getCourseListById(Integer id) {
+        return courseMapper.getCourseListById(id);
     }
 }

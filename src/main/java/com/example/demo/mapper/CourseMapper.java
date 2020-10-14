@@ -48,11 +48,18 @@ public interface CourseMapper {
     List<Course> getCourseByName(@Param("name") String name);
 
     /**
-     * 删除课程
+     * 批量删除课程
      *
      * @param id 删除的课程
      * @return 是否删除成功
      */
-    @Delete("delete from course where id=#{id}")
-    long deleteCourse(@Param("id") Integer id);
+    long deleteCourse(@Param("id") List<Integer> id);
+
+    /**
+     * 根据用户id查找学生课程列表
+     * @param id 学生id
+     * @return 对应的课程列表
+     */
+    @Select("select course.* from course,usercourse where usercourse.stu_id=#{id} and usercourse.course_id=course.id")
+    List<Course> getCourseListById(@Param("id") Integer id);
 }

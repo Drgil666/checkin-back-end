@@ -46,5 +46,13 @@ public interface CourseService {
      * @param id 删除的课程
      * @return 是否删除成功
      */
-    long deleteCourse(Integer id);
+    long deleteCourse(List<Integer> id);
+
+    /**
+     * 根据用户id查找学生课程列表
+     *
+     * @param id 学生id
+     * @return 对应的课程列表
+     */
+    List<Course> getCourseListById(Integer id);
 }

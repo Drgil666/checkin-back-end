@@ -1,12 +1,14 @@
 package com.example.demo.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 
 /**
  * @author Gilbert
- * @date 2020/9/25 16:32
+ * @Date 2020/9/25 16:32
  */
 @Data
 public class CheckIn {
@@ -30,17 +32,31 @@ public class CheckIn {
      * 结束时间
      */
     private Date endTime;
+
+    @AllArgsConstructor
+    @Getter
+    public enum CheckInIdentity {
+        /**
+         * 签到
+         */
+        BEGIN(0, "begin"),
+        /**
+         * 签退
+         */
+        END(1, "end");
+        private final Integer code;
+        private final String name;
+    }
+
+    public static final CheckInIdentity[] CHECK_IN_IDENTITIES_LIST = new CheckInIdentity[]{
+            CheckInIdentity.BEGIN, CheckInIdentity.END
+    };
     /**
-     * 照片
+     * 签到类型
      */
-    private String photoId;
-    /**
-     * 签到状态
-     */
-    private Integer status;
-    /**
-     * 签到位置
-     */
-    private Object position;
-    //TODO:具体格式仍待商榷
+    private CheckInIdentity status;
+
+    public void setStatus(int index) {
+        this.status = CHECK_IN_IDENTITIES_LIST[index];
+    }
 }

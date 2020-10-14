@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.User;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Gilbert
@@ -38,5 +37,5 @@ public interface UserService {
      * @param username 用户名
      * @return 对应id
      */
-    Integer isExist(@Param("username") String username);
+    Integer isExist(String username);
 }

@@ -34,7 +34,6 @@ public class UserServiceImplTest {
         user.setPhotoId("111");
         user.setStuNo("120");
         user.setUsername("112233");
-        user.setPassword("test111");
         userService.createUser(user);
         System.out.println(user.getId());
     }
