@@ -21,10 +21,6 @@ public class CheckIn {
      */
     private Integer userId;
     /**
-     * 课程id
-     */
-    private Integer courseId;
-    /**
      * 开始时间
      */
     private Date startTime;
@@ -32,6 +28,20 @@ public class CheckIn {
      * 结束时间
      */
     private Date endTime;
+
+    /**
+     * 签到状态 未开始/进行中/已结束
+     */
+    private Integer status;
+    /**
+     * 签到名
+     */
+    private String nick;
+
+    /**
+     * 是否可见
+     */
+    private int visible;
 
     @AllArgsConstructor
     @Getter
@@ -48,15 +58,17 @@ public class CheckIn {
         private final String name;
     }
 
+    /**
+     * 签到环节 签到/签退
+     */
+
+    private CheckInIdentity type;
     public static final CheckInIdentity[] CHECK_IN_IDENTITIES_LIST = new CheckInIdentity[]{
             CheckInIdentity.BEGIN, CheckInIdentity.END
     };
-    /**
-     * 签到类型
-     */
-    private CheckInIdentity status;
 
-    public void setStatus(int index) {
-        this.status = CHECK_IN_IDENTITIES_LIST[index];
+
+    public void setType(int index) {
+        this.type = CHECK_IN_IDENTITIES_LIST[index];
     }
 }

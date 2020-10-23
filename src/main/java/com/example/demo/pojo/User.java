@@ -77,10 +77,6 @@ public class User {
      */
     private Integer major;
     //TODO:学校、学院、专业的类型有待商榷
-    /**
-     * 头像
-     */
-    private String avatar;
 
     public void setStatus(Integer index) {
         this.status = USER_IDENTITY_LIST[index];

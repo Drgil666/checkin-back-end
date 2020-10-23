@@ -15,7 +15,7 @@ public interface CheckInMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into checkin (id,user_id,course_id,start_time,end_time,status) values (#{checkin.id},#{checkin.userId},#{checkin.courseId},#{checkin.startTime},#{checkin.endTime},#{checkin.status})")
+    @Insert("insert into checkin (user_id,start_time,end_time,status,type,nick,visible) values (#{checkin.userId},#{checkin.startTime},#{checkin.endTime},#{checkin.status},#{checkin.type.code},#{checkin.nick},#{checkin.visible})")
     boolean createCheckIn(@Param("checkin") CheckIn checkin);
 
     /**
@@ -24,7 +24,7 @@ public interface CheckInMapper {
      * @param checkin 要更新的checkin
      * @return 更新好的CheckIn
      */
-    @Insert("update checkin set id=#{checkin.id},user_id=#{checkin.userId},course_id=#{checkin.courseId},start_time=#{checkin.startTime},end_time=#{checkin.endTime},status=#{checkin.status}")
+    @Insert("update checkin set user_id=#{checkin.userId},start_time=#{checkin.startTime},end_time=#{checkin.endTime},status=#{checkin.status} where id=#{checkin.id}")
     long updateCheckIn(@Param("checkin") CheckIn checkin);
 
     /**
