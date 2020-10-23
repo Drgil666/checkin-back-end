@@ -27,8 +27,6 @@ public class UserServiceImplTest {
         user.setAcademy(0);
         user.setMajor(0);
         user.setMail("123456@qq.com");
-        user.setAvatar("test1");
-        user.setFriendId("test2");
         user.setStatus(0);
         user.setNick("nick1");
         user.setPhotoId("111");

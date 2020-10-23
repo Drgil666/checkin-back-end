@@ -18,7 +18,7 @@ public interface UserMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into user (username,stu_no,mail,status,photo_id,nick,school,academy,major,friend_id,avatar) values  (#{user.username},#{user.stuNo},#{user.mail},#{user.status.code},#{user.photoId},#{user.nick},#{user.school},#{user.academy},#{user.major},#{user.friendId},#{user.avatar})")
+    @Insert("insert into user (username,stu_no,mail,status,photo_id,nick,school,academy,major) values  (#{user.username},#{user.stuNo},#{user.mail},#{user.status.code},#{user.photoId},#{user.nick},#{user.school},#{user.academy},#{user.major})")
     boolean createUser(@Param("user") User user);
 
     /**
@@ -27,7 +27,7 @@ public interface UserMapper {
      * @param user 要更新的User
      * @return 更新好的User
      */
-    @Update("update user set username=#{user.username},stu_no=#{user.stuNo},mail=#{user.mail},status=#{user.status.code},photo_id=#{user.photoId},nick=#{user.nick},school=#{user.school},academy=#{user.academy},major=#{user.major},friend_id=#{user.friendId},avatar=#{user.avatar} where id=#{user.id}")
+    @Update("update user set username=#{user.username},stu_no=#{user.stuNo},mail=#{user.mail},status=#{user.status.code},photo_id=#{user.photoId},nick=#{user.nick},school=#{user.school},academy=#{user.academy},major=#{user.major} where id=#{user.id}")
     long updateUser(@Param("user") User user);
 
     /**
