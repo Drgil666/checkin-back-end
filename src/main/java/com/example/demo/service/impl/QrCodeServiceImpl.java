@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author yutao
@@ -98,6 +97,6 @@ public class QrCodeServiceImpl implements QrCodeService {
     public String createQr(HashMap<String, Object> map) {
         String json = JSON.toJSONString(map);
         String image = writeToBase64(json, 200, 200);
-        return image;
+        return image+22;
     }
 }

@@ -57,10 +57,6 @@ public class User {
      */
     private String photoId;
     /**
-     * 好友对应的MongoID
-     */
-    private String friendId;
-    /**
      * 昵称
      */
     private String nick;
