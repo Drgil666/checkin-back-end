@@ -1,6 +1,7 @@
-package com.example.demo.pojo.vo;
+package com.example.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.service.QrCodeService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -8,24 +9,24 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.internal.Base64;
+import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
- * @author Gilbert
- * @date 2020/9/30 8:51
- * 进行图片相关的生成,转化
+ * @author yutao
  */
+@Service
 @Slf4j
-@Data
-public class ImageVO {
+public class QrCodeServiceImpl implements QrCodeService {
+
     /**
      * 创建二维码
      * 1、如果高度和宽度都有指定，使用指定的高宽
@@ -37,8 +38,8 @@ public class ImageVO {
      * @param height  高度
      * @return 生成的二维码图片
      */
-    public static BufferedImage createImage(String content, Integer weight, Integer height) {
-
+    @Override
+    public BufferedImage createImage(String content, Integer weight, Integer height) {
         if (weight == null && height == null) {
             weight = 300;
             height = 300;
@@ -73,7 +74,8 @@ public class ImageVO {
      * @param height  高度
      * @return 转换好的字符串
      */
-    public static String writeToBase64(String content, Integer weight, Integer height) {
+    @Override
+    public String writeToBase64(String content, Integer weight, Integer height) {
         try {
             BufferedImage image = createImage(content, weight, height);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -84,5 +86,18 @@ public class ImageVO {
             log.error("生成二维码失败, 二维码转base64失败，错误信息:{}", JSON.toJSONString(e));
             throw new RuntimeException("生成二维码失败");
         }
+    }
+
+    /**
+     * 生成二维码
+     *
+     * @param map 二维码存储信息
+     * @return 生成的base64串
+     */
+    @Override
+    public String createQr(HashMap<String, Object> map) {
+        String json = JSON.toJSONString(map);
+        String image = writeToBase64(json, 200, 200);
+        return image;
     }
 }
