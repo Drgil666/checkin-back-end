@@ -20,7 +20,6 @@ import java.util.Map;
 public class LoginController {
     @Resource
     private UserService userService;
-
     @ResponseBody
     @PostMapping("/login")
     public Response<Integer> login(@RequestBody Map<String, String> data) {
@@ -29,7 +28,7 @@ public class LoginController {
         if (userId != null) {
             return Response.createSuc(userId);
         } else {
-            return Response.createErr("登录失败!");
+            return Response.createErr("用户不存在!");
         }
     }
 }
