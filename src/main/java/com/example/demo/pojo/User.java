@@ -1,8 +1,6 @@
 package com.example.demo.pojo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 /**
  * @author Gilbert
@@ -23,35 +21,6 @@ public class User {
      * 邮箱
      */
     private String mail;
-
-    /**
-     * 身份的枚举类，必要时可以扩充
-     * Getter是自动生成对应的Get方法
-     * AllArgsConstructor表示构造成函数
-     */
-    @AllArgsConstructor
-    @Getter
-    public enum UserIdentity {
-        /**
-         * 管理员
-         */
-        ADMIN(0, "admin"),
-        /**
-         * 教师
-         */
-        TEACHER(1, "teacher"),
-        /**
-         * 学生
-         */
-        STUDENT(2, "student");
-        private final Integer code;
-        private final String name;
-    }
-
-    public static final UserIdentity[] USER_IDENTITY_LIST = new UserIdentity[]{
-            UserIdentity.ADMIN, UserIdentity.TEACHER, UserIdentity.STUDENT
-    };
-    private UserIdentity status;
     /**
      * 照片对应的MongoId
      */
@@ -73,8 +42,4 @@ public class User {
      */
     private Integer major;
     //TODO:学校、学院、专业的类型有待商榷
-
-    public void setStatus(Integer index) {
-        this.status = USER_IDENTITY_LIST[index];
-    }
 }
