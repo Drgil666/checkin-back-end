@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.mapper.CheckInMapper;
+import com.example.demo.dao.CheckInMapper;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.service.CheckInService;
 import org.springframework.stereotype.Service;

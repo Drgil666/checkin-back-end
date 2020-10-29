@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.example.demo.dao;
 
 import com.example.demo.pojo.CheckIn;
 import org.apache.ibatis.annotations.*;

@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.mapper.SignMapper;
+import com.example.demo.dao.SignMapper;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
 import org.springframework.stereotype.Service;
