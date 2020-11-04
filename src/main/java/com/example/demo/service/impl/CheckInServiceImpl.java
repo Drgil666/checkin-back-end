@@ -3,9 +3,12 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.CheckInMapper;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.service.CheckInService;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 @Service
 public class CheckInServiceImpl implements CheckInService {
@@ -26,8 +29,8 @@ public class CheckInServiceImpl implements CheckInService {
     /**
      * 更新签到
      *
-     * @param checkin 要更新的签到
-     * @return 更新好的签到
+     *
+     *
      */
     @Override
     public long updateCheckIn(CheckIn checkin) {
@@ -38,11 +41,39 @@ public class CheckInServiceImpl implements CheckInService {
     /**
      * 获取签到信息
      *
-     * @param id 签到id
-     * @return 签到
+     *
      */
     @Override
     public CheckIn getCheckIn(Integer id) {
         return checkInMapper.getCheckIn(id);
     }
+    /**
+     * 根据用户id获取签到列表
+     *
+     *
+     * @return 对应的checkin列表
+     */
+    @Override
+   public ArrayList<CheckIn> getCheckInList(Integer userId){
+        return checkInMapper.getCheckInList(userId);
+    }
+    /**
+     * 根据nick查找checkin
+     *
+     * @return checkin
+     */
+    @Override
+    public ArrayList<CheckIn>  getCheckInNick(String nick){
+        return checkInMapper.getCheckInNick(nick);
+    }
+    /**
+     * 删除checkin
+     *
+     *  id 要删除的checkinid
+     *
+     */
+    @Override
+   public long deleteCheckIn(Integer id){
+       return checkInMapper.deleteCheckIn(id);
+   }
 }

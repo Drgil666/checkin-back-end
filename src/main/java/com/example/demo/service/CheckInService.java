@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckIn;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.ArrayList;
 
 /**
  * @author chentao
@@ -26,8 +29,30 @@ public interface CheckInService {
     /**
      * 获取用户发起的一场签到记录信息
      *
-     * @param id 签到id
-     * @return 用户发起的一场签到记录信息
+     *
+     *
      */
     CheckIn getCheckIn(Integer id);
+    /**
+     * 根据用户id获取签到列表
+     *
+     *
+     * @return 对应的checkin列表
+     */
+    ArrayList<CheckIn> getCheckInList(Integer userId);
+
+    /**
+     * 根据nick查找checkin
+     *
+     * @return checkin
+     */
+    ArrayList<CheckIn>  getCheckInNick(String nick);
+    /**
+     * 删除checkin
+     *
+     *  id 要删除的checkinid
+     *
+     */
+
+    long deleteCheckIn(Integer id);
 }

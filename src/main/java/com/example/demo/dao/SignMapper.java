@@ -1,7 +1,10 @@
 package com.example.demo.dao;
 
+import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
 import org.apache.ibatis.annotations.*;
+
+import java.util.ArrayList;
 
 /**
  * @author chentao
@@ -23,7 +26,7 @@ public interface SignMapper {
      * @param sign 要更新的sign
      * @return 更新好的sign
      */
-    @Insert("update signin set id=#{sign.id},stu_id=#{sign.stuId},sign_time=#{sign.signTime},photo_id=#{sign.photoId},check_id=#{sign.checkId}")
+    @Insert("update signin set id=#{sign.id},stu_id=#{sign.stuId},sign_time=#{sign.signTime},photo_id=#{sign.photoId},check_id=#{sign.checkId} where id=#{sign.id}")
     long updateSign(@Param("sign") Sign sign);
 
     /**
@@ -34,4 +37,20 @@ public interface SignMapper {
      */
     @Select("select * from signin where id=#{id}")
     Sign getSign(@Param("id") Integer id);
+    /**
+     * 根据学生id获取签到列表
+     *
+     * @param stuId 要查找的学生id
+     * @return 对应的sign列表
+     */
+    @Select("select * from signin where stu_id=#{stuId}")
+    ArrayList<Sign> getSignList(@Param("stuId") Integer stuId);
+    /**
+     * 删除sign
+     *
+     * @param id 要删除的signid
+     *
+     */
+    @Delete("delete from signin where id=#{id}")
+    long deleteSign(@Param("id")Integer id);
 }
