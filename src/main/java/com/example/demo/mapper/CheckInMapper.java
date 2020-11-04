@@ -3,6 +3,8 @@ package com.example.demo.mapper;
 import com.example.demo.pojo.CheckIn;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
+
 /**
  * @author chentao
  */
@@ -35,4 +37,28 @@ public interface CheckInMapper {
      */
     @Select("select * from checkin where id=#{id}")
     CheckIn getCheckIn(@Param("id") Integer id);
+    /**
+     * 根据用户id获取签到列表
+     *
+     * @param userId 要查找的用户id
+     * @return 对应的checkin列表
+     */
+    @Select("select * from checkin where user_id=#{userId}")
+    ArrayList<CheckIn> getCheckInList(@Param("userId") Integer userId);
+    /**
+     * 根据nick查找checkin
+     *
+     * @param  nick 要查找你的昵称
+     * @return 对应的checkin
+     */
+    @Select("select * from checkin where nick=#{nick}")
+    ArrayList<CheckIn>  getCheckInNick(@Param("nick")String nick);
+    /**
+     * 删除checkin
+     *
+     * @param id 要删除的checkinid
+     *
+     */
+    @Delete("delete from checkin where id=#{id}")
+    long deleteCheckIn(@Param("id")Integer id);
 }
