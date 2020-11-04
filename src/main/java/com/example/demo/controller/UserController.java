@@ -64,6 +64,39 @@ public class UserController {
     }
 
     @ResponseBody
+    @GetMapping("/findByStuNo")
+    public Response<User> getUserByStuNo(@RequestParam("stu_no") String stu_no) {
+        User user = userService.getUserByStuNo(stu_no);
+        if (user != null) {
+            return Response.createSuc(user);
+        } else {
+            return Response.createErr("获取用户失败!");
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/findByMail")
+    public Response<User> getUserByMail(@RequestParam("mail") String mail) {
+        User user = userService.getUserByMail(mail);
+        if (user != null) {
+            return Response.createSuc(user);
+        } else {
+            return Response.createErr("获取用户失败!");
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/findByNick")
+    public Response<User> getUserByUserName(@RequestParam("username") String username) {
+        User user = userService.getUserByUserName(username);
+        if (user != null) {
+            return Response.createSuc(user);
+        } else {
+            return Response.createErr("获取用户失败!");
+        }
+    }
+
+    @ResponseBody
     @GetMapping("/check")
     public String check() {
         return "ok2";

@@ -4,6 +4,8 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.User;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,6 +51,39 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Integer id) {
         return userMapper.getUser(id);
+    }
+
+    /**
+     * 通过学号获取用户信息
+     *
+     * @param stu_no 学号
+     * @return 用户
+     */
+    @Override
+    public User getUserByStuNo(String stu_no) {
+        return userMapper.getUserByStuNo(stu_no);
+    }
+
+    /**
+     * 通过邮箱获取用户信息
+     *
+     * @param mail 邮箱
+     * @return 用户
+     */
+    @Override
+    public User getUserByMail(String mail) {
+        return userMapper.getUserByMail(mail);
+    }
+
+    /**
+     * 通过姓名获取用户信息
+     *
+     * @param username 姓名
+     * @return 用户
+     */
+    @Override
+    public User getUserByUserName(String username) {
+        return userMapper.getUserByUserName(username);
     }
 
     /**
