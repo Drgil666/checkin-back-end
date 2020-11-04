@@ -6,6 +6,7 @@ import com.example.demo.service.SignService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 /**
  * @author chentao
@@ -38,4 +39,24 @@ public class SignServiceImpl implements SignService {
      */
     @Override
     public Sign getSign(Integer id){return signMapper.getSign(id);}
+    /**
+     * 根据学生id获取签到列表
+     *
+     *
+     * @return 对应的sign列表
+     */
+    @Override
+    public  ArrayList<Sign> getSignList(Integer stuId){
+        return signMapper.getSignList(stuId);
+    }
+    /**
+     * 删除sign
+     *
+     * @param id 要删除的signid
+     *
+     */
+    @Override
+   public long deleteSign(Integer id){
+        return signMapper.deleteSign(id);
+    }
 }
