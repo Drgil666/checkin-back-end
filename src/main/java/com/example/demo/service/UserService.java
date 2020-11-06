@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.User;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @author Gilbert
@@ -30,6 +32,30 @@ public interface UserService {
      * @return 用户
      */
     User getUser(Integer id);
+
+    /**
+     * 通过学号获取用户信息
+     *
+     * @param stu_no 学号
+     * @return 用户
+     */
+    User getUserByStuNo(String stu_no);
+
+    /**
+     * 通过邮箱获取用户信息
+     *
+     * @param mail 邮箱
+     * @return 用户
+     */
+    User getUserByMail(String mail);
+
+    /**
+     * 通过姓名获取用户信息
+     *
+     * @param username 姓名
+     * @return 用户
+     */
+    User getUserByUserName(String username);
 
     /**
      * 查询用户名是否存在

@@ -29,13 +29,40 @@ public interface UserMapper {
     long updateUser(@Param("user") User user);
 
     /**
-     * 获取用户信息
+     * 通过id获取用户信息
      *
      * @param id 用户id
      * @return 用户
      */
     @Select("select * from user where id=#{id}")
     User getUser(@Param("id") Integer id);
+
+    /**
+     * 通过学号获取用户信息
+     *
+     * @param stu_no 学号
+     * @return 用户
+     */
+    @Select("select * from user where stu_no=#{stu_no}")
+    User getUserByStuNo(@Param("stu_no") String stu_no);
+
+    /**
+     * 通过邮箱获取用户信息
+     *
+     * @param mail 邮箱
+     * @return 用户
+     */
+    @Select("select * from user where mail=#{mail}")
+    User getUserByMail(@Param("mail") String mail);
+
+    /**
+     * 通过姓名获取用户信息
+     *
+     * @param username 姓名
+     * @return 用户
+     */
+    @Select("select * from user where stu_no=#{stu_no}")
+    User getUserByUserName(@Param("username") String username);
 
     /**
      * 查询用户名是否存在
