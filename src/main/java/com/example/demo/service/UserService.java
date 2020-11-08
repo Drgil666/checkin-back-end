@@ -3,6 +3,10 @@ package com.example.demo.service;
 import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.data.domain.PageRequest;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * @author Gilbert
@@ -64,4 +68,11 @@ public interface UserService {
      * @return 对应id
      */
     Integer isExist(String username);
+
+    /**
+     * 导出表格
+     *
+     * @return 表格文件
+     */
+    List<User> userInFor();
 }
