@@ -2,9 +2,11 @@ package com.example.demo.mapper;
 
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
+import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chentao
@@ -20,6 +22,7 @@ public interface SignMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("insert into signin (stu_id,sign_time,photo_id,check_id) values (#{sign.stuId},#{sign.signTime},#{sign.photoId},#{sign.checkId})")
     boolean createSign(@Param("sign") Sign sign);
+
     /**
      * 更新签到
      *
@@ -37,6 +40,7 @@ public interface SignMapper {
      */
     @Select("select * from signin where id=#{id}")
     Sign getSign(@Param("id") Integer id);
+
     /**
      * 根据学生id获取签到列表
      *
@@ -45,12 +49,21 @@ public interface SignMapper {
      */
     @Select("select * from signin where stu_id=#{stuId}")
     ArrayList<Sign> getSignList(@Param("stuId") Integer stuId);
+
     /**
      * 删除sign
      *
      * @param id 要删除的signid
-     *
      */
     @Delete("delete from signin where id=#{id}")
-    long deleteSign(@Param("id")Integer id);
+    long deleteSign(@Param("id") Integer id);
+
+    /**
+     * 导出表格
+     *
+     * @param checkId 导出signin的checkinId
+     * @return 表格文件
+     */
+    @Select("select * from signin where check_id=#{checkId}")
+    List<Sign> signInFor(@Param("checkId") Integer checkId);
 }
