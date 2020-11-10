@@ -3,12 +3,10 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.CheckInMapper;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.service.CheckInService;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CheckInServiceImpl implements CheckInService {
@@ -54,7 +52,7 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 对应的checkin列表
      */
     @Override
-   public ArrayList<CheckIn> getCheckInList(Integer userId){
+   public List<CheckIn> getCheckInList(Integer userId){
         return checkInMapper.getCheckInList(userId);
     }
     /**
@@ -63,7 +61,7 @@ public class CheckInServiceImpl implements CheckInService {
      * @return checkin
      */
     @Override
-    public ArrayList<CheckIn>  getCheckInNick(String nick){
+    public List<CheckIn>  getCheckInNick(String nick){
         return checkInMapper.getCheckInNick(nick);
     }
     /**

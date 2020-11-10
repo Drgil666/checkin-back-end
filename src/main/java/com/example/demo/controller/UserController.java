@@ -2,9 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
-import com.example.demo.pojo.Response;
+import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.service.PhotoService;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
@@ -26,6 +27,8 @@ import java.util.List;
 public class UserController {
     @Resource
     private UserService userService;
+    @Resource
+    private PhotoService photoService;
 
     @ResponseBody
     @PostMapping()
@@ -111,26 +114,19 @@ public class UserController {
     public void downloadAllClassmate(HttpServletResponse response) throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("信息表");
-
         List<User> classmateList = userService.userInFor();
-
         String fileName = "userinf" + ".xls";//设置要导出的文件的名字
         //新增数据行，并且设置单元格数据
-
         int rowNum = 1;
-
         String[] headers = {"Id", "姓名", "学校", "邮箱"};
         //headers表示excel表中第一行的表头
-
         HSSFRow row = sheet.createRow(0);
         //在excel表中添加表头
-
         for (int i = 0; i < headers.length; i++) {
             HSSFCell cell = row.createCell(i);
             HSSFRichTextString text = new HSSFRichTextString(headers[i]);
             cell.setCellValue(text);
         }
-
         //在表中存放查询到的数据放入对应的列
         for (User user : classmateList) {
             HSSFRow row1 = sheet.createRow(rowNum);
@@ -140,7 +136,6 @@ public class UserController {
             row1.createCell(3).setCellValue(user.getMail());
             rowNum++;
         }
-
         response.setContentType("application/octet-stream");
         response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         response.flushBuffer();

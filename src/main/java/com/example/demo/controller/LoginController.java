@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.pojo.Response;
+import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

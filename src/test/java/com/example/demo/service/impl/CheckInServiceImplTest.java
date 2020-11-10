@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -40,20 +40,21 @@ public class CheckInServiceImplTest {
         CheckIn checkin = checkInService.getCheckIn(1);
         System.out.println(checkInService.updateCheckIn(checkin));
     }
+
     @Test
-    void getCheckInList(){
-        ArrayList<CheckIn> checkInList = new ArrayList<CheckIn>();
-        checkInList=checkInService.getCheckInList(1);
+    void getCheckInList() {
+        List<CheckIn> checkInList = checkInService.getCheckInList(1);
         System.out.println(checkInList);
     }
+
     @Test
-    void getCheckInNick(){
-        ArrayList<CheckIn> checkInList = new ArrayList<CheckIn>();
-                checkInList=checkInService.getCheckInNick("test");
+    void getCheckInNick() {
+        List<CheckIn> checkInList = checkInService.getCheckInNick("test");
         System.out.println(checkInList);
     }
+
     @Test
-    void deleteCheckIn(){
+    void deleteCheckIn() {
         checkInService.deleteCheckIn(5);
     }
 }

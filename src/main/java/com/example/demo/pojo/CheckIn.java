@@ -1,8 +1,6 @@
 package com.example.demo.pojo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.Date;
 
@@ -43,32 +41,10 @@ public class CheckIn {
      */
     private int visible;
 
-    @AllArgsConstructor
-    @Getter
-    public enum CheckInIdentity {
-        /**
-         * 签到
-         */
-        BEGIN(0, "begin"),
-        /**
-         * 签退
-         */
-        END(1, "end");
-        private final Integer code;
-        private final String name;
-    }
-
     /**
      * 签到环节 签到/签退
      */
 
-    private CheckInIdentity type;
-    public static final CheckInIdentity[] CHECK_IN_IDENTITIES_LIST = new CheckInIdentity[]{
-            CheckInIdentity.BEGIN, CheckInIdentity.END
-    };
+    private Integer type;
 
-
-    public void setType(int index) {
-        this.type = CHECK_IN_IDENTITIES_LIST[index];
-    }
 }

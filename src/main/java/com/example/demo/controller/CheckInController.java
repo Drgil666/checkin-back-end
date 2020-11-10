@@ -3,17 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.Response;
+import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.service.CheckInService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author chentao
@@ -47,6 +45,34 @@ public class CheckInController {
             default: {
                 return Response.createErr("method错误!");
             }
+        }
+    }
+    @ResponseBody
+    @GetMapping("/findByUserId")
+    public Response<List<CheckIn>>findByUserId(@RequestParam("userId") Integer userId)
+    {
+        List<CheckIn> checkInList=checkInService.getCheckInList(userId);
+        if(checkInList!=null)
+        {
+            return Response.createSuc(checkInList);
+        }
+        else
+        {
+            return Response.createErr("获取失败!");
+        }
+    }
+    @ResponseBody
+    @GetMapping()
+    public Response<CheckIn> getcheckIn(@RequestParam("checkId")Integer checkInId)
+    {
+        CheckIn checkIn=checkInService.getCheckIn(checkInId);
+        if(checkIn!=null)
+        {
+            return Response.createSuc(checkIn);
+        }
+        else
+        {
+            return Response.createErr("获取失败!");
         }
     }
 

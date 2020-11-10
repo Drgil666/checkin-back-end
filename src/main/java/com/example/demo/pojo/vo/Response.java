@@ -1,4 +1,4 @@
-package com.example.demo.pojo;
+package com.example.demo.pojo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ public class Response<T> {
     private T data;
 
     public static <T> Response<T> createSuc(T o) {
-        return new Response<T>(0, null, o);
+        return new Response<T>(200, null, o);
     }
 
     public static <T> Response<T> createErr(String msg) {

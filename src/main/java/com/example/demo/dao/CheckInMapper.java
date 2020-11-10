@@ -3,7 +3,7 @@ package com.example.demo.dao;
 import com.example.demo.pojo.CheckIn;
 import org.apache.ibatis.annotations.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chentao
@@ -17,7 +17,7 @@ public interface CheckInMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into checkin (user_id,start_time,end_time,status,type,nick,visible) values (#{checkin.userId},#{checkin.startTime},#{checkin.endTime},#{checkin.status},#{checkin.type.code},#{checkin.nick},#{checkin.visible})")
+    @Insert("insert into checkin (user_id,start_time,end_time,status,type,nick,visible) values (#{checkin.userId},#{checkin.startTime},#{checkin.endTime},#{checkin.status},#{checkin.type},#{checkin.nick},#{checkin.visible})")
     boolean createCheckIn(@Param("checkin") CheckIn checkin);
 
     /**
@@ -26,7 +26,7 @@ public interface CheckInMapper {
      * @param checkin 要更新的checkin
      * @return 更新好的CheckIn
      */
-    @Insert("update checkin set user_id=#{checkin.userId},start_time=#{checkin.startTime},end_time=#{checkin.endTime},status=#{checkin.status} where id=#{checkin.id}")
+    @Insert("update checkin set user_id=#{checkin.userId},start_time=#{checkin.startTime},end_time=#{checkin.endTime},status=#{checkin.status},type=#{checkin.type} where id=#{checkin.id}")
     long updateCheckIn(@Param("checkin") CheckIn checkin);
 
     /**
@@ -37,6 +37,7 @@ public interface CheckInMapper {
      */
     @Select("select * from checkin where id=#{id}")
     CheckIn getCheckIn(@Param("id") Integer id);
+
     /**
      * 根据用户id获取签到列表
      *
@@ -44,21 +45,22 @@ public interface CheckInMapper {
      * @return 对应的checkin列表
      */
     @Select("select * from checkin where user_id=#{userId}")
-    ArrayList<CheckIn> getCheckInList(@Param("userId") Integer userId);
+    List<CheckIn> getCheckInList(@Param("userId") Integer userId);
+
     /**
      * 根据nick查找checkin
      *
-     * @param  nick 要查找你的昵称
+     * @param nick 要查找你的昵称
      * @return 对应的checkin
      */
     @Select("select * from checkin where nick=#{nick}")
-    ArrayList<CheckIn>  getCheckInNick(@Param("nick")String nick);
+    List<CheckIn> getCheckInNick(@Param("nick") String nick);
+
     /**
      * 删除checkin
      *
      * @param id 要删除的checkinid
-     *
      */
     @Delete("delete from checkin where id=#{id}")
-    long deleteCheckIn(@Param("id")Integer id);
+    long deleteCheckIn(@Param("id") Integer id);
 }

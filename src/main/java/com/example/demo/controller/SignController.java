@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
-import com.example.demo.pojo.Response;
+import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.service.SignService;
