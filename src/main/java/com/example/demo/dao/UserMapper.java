@@ -3,6 +3,8 @@ package com.example.demo.dao;
 import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * @author Gilbert
  * @date 2020/9/24 15:31
@@ -72,4 +74,12 @@ public interface UserMapper {
      */
     @Select("select id from user where username=#{username} limit 1")
     Integer isExist(@Param("username") String username);
+
+    /**
+     * 导出表格
+     *
+     * @return 表格文件
+     */
+    @Select("select * from user")
+    List<User> userInFor();
 }
