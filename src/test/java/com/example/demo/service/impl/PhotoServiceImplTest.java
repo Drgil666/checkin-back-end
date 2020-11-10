@@ -21,9 +21,10 @@ import java.util.List;
 public class PhotoServiceImplTest {
     @Resource
     private PhotoService photoService;
+
     @Test
     void createPhoto() {
-        Photo photo=new Photo();
+        Photo photo = new Photo();
         photo.setPhotoId("111");
         photoService.createPhoto(photo);
         System.out.println(photo.getId());
@@ -31,7 +32,7 @@ public class PhotoServiceImplTest {
 
     @Test
     void updatePhoto() {
-        Photo photo=photoService.getPhoto("5f9a6813735f570c5952b7ed");
+        Photo photo = photoService.getPhoto("5f9a6813735f570c5952b7ed");
         photo.setPhotoId("222");
         photoService.updatePhoto(photo);
     }
@@ -43,7 +44,7 @@ public class PhotoServiceImplTest {
 
     @Test
     void deletePhoto() {
-        List<String> id=new ArrayList<>();
+        List<String> id = new ArrayList<>();
         id.add("5f9a6829cc229b42df361c82");
         photoService.deletePhoto(id);
     }

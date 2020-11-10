@@ -26,9 +26,6 @@ public class CheckInServiceImpl implements CheckInService {
 
     /**
      * 更新签到
-     *
-     *
-     *
      */
     @Override
     public long updateCheckIn(CheckIn checkin) {
@@ -38,40 +35,39 @@ public class CheckInServiceImpl implements CheckInService {
 
     /**
      * 获取签到信息
-     *
-     *
      */
     @Override
     public CheckIn getCheckIn(Integer id) {
         return checkInMapper.getCheckIn(id);
     }
+
     /**
      * 根据用户id获取签到列表
-     *
      *
      * @return 对应的checkin列表
      */
     @Override
-   public List<CheckIn> getCheckInList(Integer userId){
+    public List<CheckIn> getCheckInList(Integer userId) {
         return checkInMapper.getCheckInList(userId);
     }
+
     /**
      * 根据nick查找checkin
      *
      * @return checkin
      */
     @Override
-    public List<CheckIn>  getCheckInNick(String nick){
+    public List<CheckIn> getCheckInNick(String nick) {
         return checkInMapper.getCheckInNick(nick);
     }
+
     /**
      * 删除checkin
-     *
-     *  id 要删除的checkinid
-     *
+     * <p>
+     * id 要删除的checkinid
      */
     @Override
-   public long deleteCheckIn(Integer id){
-       return checkInMapper.deleteCheckIn(id);
-   }
+    public long deleteCheckIn(Integer id) {
+        return checkInMapper.deleteCheckIn(id);
+    }
 }

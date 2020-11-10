@@ -19,6 +19,7 @@ public interface SignService {
      * @return 是否创建成功
      */
     boolean createSign(Sign sign);
+
     /**
      * 更新签到
      *
@@ -26,6 +27,7 @@ public interface SignService {
      * @return 更新好的sign
      */
     long updateSign(Sign sign);
+
     /**
      * 根据id获取获取签到
      *
@@ -33,18 +35,18 @@ public interface SignService {
      * @return 对应的签到
      */
     Sign getSign(Integer id);
+
     /**
      * 根据学生id获取签到列表
-     *
      *
      * @return 对应的sign列表
      */
     ArrayList<Sign> getSignList(Integer stuId);
+
     /**
      * 删除sign
      *
      * @param id 要删除的signid
-     *
      */
     long deleteSign(Integer id);
 }

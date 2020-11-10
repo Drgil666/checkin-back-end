@@ -97,6 +97,6 @@ public class QrCodeServiceImpl implements QrCodeService {
     public String createQr(HashMap<String, Object> map) {
         String json = JSON.toJSONString(map);
         String image = writeToBase64(json, 200, 200);
-        return image+22;
+        return image + 22;
     }
 }

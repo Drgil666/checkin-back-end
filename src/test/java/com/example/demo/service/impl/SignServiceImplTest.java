@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,8 @@ public class SignServiceImplTest {
     private SignService signService;
 
     @Test
-    void createSign(){
-        Sign sign =new Sign();
+    void createSign() {
+        Sign sign = new Sign();
         sign.setStuId(1);
         sign.setSignTime(new Date());
         sign.setPhotoId("12345");
@@ -34,25 +33,26 @@ public class SignServiceImplTest {
     }
 
     @Test
-    void updateSign(){
-        Sign sign=signService.getSign(1);
+    void updateSign() {
+        Sign sign = signService.getSign(1);
         sign.setPhotoId("222");
         signService.updateSign(sign);
     }
+
     @Test
-    void getSign()
-    {
-        Sign sign=signService.getSign(1);
+    void getSign() {
+        Sign sign = signService.getSign(1);
         System.out.println(sign.getId());
     }
+
     @Test
-    void getSignList(){
-        ArrayList<Sign> signList = new ArrayList<Sign>();
-        signList=signService.getSignList(1);
+    void getSignList() {
+        ArrayList<Sign> signList = signService.getSignList(1);
         System.out.println(signList);
     }
+
     @Test
-    void deleteSign(){
+    void deleteSign() {
         signService.deleteSign(3);
     }
 }

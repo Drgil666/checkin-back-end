@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 public class UserServiceImplTest {
     @Resource
     private UserService userService;
+
     @Test
     void createUser() {
         User user = new User();

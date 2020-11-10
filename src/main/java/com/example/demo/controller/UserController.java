@@ -115,7 +115,8 @@ public class UserController {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("信息表");
         List<User> classmateList = userService.userInFor();
-        String fileName = "userinf" + ".xls";//设置要导出的文件的名字
+        String fileName = "userinf" + ".xls";
+        //设置要导出的文件的名字
         //新增数据行，并且设置单元格数据
         int rowNum = 1;
         String[] headers = {"Id", "姓名", "学校", "邮箱"};

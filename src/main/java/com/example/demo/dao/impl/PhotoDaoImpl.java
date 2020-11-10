@@ -40,6 +40,7 @@ public class PhotoDaoImpl implements PhotoDao {
     public Photo updatePhoto(Photo photo) {
         return mongoTemplate.save(photo);
     }
+
     /**
      * 获取照片
      *
@@ -48,9 +49,9 @@ public class PhotoDaoImpl implements PhotoDao {
      */
     @Override
     public Photo getPhoto(String id) {
-        Query query=new Query();
+        Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id));
-        return mongoTemplate.findOne(query,Photo.class);
+        return mongoTemplate.findOne(query, Photo.class);
     }
 
     /**
@@ -61,8 +62,8 @@ public class PhotoDaoImpl implements PhotoDao {
      */
     @Override
     public long deletePhoto(List<String> id) {
-        Query query=new Query();
+        Query query = new Query();
         query.addCriteria(Criteria.where("_id").in(id));
-        return mongoTemplate.remove(query,Photo.class).getDeletedCount();
+        return mongoTemplate.remove(query, Photo.class).getDeletedCount();
     }
 }

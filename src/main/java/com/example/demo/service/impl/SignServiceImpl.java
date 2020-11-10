@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
+
     /**
      * 创建学生签到记录
      *
@@ -22,7 +23,10 @@ public class SignServiceImpl implements SignService {
      * @return 是否创建成功
      */
     @Override
-    public boolean createSign(Sign sign){return signMapper.createSign(sign);}
+    public boolean createSign(Sign sign) {
+        return signMapper.createSign(sign);
+    }
+
     /**
      * 更新签到
      *
@@ -30,7 +34,10 @@ public class SignServiceImpl implements SignService {
      * @return 更新好的sign
      */
     @Override
-    public long updateSign(Sign sign){return signMapper.updateSign(sign);}
+    public long updateSign(Sign sign) {
+        return signMapper.updateSign(sign);
+    }
+
     /**
      * 根据id获取获取签到
      *
@@ -38,25 +45,27 @@ public class SignServiceImpl implements SignService {
      * @return 对应的签到
      */
     @Override
-    public Sign getSign(Integer id){return signMapper.getSign(id);}
+    public Sign getSign(Integer id) {
+        return signMapper.getSign(id);
+    }
+
     /**
      * 根据学生id获取签到列表
-     *
      *
      * @return 对应的sign列表
      */
     @Override
-    public  ArrayList<Sign> getSignList(Integer stuId){
+    public ArrayList<Sign> getSignList(Integer stuId) {
         return signMapper.getSignList(stuId);
     }
+
     /**
      * 删除sign
      *
      * @param id 要删除的signid
-     *
      */
     @Override
-   public long deleteSign(Integer id){
+    public long deleteSign(Integer id) {
         return signMapper.deleteSign(id);
     }
 }

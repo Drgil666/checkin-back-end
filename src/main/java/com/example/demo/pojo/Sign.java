@@ -3,6 +3,7 @@ package com.example.demo.pojo;
 import lombok.Data;
 
 import java.util.Date;
+
 /**
  * @author chentao
  */
@@ -12,7 +13,7 @@ public class Sign {
     /**
      * 签到人id
      */
-    private  Integer stuId;
+    private Integer stuId;
     /**
      * 签到时间
      */

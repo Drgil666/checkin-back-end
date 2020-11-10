@@ -26,7 +26,8 @@ public class SignController {
     private SignService signService;
 
     @ResponseBody
-    @PostMapping() public Response<Sign> sign(@RequestBody CUDRequest<Sign, Integer> request) {
+    @PostMapping()
+    public Response<Sign> sign(@RequestBody CUDRequest<Sign, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 signService.createSign(request.getData());

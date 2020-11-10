@@ -47,31 +47,25 @@ public class CheckInController {
             }
         }
     }
+
     @ResponseBody
     @GetMapping("/findByUserId")
-    public Response<List<CheckIn>>findByUserId(@RequestParam("userId") Integer userId)
-    {
-        List<CheckIn> checkInList=checkInService.getCheckInList(userId);
-        if(checkInList!=null)
-        {
+    public Response<List<CheckIn>> findByUserId(@RequestParam("userId") Integer userId) {
+        List<CheckIn> checkInList = checkInService.getCheckInList(userId);
+        if (checkInList != null) {
             return Response.createSuc(checkInList);
-        }
-        else
-        {
+        } else {
             return Response.createErr("获取失败!");
         }
     }
+
     @ResponseBody
     @GetMapping()
-    public Response<CheckIn> getcheckIn(@RequestParam("checkId")Integer checkInId)
-    {
-        CheckIn checkIn=checkInService.getCheckIn(checkInId);
-        if(checkIn!=null)
-        {
+    public Response<CheckIn> getcheckIn(@RequestParam("checkId") Integer checkInId) {
+        CheckIn checkIn = checkInService.getCheckIn(checkInId);
+        if (checkIn != null) {
             return Response.createSuc(checkIn);
-        }
-        else
-        {
+        } else {
             return Response.createErr("获取失败!");
         }
     }
