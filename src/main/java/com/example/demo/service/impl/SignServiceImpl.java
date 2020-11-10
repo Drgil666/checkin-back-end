@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chentao
@@ -46,7 +47,7 @@ public class SignServiceImpl implements SignService {
      * @return 对应的sign列表
      */
     @Override
-    public  ArrayList<Sign> getSignList(Integer stuId){
+    public List<Sign> getSignList(Integer stuId){
         return signMapper.getSignList(stuId);
     }
     /**

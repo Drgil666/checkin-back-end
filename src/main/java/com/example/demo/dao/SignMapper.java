@@ -5,6 +5,7 @@ import com.example.demo.pojo.Sign;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chentao
@@ -44,7 +45,7 @@ public interface SignMapper {
      * @return 对应的sign列表
      */
     @Select("select * from signin where stu_id=#{stuId}")
-    ArrayList<Sign> getSignList(@Param("stuId") Integer stuId);
+    List<Sign> getSignList(@Param("stuId") Integer stuId);
     /**
      * 删除sign
      *
