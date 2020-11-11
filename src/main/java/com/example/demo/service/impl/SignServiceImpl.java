@@ -3,8 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.mapper.SignMapper;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,7 +24,9 @@ public class SignServiceImpl implements SignService {
      * @return 是否创建成功
      */
     @Override
-    public boolean createSign(Sign sign){return signMapper.createSign(sign);}
+    public boolean createSign(Sign sign) {
+        return signMapper.createSign(sign);
+    }
 
     /**
      * 更新签到
@@ -35,7 +35,9 @@ public class SignServiceImpl implements SignService {
      * @return 更新好的sign
      */
     @Override
-    public long updateSign(Sign sign){return signMapper.updateSign(sign);}
+    public long updateSign(Sign sign) {
+        return signMapper.updateSign(sign);
+    }
 
     /**
      * 根据id获取获取签到
@@ -44,16 +46,17 @@ public class SignServiceImpl implements SignService {
      * @return 对应的签到
      */
     @Override
-    public Sign getSign(Integer id){return signMapper.getSign(id);}
+    public Sign getSign(Integer id) {
+        return signMapper.getSign(id);
+    }
 
     /**
      * 根据学生id获取签到列表
      *
-     *
      * @return 对应的sign列表
      */
     @Override
-    public  ArrayList<Sign> getSignList(Integer stuId){
+    public ArrayList<Sign> getSignList(Integer stuId) {
         return signMapper.getSignList(stuId);
     }
 

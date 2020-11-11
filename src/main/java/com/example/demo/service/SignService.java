@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.Sign;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +36,6 @@ public interface SignService {
 
     /**
      * 根据学生id获取签到列表
-     *
      *
      * @return 对应的sign列表
      */

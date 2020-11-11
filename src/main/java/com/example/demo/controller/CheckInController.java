@@ -61,18 +61,15 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/findByNick")
-    public Response<List<CheckIn>>findByNick(@RequestParam("nick") String nick)
-    {
-        List<CheckIn> checkInList=checkInService.getCheckInNick(nick);
-        if(checkInList!=null)
-        {
+    public Response<List<CheckIn>> findByNick(@RequestParam("nick") String nick) {
+        List<CheckIn> checkInList = checkInService.getCheckInNick(nick);
+        if (checkInList != null) {
             return Response.createSuc(checkInList);
-        }
-        else
-        {
+        } else {
             return Response.createErr("获取失败!");
         }
     }
+
     @ResponseBody
     @GetMapping()
     public Response<CheckIn> getcheckIn(@RequestParam("checkId") Integer checkInId) {

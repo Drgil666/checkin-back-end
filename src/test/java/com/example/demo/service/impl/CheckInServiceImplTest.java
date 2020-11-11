@@ -55,9 +55,8 @@ public class CheckInServiceImplTest {
     }
 
     @Test
-    void deleteCheckIn()
-    {
-        List<Integer> id=new ArrayList<>();
+    void deleteCheckIn() {
+        List<Integer> id = new ArrayList<>();
         id.add(36);
         id.add(40);
         System.out.println(checkInService.deleteCheckIn(id));
