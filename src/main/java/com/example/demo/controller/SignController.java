@@ -8,20 +8,18 @@ import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.service.SignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author chentao
  */
 @Controller
 @Slf4j
-@RequestMapping("/api/Sign")
-public class SignController {
+@RequestMapping("/api/signin")
+public class  SignController {
     @Resource
     private SignService signService;
 
@@ -49,5 +47,28 @@ public class SignController {
             }
         }
     }
-
+    @ResponseBody
+    @GetMapping("/List")
+    public Response<List<Sign>>findBystuId(@RequestParam("stuId") Integer stuId)
+    {
+        List<Sign> signList=signService.getSignList(stuId);
+        if(signList!=null)
+        {
+            return Response.createSuc(signList);
+        }
+        else
+        {
+            return Response.createErr("获取失败!");
+        }
+    }
+    @ResponseBody
+    @GetMapping()
+    public Response<Sign> sign(@RequestParam("id") Integer id) {
+        Sign sign = signService.getSign(id);
+        if (sign != null) {
+            return Response.createSuc(sign);
+        } else {
+            return Response.createErr("获取sign信息失败!");
+        }
+    }
 }
