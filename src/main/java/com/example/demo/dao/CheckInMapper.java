@@ -57,10 +57,10 @@ public interface CheckInMapper {
     List<CheckIn> getCheckInNick(@Param("nick") String nick);
 
     /**
-     * 删除checkin
+     * 批量删除checkin
      *
-     * @param id 要删除的checkinid
+     * @param id 要删除的checkinId
+     * @return 变化的行数
      */
-    @Delete("delete from checkin where id=#{id}")
-    long deleteCheckIn(@Param("id") Integer id);
+    long deleteCheckIn(@Param("id") List<Integer> id);
 }

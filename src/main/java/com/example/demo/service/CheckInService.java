@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckIn;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -45,10 +46,10 @@ public interface CheckInService {
     List<CheckIn> getCheckInNick(String nick);
 
     /**
-     * 删除checkin
-     * <p>
-     * id 要删除的checkinid
+     * 批量删除checkin
+     *
+     * @param id 要删除的checkinId
+     * @return 变化的行数
      */
-
-    long deleteCheckIn(Integer id);
+    long deleteCheckIn(@Param("id") List<Integer> id);
 }

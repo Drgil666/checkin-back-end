@@ -43,7 +43,7 @@ public class UserController {
                         return Response.createErr("创建用户失败!");
                     }
                 } else {
-                    return Response.createErr("用户已存在!");
+                    return Response.createErr("用户已存在或数据有误!");
                 }
             }
             case CUDRequest.UPDATE_METHOD: {

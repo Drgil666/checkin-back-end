@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author chentao
+ */
 @Service
 public class CheckInServiceImpl implements CheckInService {
     @Resource
@@ -62,12 +65,13 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     /**
-     * 删除checkin
-     * <p>
-     * id 要删除的checkinid
+     * 批量删除checkin
+     *
+     * @param id 要删除的checkinId
+     * @return 变化的行数
      */
     @Override
-    public long deleteCheckIn(Integer id) {
+    public long deleteCheckIn(List<Integer> id) {
         return checkInMapper.deleteCheckIn(id);
     }
 }

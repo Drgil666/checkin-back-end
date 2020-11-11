@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,11 @@ public class CheckInServiceImplTest {
     }
 
     @Test
-    void deleteCheckIn() {
-        checkInService.deleteCheckIn(5);
+    void deleteCheckIn()
+    {
+        List<Integer> id=new ArrayList<>();
+        id.add(36);
+        id.add(40);
+        System.out.println(checkInService.deleteCheckIn(id));
     }
 }
