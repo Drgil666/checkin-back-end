@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -39,6 +40,7 @@ public interface SignService {
     /**
      * 根据学生id获取签到列表
      *
+     *
      * @return 对应的sign列表
      */
     ArrayList<Sign> getSignList(Integer stuId);
@@ -49,4 +51,12 @@ public interface SignService {
      * @param id 要删除的signid
      */
     long deleteSign(Integer id);
+
+    /**
+     * 导出表格
+     *
+     * @param checkId 导出signin的checkinId
+     * @return 表格文件
+     */
+    List<Sign> signInFor(Integer checkId);
 }

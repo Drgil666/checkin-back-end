@@ -20,7 +20,6 @@ import java.util.Map;
 public class LoginController {
     @Resource
     private UserService userService;
-
     @ResponseBody
     @PostMapping("/login")
     public Response<Integer> login(@RequestBody Map<String, String> data) {

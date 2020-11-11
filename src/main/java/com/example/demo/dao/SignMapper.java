@@ -1,10 +1,12 @@
-package com.example.demo.dao;
+package com.example.demo.mapper;
 
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
+import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chentao
@@ -55,4 +57,13 @@ public interface SignMapper {
      */
     @Delete("delete from signin where id=#{id}")
     long deleteSign(@Param("id") Integer id);
+
+    /**
+     * 导出表格
+     *
+     * @param checkId 导出signin的checkinId
+     * @return 表格文件
+     */
+    @Select("select * from signin where check_id=#{checkId}")
+    List<Sign> signInFor(@Param("checkId") Integer checkId);
 }
