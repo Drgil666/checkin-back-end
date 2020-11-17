@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.pojo.CheckIn;
+
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import org.apache.ibatis.annotations.Param;
 
@@ -49,7 +50,7 @@ public interface SignService {
      * @return 查找的checkinlist
      */
 
-    List<CheckIn> getCheckInBySign(@Param("id") List<Sign> signList);
+    List<CheckSet> getCheckSetBySign(@Param("id") List<Sign> signList);
 
     /**
      * 批量删除sign

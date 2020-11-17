@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
-import com.example.demo.pojo.CheckIn;
+
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import org.apache.ibatis.annotations.*;
 
@@ -49,13 +50,13 @@ public interface SignMapper {
     List<Sign> getSignList(@Param("stuId") Integer stuId);
 
     /**
-     * 根据signlist中的checkid查找checkin
+     * 根据signlist中的checkid查找checkinlist再查找checksetlist
      *
-     * @param id 获取到的signlist里面的checkin id数组
-     * @return 查找的checkinlist
+     * @param id 获取到的checksetlist数组
+     * @return 查找的checksetlist
      */
 
-    List<CheckIn> getCheckInBySign(@Param("id") List<Integer> id);
+    List<CheckSet> getCheckSetBySign(@Param("id") List<Integer> id);
 
     /**
      * 批量删除sign

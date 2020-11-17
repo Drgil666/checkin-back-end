@@ -2,7 +2,9 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.SignMapper;
 import com.example.demo.pojo.CheckIn;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
+import com.example.demo.service.CheckInService;
 import com.example.demo.service.SignService;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.List;
 public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
+    @Resource
+    private CheckInService checkInService;
 
     /**
      * 创建学生签到记录
@@ -69,13 +73,16 @@ public class SignServiceImpl implements SignService {
      * @return 查找的checkinlist
      */
     @Override
-    public List<CheckIn> getCheckInBySign(List<Sign> SignList) {
+    public List<CheckSet> getCheckSetBySign(List<Sign> SignList) {
         List<Integer> idList = new ArrayList<>();
-        Sign sign = new Sign();
+        List<CheckIn> checkInList = new ArrayList<>();
         for (Sign value : SignList) {
-            idList.add(value.getCheckId());
+            checkInList.add(checkInService.getCheckIn(value.getCheckId()));
         }
-        return signMapper.getCheckInBySign(idList);
+        for (CheckIn value : checkInList) {
+            idList.add(value.getSetId());
+        }
+        return signMapper.getCheckSetBySign(idList);
     }
 
     /**
