@@ -1,11 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.User;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.data.domain.PageRequest;
 
-import java.io.File;
 import java.util.List;
 
 /**

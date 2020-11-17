@@ -45,23 +45,14 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     /**
-     * 根据用户id获取签到列表
+     * 根据setId获取checkin列表
      *
+     * @param setId 对应的checkSetId
      * @return 对应的checkin列表
      */
     @Override
-    public List<CheckIn> getCheckInList(Integer userId) {
-        return checkInMapper.getCheckInList(userId);
-    }
-
-    /**
-     * 根据nick查找checkin
-     *
-     * @return checkin
-     */
-    @Override
-    public List<CheckIn> getCheckInNick(String nick) {
-        return checkInMapper.getCheckInNick(nick);
+    public List<CheckIn> getCheckInListBySetId(Integer setId) {
+        return checkInMapper.getCheckInListBySetId(setId);
     }
 
     /**

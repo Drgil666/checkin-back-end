@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.DemoApplication;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,14 +29,14 @@ public class SignServiceImplTest {
         sign.setStuId(1);
         sign.setSignTime(new Date());
         sign.setPhotoId("12345");
-        sign.setCheckId(3);
+        sign.setCheckId(2);
         signService.createSign(sign);
         System.out.println(sign.getId());
     }
 
     @Test
     void updateSign() {
-        Sign sign = signService.getSign(1);
+        Sign sign = signService.getSign(2);
         sign.setPhotoId("222");
         signService.updateSign(sign);
     }
@@ -47,12 +49,26 @@ public class SignServiceImplTest {
 
     @Test
     void getSignList() {
-        List<Sign> signList=signService.getSignList(1);
+        List<Sign> signList;
+        signList = signService.getSignList(1);
         System.out.println(signList);
     }
 
     @Test
+    void getCheckSetListBySign() {
+        List<Sign> signList;
+        signList = signService.getSignList(1);
+        List<CheckSet> checkSetList;
+        checkSetList = signService.getCheckSetBySign(signList);
+        System.out.println(checkSetList);
+    }
+
+    @Test
     void deleteSign() {
-        signService.deleteSign(3);
+        List<Integer> id = new ArrayList<>();
+        id.add(10);
+        id.add(11);
+        signService.deleteSign(id);
+        System.out.println(signService.deleteSign(id));
     }
 }

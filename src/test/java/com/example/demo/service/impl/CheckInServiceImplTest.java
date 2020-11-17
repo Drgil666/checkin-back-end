@@ -26,12 +26,11 @@ public class CheckInServiceImplTest {
     @Test
     void createCheckIn() {
         CheckIn checkin = new CheckIn();
-        checkin.setUserId(1);
         checkin.setStartTime(new Date());
         checkin.setEndTime(new Date());
         checkin.setType(0);
         checkin.setStatus(0);
-        checkin.setNick("test");
+        checkin.setSetId(1);
         checkInService.createCheckIn(checkin);
         System.out.println(checkin.getId());
     }
@@ -39,18 +38,19 @@ public class CheckInServiceImplTest {
     @Test
     void updateCheckIn() {
         CheckIn checkin = checkInService.getCheckIn(1);
+        checkin.setSetId(2);
         System.out.println(checkInService.updateCheckIn(checkin));
     }
 
     @Test
-    void getCheckInList() {
-        List<CheckIn> checkInList = checkInService.getCheckInList(1);
-        System.out.println(checkInList);
+    void getCheckIn() {
+        int id = 1;
+        System.out.println(checkInService.getCheckIn(id));
     }
 
     @Test
-    void getCheckInNick() {
-        List<CheckIn> checkInList = checkInService.getCheckInNick("test");
+    void getCheckInListBySetId() {
+        List<CheckIn> checkInList = checkInService.getCheckInListBySetId(1);
         System.out.println(checkInList);
     }
 
