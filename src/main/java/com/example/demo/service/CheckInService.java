@@ -28,6 +28,9 @@ public interface CheckInService {
 
     /**
      * 获取用户发起的一场签到记录信息
+     *
+     * @param id checkInId
+     * @return 对应的checkin
      */
     CheckIn getCheckIn(Integer id);
 

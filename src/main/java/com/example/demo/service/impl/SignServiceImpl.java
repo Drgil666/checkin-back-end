@@ -62,16 +62,16 @@ public class SignServiceImpl implements SignService {
     }
 
     /**
-     * 根据signlist中的checkid查找checkin
+     * 根据signList中的checkId查找checkin
      *
-     * @param SignList 学生签到列表
-     * @return 查找的checkinlist
+     * @param signList 学生签到列表
+     * @return 查找的checkinList
      */
     @Override
-    public List<CheckSet> getCheckSetBySign(List<Sign> SignList) {
+    public List<CheckSet> getCheckSetBySign(List<Sign> signList) {
         List<Integer> idList = new ArrayList<>();
         List<CheckIn> checkInList = new ArrayList<>();
-        for (Sign value : SignList) {
+        for (Sign value : signList) {
             checkInList.add(checkInService.getCheckIn(value.getCheckId()));
         }
         for (CheckIn value : checkInList) {

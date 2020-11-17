@@ -38,7 +38,7 @@ public interface SignService {
 
     /**
      * 根据学生id获取签到列表
-     *
+     * @param stuId 学生id
      * @return 对应的sign列表
      */
     List<Sign> getSignList(Integer stuId);

@@ -25,8 +25,9 @@ public interface AdminService {
 
     /**
      * 删除admin
-     * <p>
-     * id 要删除的adminid
+     *
+     * @param id 要删除的adminid
+     * @return 影响的行数
      */
     long deleteAdmin(Integer id);
 

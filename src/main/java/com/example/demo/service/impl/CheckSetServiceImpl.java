@@ -20,23 +20,23 @@ public class CheckSetServiceImpl implements CheckSetService {
     /**
      * 创建checkset
      *
-     * @param checkset 要创建的checkset
+     * @param checkSet 要创建的checkset
      * @return 是否创建成功
      */
     @Override
-    public boolean createCheckSet(CheckSet checkset) {
-        return checkSetMapper.createCheckSet(checkset);
+    public boolean createCheckSet(CheckSet checkSet) {
+        return checkSetMapper.createCheckSet(checkSet);
     }
 
     /**
      * 更新签到
      *
-     * @param checkset 要更新的checkset
+     * @param checkSet 要更新的checkset
      * @return 更新好的CheckSet
      */
     @Override
-    public long updateCheckSet(CheckSet checkset) {
-        return checkSetMapper.updateCheckSet(checkset);
+    public long updateCheckSet(CheckSet checkSet) {
+        return checkSetMapper.updateCheckSet(checkSet);
     }
 
     /**

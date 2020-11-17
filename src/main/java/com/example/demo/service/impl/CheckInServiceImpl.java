@@ -32,7 +32,6 @@ public class CheckInServiceImpl implements CheckInService {
      */
     @Override
     public long updateCheckIn(CheckIn checkin) {
-
         return checkInMapper.updateCheckIn(checkin);
     }
 

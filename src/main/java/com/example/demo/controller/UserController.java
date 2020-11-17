@@ -72,8 +72,8 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/findByStuNo")
-    public Response<User> getUserByStuNo(@RequestParam("stu_no") String stu_no) {
-        User user = userService.getUserByStuNo(stu_no);
+    public Response<User> getUserByStuNo(@RequestParam("stuNo") String stuNo) {
+        User user = userService.getUserByStuNo(stuNo);
         if (user != null) {
             return Response.createSuc(user);
         } else {

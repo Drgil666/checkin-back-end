@@ -47,7 +47,7 @@ public class QrCodeServiceImpl implements QrCodeService {
             height = (height == null ? weight : height);
         }
         // 相关设置
-        HashMap<EncodeHintType, Comparable> hints = new HashMap<>();
+        HashMap<EncodeHintType, Comparable> hints = new HashMap<>(10);
         // L(7%) M(15%) Q(25%) H(30%)
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         // 二维码边界空白大小1,2,3,4，默认4，最大

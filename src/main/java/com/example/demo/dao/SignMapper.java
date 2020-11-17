@@ -50,18 +50,18 @@ public interface SignMapper {
     List<Sign> getSignList(@Param("stuId") Integer stuId);
 
     /**
-     * 根据signlist中的checkid查找checkinlist再查找checksetlist
+     * 根据signList中的checkId查找checkinList再查找checkSetList
      *
-     * @param id 获取到的checksetlist数组
-     * @return 查找的checksetlist
+     * @param id 获取到的checkSetList数组
+     * @return 查找的checkSetList
      */
-
     List<CheckSet> getCheckSetBySign(@Param("id") List<Integer> id);
 
     /**
      * 批量删除sign
      *
      * @param id 要删除的signid
+     * @return 影响的行数
      */
 
     long deleteSign(@Param("id") List<Integer> id);

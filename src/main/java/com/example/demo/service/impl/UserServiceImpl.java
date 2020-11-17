@@ -55,12 +55,12 @@ public class UserServiceImpl implements UserService {
     /**
      * 通过学号获取用户信息
      *
-     * @param stu_no 学号
+     * @param stuNo 学号
      * @return 用户
      */
     @Override
-    public User getUserByStuNo(String stu_no) {
-        return userMapper.getUserByStuNo(stu_no);
+    public User getUserByStuNo(String stuNo) {
+        return userMapper.getUserByStuNo(stuNo);
     }
 
     /**

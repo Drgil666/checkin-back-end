@@ -36,10 +36,10 @@ public interface UserService {
     /**
      * 通过学号获取用户信息
      *
-     * @param stu_no 学号
+     * @param stuNo 学号
      * @return 用户
      */
-    User getUserByStuNo(String stu_no);
+    User getUserByStuNo(String stuNo);
 
     /**
      * 通过邮箱获取用户信息

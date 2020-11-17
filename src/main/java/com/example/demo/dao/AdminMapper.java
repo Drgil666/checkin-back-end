@@ -31,6 +31,7 @@ public interface AdminMapper {
      * 删除admin
      *
      * @param id 要删除的adminid
+     * @return 影响行数
      */
     @Delete("delete from admin where id=#{id}")
     long deleteAdmin(@Param("id") Integer id);
