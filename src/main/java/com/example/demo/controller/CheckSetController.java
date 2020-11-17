@@ -2,10 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
-import com.example.demo.pojo.CheckIn;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
-import com.example.demo.service.CheckInService;
+import com.example.demo.service.CheckSetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +18,17 @@ import java.util.List;
  */
 @Controller
 @Slf4j
-@RequestMapping("/api/checkin")
-public class CheckInController {
+@RequestMapping("/api/checkSet")
+public class CheckSetController {
     @Resource
-    private CheckInService checkInService;
+    private CheckSetService checkSetService;
 
     @ResponseBody
     @PostMapping()
-    public Response<CheckIn> checkin(@RequestBody CUDRequest<CheckIn, Integer> request) {
+    public Response<CheckSet> checkset(@RequestBody CUDRequest<CheckSet, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                checkInService.createCheckIn(request.getData());
+                checkSetService.createCheckSet(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -36,7 +36,7 @@ public class CheckInController {
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
-                if (checkInService.updateCheckIn(request.getData()) == 1) {
+                if (checkSetService.updateCheckSet(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
@@ -48,27 +48,37 @@ public class CheckInController {
         }
     }
 
-    @ResponseBody
-    @GetMapping("/List")
-    public Response<List<CheckIn>> getcheckInBySetId(@RequestParam("setId") Integer setId) {
-        List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
-        if (checkInList != null) {
-            return Response.createSuc(checkInList);
-        } else {
-            return Response.createErr("获取失败!");
-        }
-    }
-
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckIn> getcheckIn(@RequestParam("checkId") Integer checkInId) {
-        CheckIn checkIn = checkInService.getCheckIn(checkInId);
-        if (checkIn != null) {
-            return Response.createSuc(checkIn);
+    public Response<CheckSet> getcheckSet(@RequestParam("checkSetId") Integer checkSetId) {
+        CheckSet checkset = checkSetService.getCheckSet(checkSetId);
+        if (checkset != null) {
+            return Response.createSuc(checkset);
         } else {
             return Response.createErr("获取失败!");
         }
     }
 
+    @ResponseBody
+    @GetMapping("/findByNick")
+    public Response<List<CheckSet>> getcheckSetByNick(@RequestParam("nick") String nick) {
+        List<CheckSet> checkSetList = checkSetService.getCheckSetNick(nick);
+        if (checkSetList != null) {
+            return Response.createSuc(checkSetList);
+        } else {
+            return Response.createErr("获取失败!");
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/findByUserId")
+    public Response<List<CheckSet>> getcheckSetByUserId(@RequestParam("userId") Integer userId) {
+        List<CheckSet> checkSetList = checkSetService.getCheckSetList(userId);
+        if (checkSetList != null) {
+            return Response.createSuc(checkSetList);
+        } else {
+            return Response.createErr("获取失败!");
+        }
+    }
 }

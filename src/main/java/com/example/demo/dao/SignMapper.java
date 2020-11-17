@@ -1,11 +1,9 @@
-package com.example.demo.mapper;
+package com.example.demo.dao;
 
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
-import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,15 +46,24 @@ public interface SignMapper {
      * @return 对应的sign列表
      */
     @Select("select * from signin where stu_id=#{stuId}")
-    ArrayList<Sign> getSignList(@Param("stuId") Integer stuId);
+    List<Sign> getSignList(@Param("stuId") Integer stuId);
 
     /**
-     * 删除sign
+     * 根据signlist中的checkid查找checkin
+     *
+     * @param id 获取到的signlist里面的checkin id数组
+     * @return 查找的checkinlist
+     */
+
+    List<CheckIn> getCheckInBySign(@Param("id") List<Integer> id);
+
+    /**
+     * 批量删除sign
      *
      * @param id 要删除的signid
      */
-    @Delete("delete from signin where id=#{id}")
-    long deleteSign(@Param("id") Integer id);
+
+    long deleteSign(@Param("id") List<Integer> id);
 
     /**
      * 导出表格

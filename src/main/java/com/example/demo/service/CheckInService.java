@@ -31,19 +31,15 @@ public interface CheckInService {
      */
     CheckIn getCheckIn(Integer id);
 
-    /**
-     * 根据用户id获取签到列表
-     *
-     * @return 对应的checkin列表
-     */
-    List<CheckIn> getCheckInList(Integer userId);
 
     /**
-     * 根据nick查找checkin
+     * 根据setId获取checkin列表
      *
-     * @return checkin
+     * @param setId 查找的setId
+     * @return 对应的checkin列表
      */
-    List<CheckIn> getCheckInNick(String nick);
+
+    List<CheckIn> getCheckInListBySetId(Integer setId);
 
     /**
      * 批量删除checkin

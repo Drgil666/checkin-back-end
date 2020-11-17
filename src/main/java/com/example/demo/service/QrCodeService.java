@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author yutao
@@ -19,7 +18,7 @@ public interface QrCodeService {
      * @param height  高度
      * @return 生成的二维码图片
      */
-    public BufferedImage createImage(String content, Integer weight, Integer height);
+    BufferedImage createImage(String content, Integer weight, Integer height);
 
     /**
      * 以base64形式输出二维码
@@ -29,7 +28,7 @@ public interface QrCodeService {
      * @param height  高度
      * @return 转换好的字符串
      */
-    public String writeToBase64(String content, Integer weight, Integer height);
+    String writeToBase64(String content, Integer weight, Integer height);
 
     /**
      * 生成二维码
@@ -37,5 +36,5 @@ public interface QrCodeService {
      * @param map 二维码存储信息
      * @return 生成的base64串
      */
-    public String createQr(HashMap<String, Object> map);
+    String createQr(HashMap<String, Object> map);
 }

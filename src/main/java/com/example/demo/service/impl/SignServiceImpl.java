@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.mapper.SignMapper;
+import com.example.demo.dao.SignMapper;
+import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,9 @@ public class SignServiceImpl implements SignService {
 
     /**
      * 创建学生签到记录
+     * <p>
+     * sign 要更新的sign,stu_id,sign_time,photo_id,check_id要加入的用户id,签到时间,签到照片id和签到id
      *
-     * @param sign 要更新的sign,stu_id,sign_time,photo_id,check_id要加入的用户id,签到时间,签到照片id和签到id
      * @return 是否创建成功
      */
     @Override
@@ -56,17 +58,35 @@ public class SignServiceImpl implements SignService {
      * @return 对应的sign列表
      */
     @Override
-    public ArrayList<Sign> getSignList(Integer stuId) {
+    public List<Sign> getSignList(Integer stuId) {
         return signMapper.getSignList(stuId);
     }
 
     /**
-     * 删除sign
+     * 根据signlist中的checkid查找checkin
      *
-     * @param id 要删除的signid
+     * @param SignList 学生签到列表
+     * @return 查找的checkinlist
      */
     @Override
-    public long deleteSign(Integer id) {
+    public List<CheckIn> getCheckInBySign(List<Sign> SignList) {
+        List<Integer> idList = new ArrayList<>();
+        Sign sign = new Sign();
+        for (Sign value : SignList) {
+            idList.add(value.getCheckId());
+        }
+        return signMapper.getCheckInBySign(idList);
+    }
+
+    /**
+     * 批量删除sign
+     * <p>
+     * id 删除的signid
+     *
+     * @return 变化的行数
+     */
+    @Override
+    public long deleteSign(List<Integer> id) {
         return signMapper.deleteSign(id);
     }
 

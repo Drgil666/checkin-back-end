@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.Sign;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,14 +40,24 @@ public interface SignService {
      *
      * @return 对应的sign列表
      */
-    ArrayList<Sign> getSignList(Integer stuId);
+    List<Sign> getSignList(Integer stuId);
 
     /**
-     * 删除sign
+     * 根据signlist中的checkid查找checkin
+     *
+     * @param signList 要查找的signlist
+     * @return 查找的checkinlist
+     */
+
+    List<CheckIn> getCheckInBySign(@Param("id") List<Sign> signList);
+
+    /**
+     * 批量删除sign
      *
      * @param id 要删除的signid
+     * @return 变化的行数
      */
-    long deleteSign(Integer id);
+    long deleteSign(@Param("id") List<Integer> id);
 
     /**
      * 导出表格
