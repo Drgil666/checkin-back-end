@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 /**
  * @author chentao
  */
+@CrossOrigin(origins = "*")
 @Controller
 @Slf4j
 @RequestMapping("/admin/user")

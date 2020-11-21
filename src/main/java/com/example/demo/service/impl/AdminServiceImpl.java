@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author chentao
+ */
 @Service
 public class AdminServiceImpl implements AdminService {
     @Resource

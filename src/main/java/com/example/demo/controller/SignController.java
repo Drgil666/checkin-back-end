@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * @author chentao
  */
+@CrossOrigin(origins = "*")
 @Controller
 @Slf4j
 @RequestMapping("/api/Sign")

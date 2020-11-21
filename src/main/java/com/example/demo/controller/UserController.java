@@ -21,6 +21,7 @@ import java.util.List;
  * @author Gilbert
  * @Date 2020/9/24 16:28
  */
+@CrossOrigin(origins = "*")
 @Controller
 @Slf4j
 @RequestMapping("/api/user")

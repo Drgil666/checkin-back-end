@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * @author chentao
  */
+@CrossOrigin(origins = "*")
 @Controller
 @Slf4j
 @RequestMapping("/api/checkSet")
@@ -25,7 +26,7 @@ public class CheckSetController {
 
     @ResponseBody
     @PostMapping()
-    public Response<CheckSet> checkset(@RequestBody CUDRequest<CheckSet, Integer> request) {
+    public Response<CheckSet> checkSet(@RequestBody CUDRequest<CheckSet, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkSetService.createCheckSet(request.getData());
@@ -51,7 +52,7 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckSet> getcheckSet(@RequestParam("checkSetId") Integer checkSetId) {
+    public Response<CheckSet> getCheckSet(@RequestParam("checkSetId") Integer checkSetId) {
         CheckSet checkset = checkSetService.getCheckSet(checkSetId);
         if (checkset != null) {
             return Response.createSuc(checkset);
@@ -62,7 +63,7 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/findByNick")
-    public Response<List<CheckSet>> getcheckSetByNick(@RequestParam("nick") String nick) {
+    public Response<List<CheckSet>> getCheckSetByNick(@RequestParam("nick") String nick) {
         List<CheckSet> checkSetList = checkSetService.getCheckSetNick(nick);
         if (checkSetList != null) {
             return Response.createSuc(checkSetList);
