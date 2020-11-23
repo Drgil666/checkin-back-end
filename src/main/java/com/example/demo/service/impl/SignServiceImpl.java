@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.mapper.SignMapper;
 import com.example.demo.pojo.Sign;
+import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -76,5 +77,16 @@ public class SignServiceImpl implements SignService {
     @Override
     public List<Sign> signInFor(Integer checkId) {
         return signMapper.signInFor(checkId);
+    }
+
+    /**
+     * 获取签到信息
+     *
+     * @param checkId 获取签到信息的checkinId
+     * @return 学生名
+     */
+    @Override
+    public List<SignVO> getSignByCheckId(Integer checkId) {
+        return signMapper.getSignByCheckId(checkId);
     }
 }
