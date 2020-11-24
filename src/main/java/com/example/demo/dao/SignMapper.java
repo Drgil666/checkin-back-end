@@ -3,6 +3,8 @@ package com.example.demo.dao;
 
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
+import com.example.demo.pojo.User;
+import com.example.demo.pojo.vo.SignVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -74,4 +76,13 @@ public interface SignMapper {
      */
     @Select("select * from signin where check_id=#{checkId}")
     List<Sign> signInFor(@Param("checkId") Integer checkId);
+
+    /**
+     * 获取签到信息
+     *
+     * @param checkId 获取签到信息的checkinId
+     * @return 学生名
+     */
+    @Select("select nick,sign_time from user join (select * from signin where check_id=#{checkId}) a on a.stu_id = user.id")
+    List<SignVO> getSignByCheckId(@Param("checkId") Integer checkId);
 }

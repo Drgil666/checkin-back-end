@@ -5,6 +5,7 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
@@ -85,6 +86,17 @@ public class SignController {
         response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         response.flushBuffer();
         workbook.write(response.getOutputStream());
+    }
+
+    @ResponseBody
+    @GetMapping("/Information")
+    public Response<List<SignVO>> getSignByCheckId(@RequestParam("checkId") Integer checkId) {
+        List<SignVO> signVO = signService.getSignByCheckId(checkId);
+        if (signVO != null) {
+            return Response.createSuc(signVO);
+        } else {
+            return Response.createErr("获取签到失败!");
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.CheckInService;
+import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import org.springframework.stereotype.Service;
 
@@ -101,5 +102,16 @@ public class SignServiceImpl implements SignService {
     @Override
     public List<Sign> signInFor(Integer checkId) {
         return signMapper.signInFor(checkId);
+    }
+
+    /**
+     * 获取签到信息
+     *
+     * @param checkId 获取签到信息的checkinId
+     * @return 学生名
+     */
+    @Override
+    public List<SignVO> getSignByCheckId(Integer checkId) {
+        return signMapper.getSignByCheckId(checkId);
     }
 }

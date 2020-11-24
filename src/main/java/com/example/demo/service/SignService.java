@@ -3,6 +3,8 @@ package com.example.demo.service;
 
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
+import com.example.demo.pojo.vo.SignVO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -58,7 +60,7 @@ public interface SignService {
      * @param id 要删除的signid
      * @return 变化的行数
      */
-    long deleteSign(@Param("id") List<Integer> id);
+    long deleteSign(List<Integer> id);
 
     /**
      * 导出表格
@@ -67,4 +69,12 @@ public interface SignService {
      * @return 表格文件
      */
     List<Sign> signInFor(Integer checkId);
+
+    /**
+     * 获取签到信息
+     *
+     * @param checkId 获取签到信息的checkinId
+     * @return 学生名
+     */
+    List<SignVO> getSignByCheckId(Integer checkId);
 }
