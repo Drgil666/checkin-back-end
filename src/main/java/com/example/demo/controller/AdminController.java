@@ -11,12 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author chentao
  */
 @Controller
 @Slf4j
+@CrossOrigin(origins = "*")
 @RequestMapping("/admin/user")
 public class AdminController {
     @Resource
@@ -44,6 +46,19 @@ public class AdminController {
             default: {
                 return Response.createErr("method错误!");
             }
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/login")
+    public Response<Admin> login(@RequestBody Map<String, String> data) {
+        String username = data.get("username");
+        String password = data.get("password");
+        Admin admin = adminService.adminLogin(username, password);
+        if (admin != null) {
+            return Response.createSuc(admin);
+        } else {
+            return Response.createErr("登录失败!用户名或者密码错误!");
         }
     }
 

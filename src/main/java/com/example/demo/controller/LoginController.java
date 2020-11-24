@@ -3,10 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -16,6 +13,7 @@ import java.util.Map;
  * @date 2020/10/13 16:14
  */
 @Controller
+@CrossOrigin(origins = "*")
 @RequestMapping()
 public class LoginController {
     @Resource

@@ -41,4 +41,16 @@ public class AdminServiceImplTest {
     void deleteAdmin() {
         adminService.deleteAdmin(2);
     }
+
+    @Test
+    void adminLogin() {
+        String username = "admin";
+        String password = "12345677";
+        Admin admin = adminService.adminLogin(username, password);
+        if (admin != null) {
+            System.out.println("登录成功");
+        } else {
+            System.out.println("登录失败");
+        }
+    }
 }

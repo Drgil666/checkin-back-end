@@ -43,4 +43,14 @@ public interface AdminMapper {
      */
     @Select("select * from admin where id=#{id}")
     Admin getAdmin(@Param("id") Integer id);
+
+    /**
+     * 管理员登录
+     *
+     * @param username 登录的管理员用户名
+     * @param password 登录的管理员密码
+     * @return 是否登录成功
+     */
+    @Select("select * from admin where username=#{username} and password=#{password}")
+    Admin adminLogin(@Param("username") String username, @Param("password") String password);
 }

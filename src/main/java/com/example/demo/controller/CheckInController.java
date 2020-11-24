@@ -18,6 +18,7 @@ import java.util.List;
  */
 @Controller
 @Slf4j
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/checkin")
 public class CheckInController {
     @Resource
