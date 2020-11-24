@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * @author chentao
  */
-@CrossOrigin(origins = "*")
 @Controller
 @Slf4j
 @CrossOrigin(origins = "*")

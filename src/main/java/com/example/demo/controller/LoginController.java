@@ -12,7 +12,6 @@ import java.util.Map;
  * @author Gilbert
  * @date 2020/10/13 16:14
  */
-@CrossOrigin(origins = "*")
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping()
