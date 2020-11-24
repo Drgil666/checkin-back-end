@@ -14,6 +14,7 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*")
 @Controller
+@CrossOrigin(origins = "*")
 @RequestMapping()
 public class LoginController {
     @Resource

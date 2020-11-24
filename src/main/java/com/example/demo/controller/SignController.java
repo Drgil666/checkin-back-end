@@ -24,6 +24,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @Controller
 @Slf4j
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/Sign")
 public class SignController {
     @Resource

@@ -20,4 +20,5 @@ public class Admin {
      * 昵称
      */
     private String nick;
+
 }
