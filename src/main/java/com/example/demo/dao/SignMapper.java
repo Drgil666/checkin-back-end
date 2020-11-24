@@ -3,7 +3,6 @@ package com.example.demo.dao;
 
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
-import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.SignVO;
 import org.apache.ibatis.annotations.*;
 

@@ -21,7 +21,6 @@ import java.util.List;
  * @author Gilbert
  * @Date 2020/9/24 16:28
  */
-@CrossOrigin(origins = "*")
 @Controller
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -37,7 +36,7 @@ public class UserController {
     public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if (userService.isExist(request.getData().getUsername()) != null) {
+                if (userService.isExist(request.getData().getUsername()) == 0) {
                     userService.createUser(request.getData());
                     if (request.getData().getId() != null) {
                         return Response.createSuc(request.getData());

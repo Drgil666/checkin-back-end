@@ -72,7 +72,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return 对应id
      */
-    @Select("select id from user where username=#{username} limit 1")
+    @Select("select count(*) from user where username=#{username} limit 1")
     Integer isExist(@Param("username") String username);
 
     /**
