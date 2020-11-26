@@ -99,17 +99,6 @@ public class SignServiceImpl implements SignService {
     }
 
     /**
-     * 导出表格
-     *
-     * @param checkId 导出signin的checkinId
-     * @return 表格文件
-     */
-    @Override
-    public List<Sign> signInFor(Integer checkId) {
-        return signMapper.signInFor(checkId);
-    }
-
-    /**
      * 获取签到信息
      *
      * @param checkId 获取签到信息的checkinId
@@ -118,5 +107,16 @@ public class SignServiceImpl implements SignService {
     @Override
     public List<SignVO> getSignByCheckId(Integer checkId) {
         return signMapper.getSignByCheckId(checkId);
+    }
+
+    /**
+     * 根据一个checkin和userid获取对应的signIn吧
+     *
+     * @param checkId,userid 获取签到信息的checkinId
+     * @return 学生名
+     */
+    @Override
+    public List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
+        return signMapper.getSignByCheckIdAndUserId(checkId, userId);
     }
 }

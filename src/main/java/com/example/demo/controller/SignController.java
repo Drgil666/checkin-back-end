@@ -56,41 +56,6 @@ public class SignController {
     }
 
     @ResponseBody
-    @GetMapping("/SignExcelDownloads")
-    public void downloadAllClassmate(HttpServletResponse response, @RequestParam("checkId") Integer checkId) throws IOException {
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("信息表");
-        List<Sign> classmateList = signService.signInFor(checkId);
-        String fileName = "signinf" + ".xls";
-        //设置要导出的文件的名字
-        //新增数据行，并且设置单元格数据
-        int rowNum = 1;
-        String[] headers = {"Id", "学生id", "签到时间", "照片id"};
-        //headers表示excel表中第一行的表头
-        HSSFRow row = sheet.createRow(0);
-        //在excel表中添加表头
-        for (int i = 0; i < headers.length; i++) {
-            HSSFCell cell = row.createCell(i);
-            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
-            cell.setCellValue(text);
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //在表中存放查询到的数据放入对应的列
-        for (Sign sign : classmateList) {
-            HSSFRow row1 = sheet.createRow(rowNum);
-            row1.createCell(0).setCellValue(sign.getId());
-            row1.createCell(1).setCellValue(sign.getStuId());
-            row1.createCell(2).setCellValue(simpleDateFormat.format(sign.getSignTime()));
-            row1.createCell(3).setCellValue(sign.getPhotoId());
-            rowNum++;
-        }
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
-        response.flushBuffer();
-        workbook.write(response.getOutputStream());
-    }
-
-    @ResponseBody
     @GetMapping("/Information")
     public Response<List<SignVO>> getSignByCheckId(@RequestParam("checkId") Integer checkId) {
         List<SignVO> signVO = signService.getSignByCheckId(checkId);
@@ -101,4 +66,14 @@ public class SignController {
         }
     }
 
+    @ResponseBody
+    @GetMapping("/findByCheckIdAndUserId")
+    public Response<List<Sign>> getSignByCheckIdAndUserId(@RequestParam("checkId") Integer checkId, @RequestParam("userId") Integer userId) {
+        List<Sign> sign = signService.getSignByCheckIdAndUserId(checkId, userId);
+        if (sign != null) {
+            return Response.createSuc(sign);
+        } else {
+            return Response.createErr("获取签到失败!");
+        }
+    }
 }

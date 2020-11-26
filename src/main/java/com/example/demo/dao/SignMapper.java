@@ -68,15 +68,6 @@ public interface SignMapper {
     long deleteSign(@Param("id") List<Integer> id);
 
     /**
-     * 导出表格
-     *
-     * @param checkId 导出signin的checkinId
-     * @return 表格文件
-     */
-    @Select("select * from signin where check_id=#{checkId}")
-    List<Sign> signInFor(@Param("checkId") Integer checkId);
-
-    /**
      * 获取签到信息
      *
      * @param checkId 获取签到信息的checkinId
@@ -84,4 +75,13 @@ public interface SignMapper {
      */
     @Select("select nick,sign_time from user join (select * from signin where check_id=#{checkId}) a on a.stu_id = user.id")
     List<SignVO> getSignByCheckId(@Param("checkId") Integer checkId);
+
+    /**
+     * 根据一个checkin和userid获取对应的signIn吧
+     *
+     * @param checkId,userid 获取签到信息的checkinId
+     * @return 学生名
+     */
+    @Select("select * from signin where check_id=#{checkId} and stu_id=#{userId}")
+    List<Sign> getSignByCheckIdAndUserId(@Param("checkId") Integer checkId, @Param("userId") Integer userId);
 }
