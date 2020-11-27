@@ -30,7 +30,7 @@ public interface AdminMapper {
     /**
      * 删除admin
      *
-     * @param id 要删除的adminid
+     * @param id 要删除的adminId
      * @return 影响行数
      */
     @Delete("delete from admin where id=#{id}")

@@ -43,6 +43,13 @@ public class CheckSetController {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
                 }
             }
+            case CUDRequest.DELETE_METHOD: {
+                if (checkSetService.deleteCheckSet(request.getKey()) > 0) {
+                    return Response.createSuc(null);
+                } else {
+                    Response.createErr("删除失败!");
+                }
+            }
             default: {
                 return Response.createErr("method错误!");
             }

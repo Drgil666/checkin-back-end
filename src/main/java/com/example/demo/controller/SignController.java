@@ -8,14 +8,10 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -47,6 +43,13 @@ public class SignController {
                     return Response.createSuc(request.getData());
                 } else {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
+                }
+            }
+            case CUDRequest.DELETE_METHOD: {
+                if (signService.deleteSign(request.getKey()) > 0) {
+                    return Response.createSuc(null);
+                } else {
+                    return Response.createErr("删除失败!");
                 }
             }
             default: {
