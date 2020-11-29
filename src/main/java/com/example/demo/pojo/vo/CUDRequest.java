@@ -1,6 +1,5 @@
 package com.example.demo.pojo.vo;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +16,6 @@ public class CUDRequest<T, K> {
     public static final String CREATE_METHOD = "create";
     public static final String UPDATE_METHOD = "update";
     public static final String DELETE_METHOD = "delete";
-    @NotNull
     private String method;
     private T data;
     private List<K> key;
