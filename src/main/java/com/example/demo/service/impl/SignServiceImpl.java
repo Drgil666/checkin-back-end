@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.SignMapper;
+import com.example.demo.mapper.SignMapper;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;

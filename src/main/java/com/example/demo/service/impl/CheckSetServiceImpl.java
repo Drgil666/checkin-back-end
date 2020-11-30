@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.CheckSetMapper;
+import com.example.demo.mapper.CheckSetMapper;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.service.CheckSetService;
 import org.apache.ibatis.annotations.Param;

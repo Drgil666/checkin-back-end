@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.AdminMapper;
+import com.example.demo.mapper.AdminMapper;
 import com.example.demo.pojo.Admin;
 import com.example.demo.service.AdminService;
 import org.springframework.stereotype.Service;

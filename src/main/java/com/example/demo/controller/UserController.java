@@ -36,7 +36,7 @@ public class UserController {
     public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if (userService.isExist(request.getData().getUsername()) == 0) {
+                if (userService.isExist(request.getData().getUsername())!=null) {
                     userService.createUser(request.getData());
                     if (request.getData().getId() != null) {
                         return Response.createSuc(request.getData());
