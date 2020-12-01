@@ -18,4 +18,10 @@ public interface TokenDao {
      * @return 对应值
      */
     String getValue(String key);
+
+    /**
+     * 删除键对应的值
+     * @param key 键
+     */
+    void deleteValue(String key);
 }

@@ -33,6 +33,9 @@ public class TokenServiceImpl implements TokenService {
     public String createToken(String id) {
         if (userService.isExist(id) != null) {
             String uuid = UUID.randomUUID().toString();
+            String exToken=tokenDao.getValue(id);
+            tokenDao.deleteValue(id);
+            tokenDao.deleteValue(exToken);
             tokenDao.setValue(uuid, id);
             tokenDao.setValue(id, uuid);
             return uuid;

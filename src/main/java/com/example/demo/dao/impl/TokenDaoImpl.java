@@ -36,4 +36,14 @@ public class TokenDaoImpl implements TokenDao {
     public String getValue(String key) {
         return stringRedisTemplate.opsForValue().get(key);
     }
+
+    /**
+     * 删除键对应的值
+     *
+     * @param key 键
+     */
+    @Override
+    public void deleteValue(String key) {
+        stringRedisTemplate.delete(key);
+    }
 }
