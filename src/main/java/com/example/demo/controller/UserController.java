@@ -6,6 +6,7 @@ import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.PhotoService;
+import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
@@ -30,13 +31,15 @@ public class UserController {
     private UserService userService;
     @Resource
     private PhotoService photoService;
+    @Resource
+    private TokenService tokenService;
 
     @ResponseBody
     @PostMapping()
     public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if (userService.isExist(request.getData().getUsername())!=null) {
+                if (userService.isExist(request.getData().getUsername()) != null) {
                     userService.createUser(request.getData());
                     if (request.getData().getId() != null) {
                         return Response.createSuc(request.getData());
@@ -62,7 +65,10 @@ public class UserController {
 
     @ResponseBody
     @GetMapping()
-    public Response<User> user(@RequestParam("userId") Integer userId) {
+    public Response<User> user(@RequestHeader("Token") String token, @RequestParam("userId") Integer userId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         User user = userService.getUser(userId);
         if (user != null) {
             return Response.createSuc(user);

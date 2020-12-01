@@ -31,9 +31,10 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public String createToken(String id) {
-        if (userService.isExist(id)!=null) {
+        if (userService.isExist(id) != null) {
             String uuid = UUID.randomUUID().toString();
             tokenDao.setValue(uuid, id);
+            tokenDao.setValue(id, uuid);
             return uuid;
         } else {
             return null;
@@ -48,8 +49,23 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public Integer getUserIdByToken(String token) {
-       String username=tokenDao.getValue(token);
-       User user=userMapper.getUserByUserName(username);
-       return user.getId();
+        String username = tokenDao.getValue(token);
+        User user = userMapper.getUserByUserName(username);
+        return user.getId();
+    }
+
+    /**
+     * 用户登录校对
+     *
+     * @param token 用户token
+     * @return 是否是最新的token
+     */
+    @Override
+    public boolean loginCheck(String token) {
+        String userId = tokenDao.getValue(token);
+        if (userId != null) {
+            return tokenDao.getValue(userId).equals(token);
+        }
+        return false;
     }
 }
