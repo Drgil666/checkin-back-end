@@ -40,13 +40,14 @@ class RsaEncryptTest {
     void uuidTest() {
         System.out.println(UUID.randomUUID().toString());
     }
+
     @Test
-    void bcryptTest(){
-        String password="123456";
-        String pwd="$2a$11$WMmXdu8YMJm76bBnFqWXxewu9b5I6fhk8CsEMilX7jL7T2q7ZlUMa";
+    void bcryptTest() {
+        String password = "123456";
+        String pwd = "$2a$11$WMmXdu8YMJm76bBnFqWXxewu9b5I6fhk8CsEMilX7jL7T2q7ZlUMa";
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt(11));
         System.out.println(hashed);
-        Boolean b  = BCrypt.checkpw(password, hashed);
+        Boolean b = BCrypt.checkpw(password, hashed);
         System.out.println(b);
     }
 }

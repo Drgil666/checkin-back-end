@@ -5,7 +5,7 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.User;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.UUID;
@@ -14,7 +14,7 @@ import java.util.UUID;
  * @author Gilbert
  * @date 2020/11/30 16:16
  */
-@Component("TokenServiceImpl")
+@Service
 public class TokenServiceImpl implements TokenService {
     @Resource
     private UserService userService;
@@ -33,7 +33,7 @@ public class TokenServiceImpl implements TokenService {
     public String createToken(String id) {
         if (userService.isExist(id) != null) {
             String uuid = UUID.randomUUID().toString();
-            String exToken=tokenDao.getValue(id);
+            String exToken = tokenDao.getValue(id);
             tokenDao.deleteValue(id);
             tokenDao.deleteValue(exToken);
             tokenDao.setValue(uuid, id);

@@ -21,13 +21,14 @@ public class LoginController {
     private UserService userService;
     @Resource
     private TokenService tokenService;
+
     @ResponseBody
     @PostMapping("/login")
     public Response<String> login(@RequestBody Map<String, String> data) {
         String username = data.get("username");
         Integer userId = userService.isExist(username);
         if (userId != null) {
-            String token=tokenService.createToken(username);
+            String token = tokenService.createToken(username);
             return Response.createSuc(token);
         } else {
             return Response.createErr("用户不存在!");
