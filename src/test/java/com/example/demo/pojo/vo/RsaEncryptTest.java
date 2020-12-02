@@ -4,6 +4,7 @@ import com.example.demo.DemoApplication;
 import com.example.demo.utils.RsaEncrypt;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -38,5 +39,14 @@ class RsaEncryptTest {
     @Test
     void uuidTest() {
         System.out.println(UUID.randomUUID().toString());
+    }
+    @Test
+    void bcryptTest(){
+        String password="123456";
+        String pwd="$2a$11$WMmXdu8YMJm76bBnFqWXxewu9b5I6fhk8CsEMilX7jL7T2q7ZlUMa";
+        String hashed = BCrypt.hashpw(password, BCrypt.gensalt(11));
+        System.out.println(hashed);
+        Boolean b  = BCrypt.checkpw(password, hashed);
+        System.out.println(b);
     }
 }
