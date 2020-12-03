@@ -92,10 +92,11 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/findByUserId")
-    public Response<List<CheckSet>> getcheckSetByUserId(@RequestHeader("Token") String token,@RequestParam("userId") Integer userId) {
+    public Response<List<CheckSet>> getcheckSetByUserId(@RequestHeader("Token") String token) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
+        Integer userId = tokenService.getUserIdByToken(token);
         List<CheckSet> checkSetList = checkSetService.getCheckSetList(userId);
         if (checkSetList != null) {
             return Response.createSuc(checkSetList);
