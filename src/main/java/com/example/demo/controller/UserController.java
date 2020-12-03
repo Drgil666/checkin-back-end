@@ -37,6 +37,9 @@ public class UserController {
     @ResponseBody
     @PostMapping()
     public Response<User> user(@RequestHeader("Token") String token, @RequestBody CUDRequest<User, Integer> request) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {
@@ -94,6 +97,9 @@ public class UserController {
     @ResponseBody
     @GetMapping("/findByMail")
     public Response<User> getUserByMail(@RequestHeader("Token") String token, @RequestParam("mail") String mail) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         User user = userService.getUserByMail(mail);
         if (user != null) {
             return Response.createSuc(user);
@@ -105,6 +111,9 @@ public class UserController {
     @ResponseBody
     @GetMapping("/findByNick")
     public Response<User> getUserByUserName(@RequestHeader("Token") String token, @RequestParam("username") String username) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         User user = userService.getUserByUserName(username);
         if (user != null) {
             return Response.createSuc(user);
