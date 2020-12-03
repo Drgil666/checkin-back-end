@@ -6,6 +6,7 @@ import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.CheckSetService;
+import com.example.demo.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,14 @@ import java.util.List;
 public class CheckSetController {
     @Resource
     private CheckSetService checkSetService;
-
+    @Resource
+    private TokenService tokenService;
     @ResponseBody
     @PostMapping()
-    public Response<CheckSet> checkSet(@RequestBody CUDRequest<CheckSet, Integer> request) {
+    public Response<CheckSet> checkSet(@RequestHeader("Token") String token,@RequestBody CUDRequest<CheckSet, Integer> request) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkSetService.createCheckSet(request.getData());
@@ -59,7 +64,10 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckSet> getCheckSet(@RequestParam("checkSetId") Integer checkSetId) {
+    public Response<CheckSet> getCheckSet(@RequestHeader("Token") String token,@RequestParam("checkSetId") Integer checkSetId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         CheckSet checkset = checkSetService.getCheckSet(checkSetId);
         if (checkset != null) {
             return Response.createSuc(checkset);
@@ -70,7 +78,10 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/findByNick")
-    public Response<List<CheckSet>> getCheckSetByNick(@RequestParam("nick") String nick) {
+    public Response<List<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token,@RequestParam("nick") String nick) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         List<CheckSet> checkSetList = checkSetService.getCheckSetNick(nick);
         if (checkSetList != null) {
             return Response.createSuc(checkSetList);
@@ -81,7 +92,10 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/findByUserId")
-    public Response<List<CheckSet>> getcheckSetByUserId(@RequestParam("userId") Integer userId) {
+    public Response<List<CheckSet>> getcheckSetByUserId(@RequestHeader("Token") String token,@RequestParam("userId") Integer userId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         List<CheckSet> checkSetList = checkSetService.getCheckSetList(userId);
         if (checkSetList != null) {
             return Response.createSuc(checkSetList);

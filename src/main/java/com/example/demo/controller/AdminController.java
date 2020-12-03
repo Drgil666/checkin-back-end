@@ -6,6 +6,7 @@ import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.AdminService;
+import com.example.demo.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,14 @@ import java.util.Map;
 public class AdminController {
     @Resource
     private AdminService adminService;
-
+    @Resource
+    private TokenService tokenService;
     @ResponseBody
     @PostMapping()
-    public Response<Admin> admin(@RequestBody CUDRequest<Admin, Integer> request) {
+    public Response<Admin> admin(@RequestHeader("Token") String token,@RequestBody CUDRequest<Admin, Integer> request) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 adminService.createAdmin(request.getData());
@@ -64,7 +69,10 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Admin> admin(@RequestParam("id") Integer id) {
+    public Response<Admin> admin(@RequestHeader("Token") String token,@RequestParam("id") Integer id) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         Admin admin = adminService.getAdmin(id);
         if (admin != null) {
             return Response.createSuc(admin);
