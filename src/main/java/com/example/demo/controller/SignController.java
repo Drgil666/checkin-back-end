@@ -84,11 +84,16 @@ public class SignController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        List<Sign> sign = signService.getSignByCheckIdAndUserId(checkId, tokenService.getUserIdByToken(token));
-        if (sign != null) {
-            return Response.createSuc(sign);
+        Integer userId = tokenService.getUserIdByToken(token);
+        if (userId != null) {
+            List<Sign> sign = signService.getSignByCheckIdAndUserId(checkId, userId);
+            if (sign != null) {
+                return Response.createSuc(sign);
+            } else {
+                return Response.createErr("获取签到失败!");
+            }
         } else {
-            return Response.createErr("获取签到失败!");
+            return Response.createErr("userId获取失败!");
         }
     }
 }
