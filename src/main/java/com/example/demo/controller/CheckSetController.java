@@ -98,10 +98,15 @@ public class CheckSetController {
         }
         Integer userId = tokenService.getUserIdByToken(token);
         List<CheckSet> checkSetList = checkSetService.getCheckSetList(userId);
-        if (checkSetList != null) {
-            return Response.createSuc(checkSetList);
-        } else {
-            return Response.createErr("获取失败!");
+        if(userId==null){
+            return Response.createErr("获取userId失败!userId为空");
+        }
+        else {
+            if (checkSetList != null) {
+                return Response.createSuc(checkSetList);
+            } else {
+                return Response.createErr("获取失败!");
+            }
         }
     }
 }
