@@ -9,14 +9,10 @@ import com.example.demo.service.PhotoService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @author Gilbert

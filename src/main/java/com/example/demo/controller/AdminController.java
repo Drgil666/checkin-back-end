@@ -26,9 +26,10 @@ public class AdminController {
     private AdminService adminService;
     @Resource
     private TokenService tokenService;
+
     @ResponseBody
     @PostMapping()
-    public Response<Admin> admin(@RequestHeader("Token") String token,@RequestBody CUDRequest<Admin, Integer> request) {
+    public Response<Admin> admin(@RequestHeader("Token") String token, @RequestBody CUDRequest<Admin, Integer> request) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -69,7 +70,7 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Admin> admin(@RequestHeader("Token") String token,@RequestParam("id") Integer id) {
+    public Response<Admin> admin(@RequestHeader("Token") String token, @RequestParam("id") Integer id) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }

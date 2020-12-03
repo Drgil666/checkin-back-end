@@ -26,9 +26,10 @@ public class CheckSetController {
     private CheckSetService checkSetService;
     @Resource
     private TokenService tokenService;
+
     @ResponseBody
     @PostMapping()
-    public Response<CheckSet> checkSet(@RequestHeader("Token") String token,@RequestBody CUDRequest<CheckSet, Integer> request) {
+    public Response<CheckSet> checkSet(@RequestHeader("Token") String token, @RequestBody CUDRequest<CheckSet, Integer> request) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -64,7 +65,7 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckSet> getCheckSet(@RequestHeader("Token") String token,@RequestParam("checkSetId") Integer checkSetId) {
+    public Response<CheckSet> getCheckSet(@RequestHeader("Token") String token, @RequestParam("checkSetId") Integer checkSetId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -78,7 +79,7 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/findByNick")
-    public Response<List<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token,@RequestParam("nick") String nick) {
+    public Response<List<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token, @RequestParam("nick") String nick) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
