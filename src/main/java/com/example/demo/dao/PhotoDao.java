@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.pojo.Photo;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 

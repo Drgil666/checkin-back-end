@@ -36,7 +36,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping()
-    public Response<User> user(@RequestBody CUDRequest<User, Integer> request) {
+    public Response<User> user(@RequestHeader("Token") String token, @RequestBody CUDRequest<User, Integer> request) {
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {
@@ -65,11 +65,11 @@ public class UserController {
 
     @ResponseBody
     @GetMapping()
-    public Response<User> user(@RequestHeader("Token") String token, @RequestParam("userId") Integer userId) {
+    public Response<User> user(@RequestHeader("Token") String token) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        User user = userService.getUser(userId);
+        User user = userService.getUser(tokenService.getUserIdByToken(token));
         if (user != null) {
             return Response.createSuc(user);
         } else {
@@ -79,7 +79,10 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/findByStuNo")
-    public Response<User> getUserByStuNo(@RequestParam("stuNo") String stuNo) {
+    public Response<User> getUserByStuNo(@RequestHeader("Token") String token, @RequestParam("stuNo") String stuNo) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         User user = userService.getUserByStuNo(stuNo);
         if (user != null) {
             return Response.createSuc(user);
@@ -90,7 +93,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/findByMail")
-    public Response<User> getUserByMail(@RequestParam("mail") String mail) {
+    public Response<User> getUserByMail(@RequestHeader("Token") String token, @RequestParam("mail") String mail) {
         User user = userService.getUserByMail(mail);
         if (user != null) {
             return Response.createSuc(user);
@@ -101,7 +104,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/findByNick")
-    public Response<User> getUserByUserName(@RequestParam("username") String username) {
+    public Response<User> getUserByUserName(@RequestHeader("Token") String token, @RequestParam("username") String username) {
         User user = userService.getUserByUserName(username);
         if (user != null) {
             return Response.createSuc(user);
@@ -114,39 +117,5 @@ public class UserController {
     @GetMapping("/check")
     public String check() {
         return "ok2";
-    }
-
-    @ResponseBody
-    @GetMapping("/UserExcelDownloads")
-    public void downloadAllClassmate(HttpServletResponse response) throws IOException {
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("信息表");
-        List<User> classmateList = userService.userInFor();
-        String fileName = "userinf" + ".xls";
-        //设置要导出的文件的名字
-        //新增数据行，并且设置单元格数据
-        int rowNum = 1;
-        String[] headers = {"Id", "姓名", "学校", "邮箱"};
-        //headers表示excel表中第一行的表头
-        HSSFRow row = sheet.createRow(0);
-        //在excel表中添加表头
-        for (int i = 0; i < headers.length; i++) {
-            HSSFCell cell = row.createCell(i);
-            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
-            cell.setCellValue(text);
-        }
-        //在表中存放查询到的数据放入对应的列
-        for (User user : classmateList) {
-            HSSFRow row1 = sheet.createRow(rowNum);
-            row1.createCell(0).setCellValue(user.getId());
-            row1.createCell(1).setCellValue(user.getUsername());
-            row1.createCell(2).setCellValue(user.getSchool());
-            row1.createCell(3).setCellValue(user.getMail());
-            rowNum++;
-        }
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
-        response.flushBuffer();
-        workbook.write(response.getOutputStream());
     }
 }
