@@ -63,7 +63,7 @@ public interface UserMapper {
      * @param username 姓名
      * @return 用户
      */
-    @Select("select * from user where stu_no=#{stu_no}")
+    @Select("select * from user where username=#{username}")
     User getUserByUserName(@Param("username") String username);
 
     /**

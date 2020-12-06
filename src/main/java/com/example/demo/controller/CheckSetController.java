@@ -33,6 +33,8 @@ public class CheckSetController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
+        Integer userId=tokenService.getUserIdByToken(token);
+        request.getData().setUserId(userId);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkSetService.createCheckSet(request.getData());
@@ -61,7 +63,6 @@ public class CheckSetController {
             }
         }
     }
-
 
     @ResponseBody
     @GetMapping()
