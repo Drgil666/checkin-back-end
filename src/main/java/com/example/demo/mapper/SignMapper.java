@@ -73,7 +73,8 @@ public interface SignMapper {
      * @param checkId 获取签到信息的checkinId
      * @return 学生名
      */
-    @Select("select nick,sign_time from user join (select * from signin where check_id=#{checkId}) a on a.stu_id = user.id")
+    @Select("select signin.*,user.nick as nick from signin inner join user" +
+            " on signin.stu_id = user.id where signin.check_id=#{checkId}")
     List<SignVO> getSignByCheckId(@Param("checkId") Integer checkId);
 
     /**

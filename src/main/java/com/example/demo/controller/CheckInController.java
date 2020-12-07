@@ -6,6 +6,7 @@ import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.CheckInService;
+import com.example.demo.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,15 @@ import java.util.List;
 public class CheckInController {
     @Resource
     private CheckInService checkInService;
+    @Resource
+    private TokenService tokenService;
 
     @ResponseBody
     @PostMapping()
-    public Response<CheckIn> checkin(@RequestBody CUDRequest<CheckIn, Integer> request) {
+    public Response<CheckIn> checkin(@RequestHeader("Token") String token, @RequestBody CUDRequest<CheckIn, Integer> request) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkInService.createCheckIn(request.getData());
@@ -58,7 +64,10 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/List")
-    public Response<List<CheckIn>> getcheckInBySetId(@RequestParam("setId") Integer setId) {
+    public Response<List<CheckIn>> getcheckInBySetId(@RequestHeader("Token") String token, @RequestParam("setId") Integer setId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
         if (checkInList != null) {
             return Response.createSuc(checkInList);
@@ -70,7 +79,10 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckIn> getcheckIn(@RequestParam("checkId") Integer checkInId) {
+    public Response<CheckIn> getcheckIn(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkInId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
         CheckIn checkIn = checkInService.getCheckIn(checkInId);
         if (checkIn != null) {
             return Response.createSuc(checkIn);
