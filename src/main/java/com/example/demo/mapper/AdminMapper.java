@@ -49,9 +49,16 @@ public interface AdminMapper {
      * 管理员登录
      *
      * @param username 登录的管理员用户名
-     * @param password 登录的管理员密码
      * @return 是否登录成功
      */
-    @Select("select * from admin where username=#{username} and password=#{password}")
-    Admin adminLogin(@Param("username") String username, @Param("password") String password);
+    @Select("select * from admin where username=#{username}")
+    Admin getAdminByUsername(@Param("username") String username);
+
+    /**
+     * 用户名是否重复
+     * @param username 用户名
+     * @return 是否重复(不重复为null)
+     */
+    @Select("select admin.id from admin where username=#{username} LIMIT 1")
+    Integer adminExist(@Param("username") String username);
 }

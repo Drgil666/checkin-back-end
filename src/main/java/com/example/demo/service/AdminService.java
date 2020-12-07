@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.Admin;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author chentao
@@ -43,8 +44,15 @@ public interface AdminService {
      * 管理员登录
      *
      * @param username 登录的管理员用户名
-     * @param password 登录的管理员密码
      * @return 是否登录成功
      */
-    Admin adminLogin(String username, String password);
+    Admin getAdminByUsername(String username);
+
+    /**
+     * 用户名是否重复
+     *
+     * @param username 用户名
+     * @return 是否重复(不重复为null)
+     */
+    Integer adminExist(@Param("username") String username);
 }
