@@ -59,11 +59,21 @@ public class AdminServiceImpl implements AdminService {
      * 管理员登录
      *
      * @param username 登录的管理员用户名
-     * @param password 登录的管理员密码
      * @return 是否登录成功
      */
     @Override
-    public Admin adminLogin(String username, String password) {
-        return adminMapper.adminLogin(username, password);
+    public Admin getAdminByUsername(String username) {
+        return adminMapper.getAdminByUsername(username);
+    }
+
+    /**
+     * 用户名是否重复
+     *
+     * @param username 用户名
+     * @return 是否重复(不重复为null)
+     */
+    @Override
+    public Integer adminExist(String username) {
+        return adminMapper.adminExist(username);
     }
 }

@@ -35,7 +35,9 @@ public class TokenServiceImpl implements TokenService {
             String uuid = UUID.randomUUID().toString();
             String exToken = tokenDao.getValue(id);
             tokenDao.deleteValue(id);
-            tokenDao.deleteValue(exToken);
+            if (exToken != null) {
+                tokenDao.deleteValue(exToken);
+            }
             tokenDao.setValue(uuid, id);
             tokenDao.setValue(id, uuid);
             return uuid;
@@ -53,6 +55,9 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public Integer getUserIdByToken(String token) {
         String username = tokenDao.getValue(token);
+        if(username==null) {
+            return null;
+        }
         User user = userMapper.getUserByUserName(username);
         return user.getId();
     }

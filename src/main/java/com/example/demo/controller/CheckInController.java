@@ -26,9 +26,10 @@ public class CheckInController {
     private CheckInService checkInService;
     @Resource
     private TokenService tokenService;
+
     @ResponseBody
     @PostMapping()
-    public Response<CheckIn> checkin(@RequestHeader("Token") String token,@RequestBody CUDRequest<CheckIn, Integer> request) {
+    public Response<CheckIn> checkin(@RequestHeader("Token") String token, @RequestBody CUDRequest<CheckIn, Integer> request) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -63,7 +64,7 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/List")
-    public Response<List<CheckIn>> getcheckInBySetId(@RequestHeader("Token") String token,@RequestParam("setId") Integer setId) {
+    public Response<List<CheckIn>> getcheckInBySetId(@RequestHeader("Token") String token, @RequestParam("setId") Integer setId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -78,7 +79,7 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckIn> getcheckIn(@RequestHeader("Token") String token,@RequestParam("checkId") Integer checkInId) {
+    public Response<CheckIn> getcheckIn(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkInId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
