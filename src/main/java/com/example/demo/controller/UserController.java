@@ -68,11 +68,16 @@ public class UserController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        User user = userService.getUser(tokenService.getUserIdByToken(token));
-        if (user != null) {
-            return Response.createSuc(user);
+        Integer userId = tokenService.getUserIdByToken(token);
+        if (userId != null) {
+            User user = userService.getUser(userId);
+            if (user != null) {
+                return Response.createSuc(user);
+            } else {
+                return Response.createErr("获取用户失败!");
+            }
         } else {
-            return Response.createErr("获取用户失败!");
+            return Response.createErr("userId获取失败!");
         }
     }
 
