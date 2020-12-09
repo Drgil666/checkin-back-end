@@ -24,7 +24,7 @@ public class CheckSetServiceImplTest {
     @Test
     void createCheckSet() {
         CheckSet checkSet = new CheckSet();
-        checkSet.setNick("web课签到test");
+        checkSet.setNick("阿里云测试");
         checkSet.setUserId(1);
         checkSet.setVisible(1);
         checkSetService.createCheckSet(checkSet);
