@@ -25,7 +25,7 @@ public class AdminServiceImplTest {
         Admin admin = new Admin();
         admin.setUsername("admin");
         admin.setPassword("123456");
-        admin.setNick("test");
+        admin.setNick("ct");
         adminService.createAdmin(admin);
         System.out.println(admin.getId());
     }
@@ -33,7 +33,7 @@ public class AdminServiceImplTest {
     @Test
     void updateAdmin() {
         Admin admin = adminService.getAdmin(1);
-        admin.setPassword("1234567");
+        admin.setPassword("1234567ct");
         System.out.println(adminService.updateAdmin(admin));
     }
 

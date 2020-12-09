@@ -66,7 +66,7 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/Information")
-    public Response<List<SignVO>> getSignByCheckId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
+    public Response<List<SignVO>> getSignByCheckId(@RequestHeader("Token") String token,@RequestParam("checkId") Integer checkId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
