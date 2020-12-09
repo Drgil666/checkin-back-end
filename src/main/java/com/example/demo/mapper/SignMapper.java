@@ -78,7 +78,7 @@ public interface SignMapper {
     List<SignVO> getSignByCheckId(@Param("checkId") Integer checkId);
 
     /**
-     * 根据一个checkin和userid获取对应的signIn吧
+     * 根据一个checkin和userid获取对应的signIn
      *
      * @param checkId,userid 获取签到信息的checkinId
      * @return 学生名
