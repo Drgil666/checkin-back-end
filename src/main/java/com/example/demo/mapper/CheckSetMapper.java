@@ -54,7 +54,7 @@ public interface CheckSetMapper {
      * @param nick 要查找你的昵称
      * @return 对应的checkin
      */
-    @Select("select * from checkset where nick=#{nick}")
+    @Select("select * from checkset where nick like '%${nick}%' ")
     List<CheckSet> getCheckSetNick(@Param("nick") String nick);
 
     /**
