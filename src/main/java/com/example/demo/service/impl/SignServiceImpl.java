@@ -116,7 +116,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
+    public List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
         return signMapper.getSignByCheckIdAndUserId(checkId, userId);
     }
 }

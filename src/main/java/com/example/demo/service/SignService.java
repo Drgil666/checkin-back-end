@@ -76,5 +76,5 @@ public interface SignService {
      * @param checkId,userid 获取签到信息的checkinId
      * @return 学生名
      */
-    List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
+    List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
 }
