@@ -30,6 +30,7 @@ public class PhotoController {
     private TokenService tokenService;
     @Resource
     private UserService userService;
+
     @ResponseBody
     @PostMapping()
     public Response<Photo> photo(@RequestHeader("Token") String token, @RequestBody CUDRequest<Photo, Integer> request) {
@@ -40,6 +41,10 @@ public class PhotoController {
             case CUDRequest.CREATE_METHOD: {
                 photoService.createPhoto(request.getData());
                 if (request.getData().getId() != null) {
+                    Integer userId = tokenService.getUserIdByToken(token);
+                    User user = userService.getUser(userId);
+                    user.setPhotoId(request.getData().getId());
+                    userService.updateUser(user);
                     return Response.createSuc(request.getData());
                 } else {
                     return Response.createErr("创建照片失败!");
@@ -61,11 +66,11 @@ public class PhotoController {
     @ResponseBody
     @GetMapping()
     public Response<Photo> photo(@RequestHeader("Token") String token) {
-         if (!tokenService.loginCheck(token)) {
+        if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer userId=tokenService.getUserIdByToken(token);
-        User user=userService.getUser(userId);
+        Integer userId = tokenService.getUserIdByToken(token);
+        User user = userService.getUser(userId);
         Photo photo = photoService.getPhoto(user.getPhotoId());
         if (photo != null) {
             return Response.createSuc(photo);

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
@@ -31,7 +32,11 @@ public class LoginController {
             String token = tokenService.createToken(username);
             return Response.createSuc(token);
         } else {
-            return Response.createErr("用户不存在!");
+            User user=new User();
+            user.setUsername(username);
+            userService.createUser(user);
+            String token=tokenService.createToken(username);
+            return Response.createSuc(token);
         }
     }
 }
