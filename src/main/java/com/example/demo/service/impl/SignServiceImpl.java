@@ -73,10 +73,10 @@ public class SignServiceImpl implements SignService {
     }
 
     /**
-     * 根据signList中的checkId查找checkin
+     * 根据signList中的checkId查找checkset
      *
      * @param token 获取的签到列表所对应的学号对应的token
-     * @return 查找的checkinList
+     * @return 查找的checksetList
      */
     @Override
     public List<CheckSet> getCheckSetBySign(String token) {
@@ -92,7 +92,22 @@ public class SignServiceImpl implements SignService {
         }
         return signMapper.getCheckSetBySign(idList);
     }
-
+    /**
+     * 根据signList中的checkId查找checkin
+     *
+     * @param token 获取的签到列表所对应的学号对应的token
+     * @return 查找的checkinList
+     */
+    @Override
+    public List<CheckIn> getCheckInBySign(String token) {
+        Integer stuId=tokenService.getUserIdByToken(token);
+        List<Sign> signList=signService.getSignList(stuId);
+        List<CheckIn> checkInList = new ArrayList<>();
+        for (Sign value : signList) {
+            checkInList.add(checkInService.getCheckIn(value.getCheckId()));
+        }
+        return checkInList;
+    }
     /**
      * 批量删除sign
      * <p>

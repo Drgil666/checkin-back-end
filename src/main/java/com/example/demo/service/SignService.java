@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
@@ -47,14 +48,21 @@ public interface SignService {
     List<Sign> getSignList(Integer stuId);
 
     /**
+     * 根据signlist中的checkid查找checkset
+     *
+     * @param token 要查找的signlist所对应的学生学号对应的token
+     * @return 查找的checksetlist
+     */
+
+    List<CheckSet> getCheckSetBySign(@Param("id")String token);
+    /**
      * 根据signlist中的checkid查找checkin
      *
      * @param token 要查找的signlist所对应的学生学号对应的token
      * @return 查找的checkinlist
      */
 
-    List<CheckSet> getCheckSetBySign(@Param("id")String token);
-
+    List<CheckIn> getCheckInBySign(@Param("id")String token);
     /**
      * 批量删除sign
      *
