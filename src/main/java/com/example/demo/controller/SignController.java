@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
@@ -77,7 +78,19 @@ public class SignController {
             return Response.createErr("获取签到失败!");
         }
     }
-
+    @ResponseBody
+    @GetMapping("/CheckSet")
+    public Response<List<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token, @RequestParam("stuId") Integer stuId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        List<CheckSet> checkSetList = signService.getCheckSetBySign(stuId);
+        if (checkSetList != null) {
+            return Response.createSuc(checkSetList);
+        } else {
+            return Response.createErr("获取签到信息失败!");
+        }
+    }
     @ResponseBody
     @GetMapping("/findByCheckIdAndUserId")
     public Response<List<Sign>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {

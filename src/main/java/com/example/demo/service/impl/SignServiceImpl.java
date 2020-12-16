@@ -21,6 +21,8 @@ public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
     @Resource
+    private  SignService signService;
+    @Resource
     private CheckInService checkInService;
 
     /**
@@ -70,11 +72,12 @@ public class SignServiceImpl implements SignService {
     /**
      * 根据signList中的checkId查找checkin
      *
-     * @param signList 学生签到列表
+     * @param stuId 获取的签到列表所对应的学号
      * @return 查找的checkinList
      */
     @Override
-    public List<CheckSet> getCheckSetBySign(List<Sign> signList) {
+    public List<CheckSet> getCheckSetBySign(Integer stuId) {
+        List<Sign> signList=signService.getSignList(stuId);
         List<Integer> idList = new ArrayList<>();
         List<CheckIn> checkInList = new ArrayList<>();
         for (Sign value : signList) {

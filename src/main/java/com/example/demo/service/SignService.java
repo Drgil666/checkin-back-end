@@ -48,11 +48,11 @@ public interface SignService {
     /**
      * 根据signlist中的checkid查找checkin
      *
-     * @param signList 要查找的signlist
+     * @param stuId 要查找的signlist所对应的学生学号
      * @return 查找的checkinlist
      */
 
-    List<CheckSet> getCheckSetBySign(@Param("id") List<Sign> signList);
+    List<CheckSet> getCheckSetBySign(@Param("id")Integer stuId);
 
     /**
      * 批量删除sign
@@ -73,7 +73,7 @@ public interface SignService {
     /**
      * 根据一个checkin和userid获取对应的signIn吧
      *
-     * @param checkId,userid 获取签到信息的checkinId
+     * @param checkId,userid 获取签到信息的checkinId和userid
      * @return 学生名
      */
     List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
