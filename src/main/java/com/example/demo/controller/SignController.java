@@ -80,11 +80,11 @@ public class SignController {
     }
     @ResponseBody
     @GetMapping("/CheckSet")
-    public Response<List<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token, @RequestParam("stuId") Integer stuId) {
+    public Response<List<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        List<CheckSet> checkSetList = signService.getCheckSetBySign(stuId);
+        List<CheckSet> checkSetList = signService.getCheckSetBySign(token);
         if (checkSetList != null) {
             return Response.createSuc(checkSetList);
         } else {

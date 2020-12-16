@@ -7,6 +7,7 @@ import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.SignService;
+import com.example.demo.service.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +25,8 @@ public class SignServiceImpl implements SignService {
     private  SignService signService;
     @Resource
     private CheckInService checkInService;
+    @Resource
+    private TokenService tokenService;
 
     /**
      * 创建学生签到记录
@@ -72,11 +75,12 @@ public class SignServiceImpl implements SignService {
     /**
      * 根据signList中的checkId查找checkin
      *
-     * @param stuId 获取的签到列表所对应的学号
+     * @param token 获取的签到列表所对应的学号对应的token
      * @return 查找的checkinList
      */
     @Override
-    public List<CheckSet> getCheckSetBySign(Integer stuId) {
+    public List<CheckSet> getCheckSetBySign(String token) {
+        Integer stuId=tokenService.getUserIdByToken(token);
         List<Sign> signList=signService.getSignList(stuId);
         List<Integer> idList = new ArrayList<>();
         List<CheckIn> checkInList = new ArrayList<>();
