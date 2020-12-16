@@ -80,7 +80,7 @@ public interface SignMapper {
     /**
      * 根据一个checkin和userid获取对应的signIn
      *
-     * @param checkId,userid 获取签到信息的checkinId
+     * @param checkId,userid 获取签到信息的checkinId和userid
      * @return 学生名
      */
     @Select("select signin.*,user.nick as nick,user.stu_no from signin inner join user on signin.stu_id=user.id where check_id=#{checkId} and stu_id=#{userId}")

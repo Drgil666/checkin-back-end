@@ -49,7 +49,7 @@ public interface CheckSetService {
      * 根据nick查找checkset
      *
      * @param nick 要查找你的昵称
-     * @return 对应的checkin
+     * @return 对应的checkset
      */
 
     List<CheckSet> getCheckSetNick(String nick);
