@@ -155,4 +155,18 @@ public class CheckSetController {
             }
         }
     }
+    @ResponseBody
+    @GetMapping("/stu/list")
+    public Response<List<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        Integer stuId=tokenService.getUserIdByToken(token);
+        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(stuId);
+        if (checkSetList != null) {
+            return Response.createSuc(checkSetList);
+        } else {
+            return Response.createErr("获取签到信息失败!");
+        }
+    }
 }

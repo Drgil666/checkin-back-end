@@ -3,8 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.mapper.CheckSetMapper;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.service.CheckSetService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -83,5 +81,16 @@ public class CheckSetServiceImpl implements CheckSetService {
     @Override
     public long deleteCheckSet(@Param("id") List<Integer> id) {
         return checkSetMapper.deleteCheckSet(id);
+    }
+
+    /**
+     * 学生获取CheckSet列表
+     *
+     * @param stuId 学生id
+     * @return CheckSet列表
+     */
+    @Override
+    public List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId) {
+        return checkSetMapper.getCheckListByStu(stuId);
     }
 }

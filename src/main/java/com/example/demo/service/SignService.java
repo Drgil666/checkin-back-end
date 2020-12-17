@@ -1,11 +1,8 @@
 package com.example.demo.service;
 
 
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -47,15 +44,6 @@ public interface SignService {
     List<Sign> getSignList(Integer stuId);
 
     /**
-     * 根据signlist中的checkid查找checkin
-     *
-     * @param token 要查找的signlist所对应的学生学号对应的token
-     * @return 查找的checkinlist
-     */
-
-    List<CheckSet> getCheckSetBySign(@Param("id")String token);
-
-    /**
      * 批量删除sign
      *
      * @param id 要删除的signid
@@ -78,4 +66,5 @@ public interface SignService {
      * @return 学生名
      */
     List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
+
 }

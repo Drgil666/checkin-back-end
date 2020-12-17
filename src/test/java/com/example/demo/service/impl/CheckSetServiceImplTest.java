@@ -64,4 +64,10 @@ public class CheckSetServiceImplTest {
         id.add(4);
         System.out.println(checkSetService.deleteCheckSet(id));
     }
+
+    @Test
+    void getCheckByStu() {
+        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(1);
+        System.out.println(checkSetList);
+    }
 }
