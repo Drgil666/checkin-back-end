@@ -27,7 +27,7 @@ public interface CheckSetMapper {
      * @param checkset 要更新的checkset
      * @return 更新好的CheckSet
      */
-    @Insert("update checkset set id=#{checkset.id},nick=#{checkset.nick},user_id=#{checkset.userId},visible=#{checkset.visible} where id=#{checkset.id}")
+    @Insert("update checkset set nick=#{checkset.nick},user_id=#{checkset.userId},visible=#{checkset.visible} where id=#{checkset.id}")
     long updateCheckSet(@Param("checkset") CheckSet checkset);
 
     /**
