@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
+import com.example.demo.pojo.CheckIn;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;

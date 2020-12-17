@@ -2,7 +2,10 @@ package com.example.demo.service.impl;
 
 import com.example.demo.mapper.CheckInMapper;
 import com.example.demo.pojo.CheckIn;
+import com.example.demo.pojo.Sign;
 import com.example.demo.service.CheckInService;
+import com.example.demo.service.SignService;
+import com.example.demo.service.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,7 +18,10 @@ import java.util.List;
 public class CheckInServiceImpl implements CheckInService {
     @Resource
     private CheckInMapper checkInMapper;
-
+    @Resource
+    private TokenService tokenService;
+    @Resource
+    private SignService signService;
     /**
      * 创建一场签到
      *
@@ -42,7 +48,22 @@ public class CheckInServiceImpl implements CheckInService {
     public CheckIn getCheckIn(Integer id) {
         return checkInMapper.getCheckIn(id);
     }
-
+    /**
+     *判断用户是否签到过
+     * @param check_id,要判断的checkin的id，token用户登录的token
+     * @return 是否签到过
+     */
+    @Override
+    public boolean ifSign(Integer check_id,String token){
+        Integer stuId=tokenService.getUserIdByToken(token);
+        List<Sign> signList=signService.getSignList(stuId);
+        for(Sign value : signList){
+            if(value.getCheckId().equals(check_id)){
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * 根据setId获取checkin列表
      *

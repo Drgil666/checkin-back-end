@@ -23,9 +23,13 @@ public interface CheckInService {
      * @param checkin 要更新的checkin
      * @return 更新好的CheckIn
      */
-
     long updateCheckIn(CheckIn checkin);
-
+    /**
+     *判断用户是否签到过
+     * @param check_id,要判断的checkin的id，token用户登录的token
+     * @return 是否签到过
+     */
+    boolean ifSign(Integer check_id,String token);
     /**
      * 获取用户发起的一场签到记录信息
      *

@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 
+import com.example.demo.pojo.CheckIn;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
 

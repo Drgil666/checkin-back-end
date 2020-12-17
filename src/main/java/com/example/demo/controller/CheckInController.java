@@ -75,7 +75,19 @@ public class CheckInController {
             return Response.createErr("获取失败!");
         }
     }
-
+    @ResponseBody
+    @GetMapping("/ifSign")
+    public Response<Object> ifSign(@RequestHeader("Token") String token, Integer checkId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        boolean ifsign=checkInService.ifSign(checkId,token);
+        if (ifsign ) {
+            return Response.createSuc("签到成功!");
+        } else {
+            return Response.createErr("签到失败!已经签到过!");
+        }
+    }
 
     @ResponseBody
     @GetMapping()
