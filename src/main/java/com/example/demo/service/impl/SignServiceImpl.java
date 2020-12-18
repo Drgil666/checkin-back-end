@@ -1,16 +1,14 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.mapper.SignMapper;
-import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.SignService;
+import com.example.demo.service.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +19,11 @@ public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
     @Resource
+    private SignService signService;
+    @Resource
     private CheckInService checkInService;
+    @Resource
+    private TokenService tokenService;
 
     /**
      * 创建学生签到记录
@@ -67,24 +69,6 @@ public class SignServiceImpl implements SignService {
         return signMapper.getSignList(stuId);
     }
 
-    /**
-     * 根据signList中的checkId查找checkin
-     *
-     * @param signList 学生签到列表
-     * @return 查找的checkinList
-     */
-    @Override
-    public List<CheckSet> getCheckSetBySign(List<Sign> signList) {
-        List<Integer> idList = new ArrayList<>();
-        List<CheckIn> checkInList = new ArrayList<>();
-        for (Sign value : signList) {
-            checkInList.add(checkInService.getCheckIn(value.getCheckId()));
-        }
-        for (CheckIn value : checkInList) {
-            idList.add(value.getSetId());
-        }
-        return signMapper.getCheckSetBySign(idList);
-    }
 
     /**
      * 批量删除sign
@@ -116,7 +100,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
+    public List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
         return signMapper.getSignByCheckIdAndUserId(checkId, userId);
     }
 }

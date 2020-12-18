@@ -35,8 +35,10 @@ public class SignController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
+        Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
+                request.getData().setStuId(stuId);
                 signService.createSign(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -45,6 +47,7 @@ public class SignController {
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
+                request.getData().setStuId(stuId);
                 if (signService.updateSign(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -80,20 +83,15 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/findByCheckIdAndUserId")
-    public Response<List<Sign>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
+    public Response<List<SignVO>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer userId = tokenService.getUserIdByToken(token);
-        if (userId != null) {
-            List<Sign> sign = signService.getSignByCheckIdAndUserId(checkId, userId);
-            if (sign != null) {
-                return Response.createSuc(sign);
-            } else {
-                return Response.createErr("获取签到失败!");
-            }
+        List<SignVO> signList = signService.getSignByCheckId(checkId);
+        if (signList != null) {
+            return Response.createSuc(signList);
         } else {
-            return Response.createErr("userId获取失败!");
+            return Response.createErr("获取签到失败!");
         }
     }
 }

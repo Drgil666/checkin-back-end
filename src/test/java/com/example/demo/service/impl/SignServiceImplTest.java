@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
 import org.junit.jupiter.api.Test;
@@ -54,14 +53,6 @@ public class SignServiceImplTest {
         System.out.println(signList);
     }
 
-    @Test
-    void getCheckSetListBySign() {
-        List<Sign> signList;
-        signList = signService.getSignList(1);
-        List<CheckSet> checkSetList;
-        checkSetList = signService.getCheckSetBySign(signList);
-        System.out.println(checkSetList);
-    }
 
     @Test
     void deleteSign() {

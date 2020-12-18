@@ -24,7 +24,7 @@ public class CheckSetServiceImplTest {
     @Test
     void createCheckSet() {
         CheckSet checkSet = new CheckSet();
-        checkSet.setNick("web课签到test");
+        checkSet.setNick("阿里云测试");
         checkSet.setUserId(1);
         checkSet.setVisible(1);
         checkSetService.createCheckSet(checkSet);
@@ -63,5 +63,11 @@ public class CheckSetServiceImplTest {
         id.add(3);
         id.add(4);
         System.out.println(checkSetService.deleteCheckSet(id));
+    }
+
+    @Test
+    void getCheckByStu() {
+        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(1);
+        System.out.println(checkSetList);
     }
 }

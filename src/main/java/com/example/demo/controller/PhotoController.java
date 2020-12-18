@@ -3,10 +3,12 @@ package com.example.demo.controller;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Photo;
+import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.PhotoService;
 import com.example.demo.service.TokenService;
+import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ public class PhotoController {
     private PhotoService photoService;
     @Resource
     private TokenService tokenService;
+    @Resource
+    private UserService userService;
 
     @ResponseBody
     @PostMapping()
@@ -37,6 +41,10 @@ public class PhotoController {
             case CUDRequest.CREATE_METHOD: {
                 photoService.createPhoto(request.getData());
                 if (request.getData().getId() != null) {
+                    Integer userId = tokenService.getUserIdByToken(token);
+                    User user = userService.getUser(userId);
+                    user.setPhotoId(request.getData().getId());
+                    userService.updateUser(user);
                     return Response.createSuc(request.getData());
                 } else {
                     return Response.createErr("创建照片失败!");
@@ -57,11 +65,13 @@ public class PhotoController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Photo> photo(@RequestHeader("Token") String token, @RequestParam("id") String id) {
+    public Response<Photo> photo(@RequestHeader("Token") String token) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Photo photo = photoService.getPhoto(id);
+        Integer userId = tokenService.getUserIdByToken(token);
+        User user = userService.getUser(userId);
+        Photo photo = photoService.getPhoto(user.getPhotoId());
         if (photo != null) {
             return Response.createSuc(photo);
         } else {

@@ -49,7 +49,7 @@ public interface CheckSetService {
      * 根据nick查找checkset
      *
      * @param nick 要查找你的昵称
-     * @return 对应的checkin
+     * @return 对应的checkset
      */
 
     List<CheckSet> getCheckSetNick(String nick);
@@ -61,4 +61,11 @@ public interface CheckSetService {
      * @return 变化的行数
      */
     long deleteCheckSet(@Param("id") List<Integer> id);
+    /**
+     * 学生获取CheckSet列表
+     *
+     * @param stuId 学生id
+     * @return CheckSet列表
+     */
+    List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
 }

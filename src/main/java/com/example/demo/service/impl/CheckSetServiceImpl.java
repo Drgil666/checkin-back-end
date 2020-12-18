@@ -82,4 +82,15 @@ public class CheckSetServiceImpl implements CheckSetService {
     public long deleteCheckSet(@Param("id") List<Integer> id) {
         return checkSetMapper.deleteCheckSet(id);
     }
+
+    /**
+     * 学生获取CheckSet列表
+     *
+     * @param stuId 学生id
+     * @return CheckSet列表
+     */
+    @Override
+    public List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId) {
+        return checkSetMapper.getCheckListByStu(stuId);
+    }
 }

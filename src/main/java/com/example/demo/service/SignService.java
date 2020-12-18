@@ -1,10 +1,8 @@
 package com.example.demo.service;
 
 
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -46,15 +44,6 @@ public interface SignService {
     List<Sign> getSignList(Integer stuId);
 
     /**
-     * 根据signlist中的checkid查找checkin
-     *
-     * @param signList 要查找的signlist
-     * @return 查找的checkinlist
-     */
-
-    List<CheckSet> getCheckSetBySign(@Param("id") List<Sign> signList);
-
-    /**
      * 批量删除sign
      *
      * @param id 要删除的signid
@@ -73,8 +62,9 @@ public interface SignService {
     /**
      * 根据一个checkin和userid获取对应的signIn吧
      *
-     * @param checkId,userid 获取签到信息的checkinId
+     * @param checkId,userid 获取签到信息的checkinId和userid
      * @return 学生名
      */
-    List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
+    List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
+
 }
