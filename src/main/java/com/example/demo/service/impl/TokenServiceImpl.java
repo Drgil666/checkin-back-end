@@ -55,7 +55,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public Integer getUserIdByToken(String token) {
         String username = tokenDao.getValue(token);
-        if(username==null) {
+        if (username == null) {
             return null;
         }
         User user = userMapper.getUserByUserName(username);

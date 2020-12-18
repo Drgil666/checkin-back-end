@@ -2,8 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.pojo.User;
 
-import java.util.List;
-
 /**
  * @author Gilbert
  * @date 2020/9/24 15:41
@@ -64,11 +62,4 @@ public interface UserService {
      * @return 对应id
      */
     Integer isExist(String username);
-
-    /**
-     * 导出表格
-     *
-     * @return 表格文件
-     */
-    List<User> userInFor();
 }

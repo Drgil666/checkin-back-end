@@ -7,6 +7,9 @@ import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.ListPageUtil;
+import com.example.demo.utils.ReturnPage;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -63,23 +66,54 @@ public class CheckInController {
     }
 
     @ResponseBody
-    @GetMapping("/List")
-    public Response<List<CheckIn>> getcheckInBySetId(@RequestHeader("Token") String token, @RequestParam("setId") Integer setId) {
+    @GetMapping("/admin/list")
+    public Response<ReturnPage<CheckIn>> getCheckInBySetId(@RequestHeader("Token") String token,
+                                                           @RequestParam("setId") Integer setId,
+                                                           @RequestParam(value = "current", required = false) Integer current,
+                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                           @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
+        ListPageUtil.paging(current, pageSize, sorter);
         List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
-        if (checkInList != null) {
-            return Response.createSuc(checkInList);
-        } else {
-            return Response.createErr("获取失败!");
-        }
+        PageInfo<CheckIn> pageInfo = new PageInfo<>(checkInList);
+        ReturnPage<CheckIn> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
     }
 
+    @ResponseBody
+    @GetMapping("/user/list")
+    public Response<ReturnPage<CheckIn>> getCheckInByStu(@RequestHeader("Token") String token,
+                                                         @RequestParam("setId") Integer setId,
+                                                         @RequestParam(value = "current", required = false) Integer current,
+                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                         @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        ListPageUtil.paging(current, pageSize, sorter);
+        Integer userId = tokenService.getUserIdByToken(token);
+        List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
+        PageInfo<CheckIn> pageInfo = new PageInfo<>(checkInList);
+        ReturnPage<CheckIn> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
+    }
+
+    @ResponseBody
+    @GetMapping("/isSign")
+    public Response<Boolean> isSign(@RequestHeader("Token") String token, Integer checkId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        Integer userId = tokenService.getUserIdByToken(token);
+        Boolean isSign = checkInService.isSign(checkId, userId);
+        return Response.createSuc(isSign);
+    }
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckIn> getcheckIn(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkInId) {
+    public Response<CheckIn> getCheckIn(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkInId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -90,5 +124,4 @@ public class CheckInController {
             return Response.createErr("获取失败!");
         }
     }
-
 }

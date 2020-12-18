@@ -7,7 +7,8 @@ import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.CheckSetService;
 import com.example.demo.service.TokenService;
-import com.github.pagehelper.PageHelper;
+import com.example.demo.utils.ListPageUtil;
+import com.example.demo.utils.ReturnPage;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class CheckSetController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer userId=tokenService.getUserIdByToken(token);
+        Integer userId = tokenService.getUserIdByToken(token);
         request.getData().setUserId(userId);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
@@ -80,93 +81,42 @@ public class CheckSetController {
         }
     }
 
+
     @ResponseBody
-    @GetMapping("/findByNick")
-    public Response<List<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token, @RequestParam("nick") String nick) {
+    @GetMapping("/admin/list")
+    public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@RequestHeader("Token") String token,
+                                                              @RequestParam(value = "nick", required = false) String nick,
+                                                              @RequestParam(value = "current", required = false) Integer current,
+                                                              @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                              @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        List<CheckSet> checkSetList = checkSetService.getCheckSetNick(nick);
-        if (checkSetList != null) {
-            return Response.createSuc(checkSetList);
-        } else {
-            return Response.createErr("获取失败!");
-        }
-    }
-    @ResponseBody
-    @GetMapping("/findByNick/PageHelper")
-    public Response<PageInfo<CheckSet>> getCheckSetByNickPageHelper(@RequestHeader("Token") String token, @RequestParam("nick") String nick,
-                                                                 @RequestParam("current") Integer current,
-                                                                 @RequestParam("pageSize") Integer pageSize,
-                                                                 @RequestParam("sorter") String sorter) {
-        if (!tokenService.loginCheck(token)) {
-           return Response.createErr("您没有权限!请重新登录!");
-        }
-        sorter = "nick asc,user_id desc";
-        PageHelper.startPage(current, pageSize, sorter);
-        List<CheckSet> checkSetList = checkSetService.getCheckSetNick(nick);
-        PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
-        if (checkSetList != null) {
-            return Response.createSuc(pageInfo);
-        } else {
-            return Response.createErr("获取失败!");
-        }
-    }
-    @ResponseBody
-    @GetMapping("/findByUserId")
-    public Response<List<CheckSet>> getcheckSetByUserId(@RequestHeader("Token") String token) {
-        if (!tokenService.loginCheck(token)) {
-         return Response.createErr("您没有权限!请重新登录!");
-        }
         Integer userId = tokenService.getUserIdByToken(token);
-        List<CheckSet> checkSetList = checkSetService.getCheckSetList(userId);
         if (userId == null) {
             return Response.createErr("获取userId失败!userId为空");
-        } else {
-            if (checkSetList != null) {
-                return Response.createSuc(checkSetList);
-            } else {
-                return Response.createErr("获取失败!");
-            }
         }
+        ListPageUtil.paging(current, pageSize, sorter);
+        List<CheckSet> checkSetList = checkSetService.getCheckSetListByTeacher(userId, nick);
+        PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
+        ReturnPage<CheckSet> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
     }
 
     @ResponseBody
-    @GetMapping("/findByUserId/PageHelper")
-    public Response<PageInfo<CheckSet>> getcheckSetByUserIdPageHelper(@RequestHeader("Token") String token,
-                                                                      @RequestParam("current") Integer current,
-                                                                      @RequestParam("pageSize") Integer pageSize,
-                                                                      @RequestParam("sorter") String sorter) {
-        sorter = "nick asc,user_id desc";
-        if (!tokenService.loginCheck(token)) {
-         return Response.createErr("您没有权限!请重新登录!");
-        }
-        Integer userId = tokenService.getUserIdByToken(token);
-        PageHelper.startPage(current, pageSize, sorter);
-        List<CheckSet> checkSetList = checkSetService.getCheckSetList(userId);
-        PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
-        if (userId == null) {
-            return Response.createErr("获取userId失败!userId为空");
-        } else {
-            if (checkSetList != null) {
-                return Response.createSuc(pageInfo);
-            } else {
-                return Response.createErr("获取失败!");
-            }
-        }
-    }
-    @ResponseBody
     @GetMapping("/stu/list")
-    public Response<List<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token) {
+    public Response<ReturnPage<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token,
+                                                            @RequestParam(value = "current", required = false) Integer current,
+                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer stuId=tokenService.getUserIdByToken(token);
+        Integer stuId = tokenService.getUserIdByToken(token);
+        ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckListByStu(stuId);
-        if (checkSetList != null) {
-            return Response.createSuc(checkSetList);
-        } else {
-            return Response.createErr("获取签到信息失败!");
-        }
+        PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
+        ReturnPage<CheckSet> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
     }
 }

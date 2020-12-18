@@ -41,7 +41,6 @@ public class AdminController {
                 if (adminService.adminExist(request.getData().getUsername()) != null) {
                     return Response.createErr("用户名已被注册!");
                 }
-                request.getData().setPassword(bcryptService.encode(request.getData().getPassword()));
                 adminService.createAdmin(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -50,7 +49,6 @@ public class AdminController {
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
-                request.getData().setPassword(bcryptService.encode(request.getData().getPassword()));
                 if (adminService.updateAdmin(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
