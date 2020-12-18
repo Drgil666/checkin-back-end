@@ -75,5 +75,5 @@ public interface SignMapper {
      * @return 学生名
      */
     @Select("select signin.*,user.nick as nick,user.stu_no from signin inner join user on signin.stu_id=user.id where check_id=#{checkId} and stu_id=#{userId}")
-    List<SignVO> getSignByCheckIdAndUserId(@Param("checkId") Integer checkId, @Param("userId") Integer userId);
+    SignVO getSignByCheckIdAndUserId(@Param("checkId") Integer checkId, @Param("userId") Integer userId);
 }

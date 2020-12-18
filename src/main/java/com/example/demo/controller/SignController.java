@@ -82,25 +82,24 @@ public class SignController {
         }
         ListPageUtil.paging(current, pageSize, sorter);
         List<SignVO> signVOList = signService.getSignByCheckId(checkId);
-        PageInfo<SignVO> pageInfo=new PageInfo<>(signVOList);
-        ReturnPage<SignVO> returnPage=ListPageUtil.returnPage(pageInfo);
+        PageInfo<SignVO> pageInfo = new PageInfo<>(signVOList);
+        ReturnPage<SignVO> returnPage = ListPageUtil.returnPage(pageInfo);
         return Response.createSuc(returnPage);
     }
 
     @ResponseBody
     @GetMapping("/checkId/userId")
-    public Response<ReturnPage<SignVO>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
-                                                            @RequestParam("checkId") Integer checkId,
-                                                            @RequestParam(value = "current", required = false) Integer current,
-                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    public Response<SignVO> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
+                                                      @RequestParam("checkId") Integer checkId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        ListPageUtil.paging(current, pageSize, sorter);
-        List<SignVO> signVOList = signService.getSignByCheckId(checkId);
-        PageInfo<SignVO> pageInfo=new PageInfo<>(signVOList);
-        ReturnPage<SignVO> returnPage=ListPageUtil.returnPage(pageInfo);
-        return Response.createSuc(returnPage);
+        Integer userId = tokenService.getUserIdByToken(token);
+        SignVO signVO = signService.getSignByCheckIdAndUserId(checkId, userId);
+        if (signVO != null) {
+            return Response.createSuc(signVO);
+        } else {
+            return Response.createErr("获取签到信息失败!");
+        }
     }
 }
