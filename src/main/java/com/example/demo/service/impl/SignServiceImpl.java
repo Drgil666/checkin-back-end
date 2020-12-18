@@ -25,15 +25,15 @@ public class SignServiceImpl implements SignService {
     @Resource
     private TokenService tokenService;
 
+
     /**
      * 创建学生签到记录
-     * sign 要更新的sign,stu_id,sign_time,photo_id,check_id要加入的用户id,签到时间,签到照片id和签到id
      *
-     * @param sign 要更新的sign,stu_id,sign_time,photo_id,check_id要加入的用户id,签到时间,签到照片id和签到id
+     * @param sign 要更新的sign
      * @return 是否创建成功
      */
     @Override
-    public boolean createSign(Sign sign) {
+    public Boolean createSign(Sign sign) {
         return signMapper.createSign(sign);
     }
 
@@ -44,7 +44,7 @@ public class SignServiceImpl implements SignService {
      * @return 更新好的sign
      */
     @Override
-    public long updateSign(Sign sign) {
+    public Long updateSign(Sign sign) {
         return signMapper.updateSign(sign);
     }
 
@@ -62,6 +62,7 @@ public class SignServiceImpl implements SignService {
     /**
      * 根据学生id获取签到列表
      *
+     * @param stuId 要查找的学生id
      * @return 对应的sign列表
      */
     @Override
@@ -69,21 +70,19 @@ public class SignServiceImpl implements SignService {
         return signMapper.getSignList(stuId);
     }
 
-
     /**
      * 批量删除sign
-     * <p>
-     * id 删除的signid
      *
-     * @return 变化的行数
+     * @param id 要删除的signid
+     * @return 影响的行数
      */
     @Override
-    public long deleteSign(List<Integer> id) {
+    public Long deleteSign(List<Integer> id) {
         return signMapper.deleteSign(id);
     }
 
     /**
-     * 获取签到信息
+     * 根据CheckId获取签到信息
      *
      * @param checkId 获取签到信息的checkinId
      * @return 学生名
@@ -94,9 +93,10 @@ public class SignServiceImpl implements SignService {
     }
 
     /**
-     * 根据一个checkin和userid获取对应的signIn吧
+     * 根据checkinId和userId获取对应的signIn
      *
-     * @param checkId,userid 获取签到信息的checkinId
+     * @param checkId 获取签到信息的checkInId
+     * @param userId  用户id
      * @return 学生名
      */
     @Override

@@ -2,14 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
-import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.ListPageUtil;
+import com.example.demo.utils.ReturnPage;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.List;
 @Controller
 @Slf4j
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/Sign")
+@RequestMapping("/api/sign")
 public class SignController {
     @Resource
     private SignService signService;
@@ -70,30 +71,36 @@ public class SignController {
     }
 
     @ResponseBody
-    @GetMapping("/Information")
-    public Response<List<SignVO>> getSignByCheckId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
+    @GetMapping("/checkId")
+    public Response<ReturnPage<SignVO>> getSignByCheckId(@RequestHeader("Token") String token,
+                                                         @RequestParam("checkId") Integer checkId,
+                                                         @RequestParam(value = "current", required = false) Integer current,
+                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                         @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        List<SignVO> signVO = signService.getSignByCheckId(checkId);
-        if (signVO != null) {
-            return Response.createSuc(signVO);
-        } else {
-            return Response.createErr("获取签到失败!");
-        }
+        ListPageUtil.paging(current, pageSize, sorter);
+        List<SignVO> signVOList = signService.getSignByCheckId(checkId);
+        PageInfo<SignVO> pageInfo=new PageInfo<>(signVOList);
+        ReturnPage<SignVO> returnPage=ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
     }
 
     @ResponseBody
-    @GetMapping("/findByCheckIdAndUserId")
-    public Response<List<SignVO>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
+    @GetMapping("/checkId/userId")
+    public Response<ReturnPage<SignVO>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
+                                                            @RequestParam("checkId") Integer checkId,
+                                                            @RequestParam(value = "current", required = false) Integer current,
+                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        List<SignVO> signList = signService.getSignByCheckId(checkId);
-        if (signList != null) {
-            return Response.createSuc(signList);
-        } else {
-            return Response.createErr("获取签到失败!");
-        }
+        ListPageUtil.paging(current, pageSize, sorter);
+        List<SignVO> signVOList = signService.getSignByCheckId(checkId);
+        PageInfo<SignVO> pageInfo=new PageInfo<>(signVOList);
+        ReturnPage<SignVO> returnPage=ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
     }
 }

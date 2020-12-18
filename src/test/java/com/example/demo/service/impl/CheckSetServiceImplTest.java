@@ -40,22 +40,16 @@ public class CheckSetServiceImplTest {
 
     @Test
     void getCheckSet() {
-        int i = 2;
-        CheckSet checkSet = checkSetService.getCheckSet(i);
+        CheckSet checkSet = checkSetService.getCheckSet(2);
         System.out.println(checkSet);
     }
 
     @Test
     void getCheckSetList() {
-        List<CheckSet> setList = checkSetService.getCheckSetList(1);
+        List<CheckSet> setList = checkSetService.getCheckSetListByTeacher(1,"");
         System.out.println(setList);
     }
 
-    @Test
-    void getCheckSetNick() {
-        List<CheckSet> setList = checkSetService.getCheckSetNick("web课签到");
-        System.out.println(setList);
-    }
 
     @Test
     void deleteCheckSet() {

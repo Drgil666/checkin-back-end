@@ -17,7 +17,7 @@ import java.util.HashMap;
 @CrossOrigin(origins = "*")
 @Controller
 @Slf4j
-@RequestMapping("/api/QrCode")
+@RequestMapping("/api/qrCode")
 public class QrCodeController {
     @Resource
     private QrCodeService qrCodeService;

@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
 
-import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
 
@@ -16,10 +14,10 @@ public interface SignService {
     /**
      * 创建学生签到记录
      *
-     * @param sign 要更新的sign,stu_id,sign_time,photo_id,check_id要加入的用户id,签到时间,签到照片id和签到id
+     * @param sign 要更新的sign
      * @return 是否创建成功
      */
-    boolean createSign(Sign sign);
+    Boolean createSign(Sign sign);
 
     /**
      * 更新签到
@@ -27,7 +25,7 @@ public interface SignService {
      * @param sign 要更新的sign
      * @return 更新好的sign
      */
-    long updateSign(Sign sign);
+    Long updateSign(Sign sign);
 
     /**
      * 根据id获取获取签到
@@ -40,7 +38,7 @@ public interface SignService {
     /**
      * 根据学生id获取签到列表
      *
-     * @param stuId 学生id
+     * @param stuId 要查找的学生id
      * @return 对应的sign列表
      */
     List<Sign> getSignList(Integer stuId);
@@ -49,12 +47,12 @@ public interface SignService {
      * 批量删除sign
      *
      * @param id 要删除的signid
-     * @return 变化的行数
+     * @return 影响的行数
      */
-    long deleteSign(List<Integer> id);
+    Long deleteSign(List<Integer> id);
 
     /**
-     * 获取签到信息
+     * 根据CheckId获取签到信息
      *
      * @param checkId 获取签到信息的checkinId
      * @return 学生名
@@ -62,9 +60,10 @@ public interface SignService {
     List<SignVO> getSignByCheckId(Integer checkId);
 
     /**
-     * 根据一个checkin和userid获取对应的signIn吧
+     * 根据checkinId和userId获取对应的signIn
      *
-     * @param checkId,userid 获取签到信息的checkinId和userid
+     * @param checkId 获取签到信息的checkInId
+     * @param userId  用户id
      * @return 学生名
      */
     List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId);

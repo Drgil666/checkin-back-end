@@ -32,10 +32,10 @@ public class LoginController {
             String token = tokenService.createToken(username);
             return Response.createSuc(token);
         } else {
-            User user=new User();
+            User user = new User();
             user.setUsername(username);
             userService.createUser(user);
-            String token=tokenService.createToken(username);
+            String token = tokenService.createToken(username);
             return Response.createSuc(token);
         }
     }
