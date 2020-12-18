@@ -27,7 +27,7 @@ public interface CheckSetMapper {
      * @param checkset 要更新的checkset
      * @return 更新好的CheckSet
      */
-    @Insert("update checkset set id=#{checkset.id},nick=#{checkset.nick},user_id=#{checkset.userId},visible=#{checkset.visible} where id=#{checkset.id}")
+    @Insert("update checkset set nick=#{checkset.nick},user_id=#{checkset.userId},visible=#{checkset.visible} where id=#{checkset.id}")
     long updateCheckSet(@Param("checkset") CheckSet checkset);
 
     /**
@@ -49,12 +49,12 @@ public interface CheckSetMapper {
     List<CheckSet> getCheckSetList(@Param("userId") Integer userId);
 
     /**
-     * 根据nick查找checkset
+     * 根据nick查找checkSet
      *
      * @param nick 要查找你的昵称
      * @return 对应的checkin
      */
-    @Select("select * from checkset where nick=#{nick}")
+    @Select("select * from checkset where nick like '%${nick}%' ")
     List<CheckSet> getCheckSetNick(@Param("nick") String nick);
 
     /**
@@ -64,4 +64,14 @@ public interface CheckSetMapper {
      * @return 变化的行数
      */
     long deleteCheckSet(@Param("id") List<Integer> id);
+
+    /**
+     * 学生获取CheckSet列表
+     *
+     * @param stuId 学生id
+     * @return CheckSet列表
+     */
+    @Select("select DISTINCT checkset.* from checkin.checkset,checkin,signin " +
+            "where checkset.id=checkin.set_id and checkin.id=signin.check_id and signin.stu_id=#{stuId}")
+    List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
 }

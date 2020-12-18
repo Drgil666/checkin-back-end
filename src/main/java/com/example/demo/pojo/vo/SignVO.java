@@ -15,4 +15,8 @@ public class SignVO extends Sign {
      * 签到人名字
      */
     private String nick;
+    /**
+     * 签到人学号
+     */
+    private String stuNo;
 }

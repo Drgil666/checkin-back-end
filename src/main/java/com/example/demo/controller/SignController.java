@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
-import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
@@ -37,8 +35,10 @@ public class SignController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
+        Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
+                request.getData().setStuId(stuId);
                 signService.createSign(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -47,6 +47,7 @@ public class SignController {
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
+                request.getData().setStuId(stuId);
                 if (signService.updateSign(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -68,7 +69,7 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/Information")
-    public Response<List<SignVO>> getSignByCheckId(@RequestHeader("Token") String token,@RequestParam("checkId") Integer checkId) {
+    public Response<List<SignVO>> getSignByCheckId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -79,41 +80,16 @@ public class SignController {
             return Response.createErr("获取签到失败!");
         }
     }
-    @ResponseBody
-    @GetMapping("/CheckSet")
-    public Response<List<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
-        List<CheckSet> checkSetList = signService.getCheckSetBySign(token);
-        if (checkSetList != null) {
-            return Response.createSuc(checkSetList);
-        } else {
-            return Response.createErr("获取签到信息失败!");
-        }
-    }
-    @ResponseBody
-    @GetMapping("/CheckIn")
-    public Response<List<CheckIn>> getCheckInBySign(@RequestHeader("Token") String token) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
-        List<CheckIn> checkInList = signService.getCheckInBySign(token);
-        if (checkInList != null) {
-            return Response.createSuc(checkInList);
-        } else {
-            return Response.createErr("获取签到信息失败!");
-        }
-    }
+
     @ResponseBody
     @GetMapping("/findByCheckIdAndUserId")
-    public Response<List<Sign>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
+    public Response<List<SignVO>> getSignByCheckIdAndUserId(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        List<Sign> sign = signService.getSignByCheckIdAndUserId(checkId, tokenService.getUserIdByToken(token));
-        if (sign != null) {
-            return Response.createSuc(sign);
+        List<SignVO> signList = signService.getSignByCheckId(checkId);
+        if (signList != null) {
+            return Response.createSuc(signList);
         } else {
             return Response.createErr("获取签到失败!");
         }

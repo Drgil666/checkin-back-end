@@ -1,8 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.mapper.SignMapper;
-import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.CheckInService;
@@ -11,7 +9,6 @@ import com.example.demo.service.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +19,7 @@ public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
     @Resource
-    private  SignService signService;
+    private SignService signService;
     @Resource
     private CheckInService checkInService;
     @Resource
@@ -72,42 +69,7 @@ public class SignServiceImpl implements SignService {
         return signMapper.getSignList(stuId);
     }
 
-    /**
-     * 根据signList中的checkId查找checkset
-     *
-     * @param token 获取的签到列表所对应的学号对应的token
-     * @return 查找的checksetList
-     */
-    @Override
-    public List<CheckSet> getCheckSetBySign(String token) {
-        Integer stuId=tokenService.getUserIdByToken(token);
-        List<Sign> signList=signService.getSignList(stuId);
-        List<Integer> idList = new ArrayList<>();
-        List<CheckIn> checkInList = new ArrayList<>();
-        for (Sign value : signList) {
-            checkInList.add(checkInService.getCheckIn(value.getCheckId()));
-        }
-        for (CheckIn value : checkInList) {
-            idList.add(value.getSetId());
-        }
-        return signMapper.getCheckSetBySign(idList);
-    }
-    /**
-     * 根据signList中的checkId查找checkin
-     *
-     * @param token 获取的签到列表所对应的学号对应的token
-     * @return 查找的checkinList
-     */
-    @Override
-    public List<CheckIn> getCheckInBySign(String token) {
-        Integer stuId=tokenService.getUserIdByToken(token);
-        List<Sign> signList=signService.getSignList(stuId);
-        List<CheckIn> checkInList = new ArrayList<>();
-        for (Sign value : signList) {
-            checkInList.add(checkInService.getCheckIn(value.getCheckId()));
-        }
-        return checkInList;
-    }
+
     /**
      * 批量删除sign
      * <p>
@@ -138,7 +100,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public List<Sign> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
+    public List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
         return signMapper.getSignByCheckIdAndUserId(checkId, userId);
     }
 }
