@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.mapper.CheckSetMapper;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.service.CheckSetService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,24 +17,24 @@ public class CheckSetServiceImpl implements CheckSetService {
     private CheckSetMapper checkSetMapper;
 
     /**
-     * 创建checkset
+     * 创建checkSet
      *
-     * @param checkSet 要创建的checkset
+     * @param checkSet 要创建的checkSet
      * @return 是否创建成功
      */
     @Override
-    public boolean createCheckSet(CheckSet checkSet) {
+    public Boolean createCheckSet(CheckSet checkSet) {
         return checkSetMapper.createCheckSet(checkSet);
     }
 
     /**
      * 更新签到
      *
-     * @param checkSet 要更新的checkset
+     * @param checkSet 要更新的checkSet
      * @return 更新好的CheckSet
      */
     @Override
-    public long updateCheckSet(CheckSet checkSet) {
+    public Long updateCheckSet(CheckSet checkSet) {
         return checkSetMapper.updateCheckSet(checkSet);
     }
 
@@ -51,35 +50,13 @@ public class CheckSetServiceImpl implements CheckSetService {
     }
 
     /**
-     * 根据用户id获取签到列表
-     *
-     * @param userId 要查找的用户id
-     * @return 对应的checkset列表
-     */
-    @Override
-    public List<CheckSet> getCheckSetList(Integer userId) {
-        return checkSetMapper.getCheckSetList(userId);
-    }
-
-    /**
-     * 根据nick查找checkset
-     *
-     * @param nick 要查找你的昵称
-     * @return 对应的checkin
-     */
-    @Override
-    public List<CheckSet> getCheckSetNick(String nick) {
-        return checkSetMapper.getCheckSetNick(nick);
-    }
-
-    /**
      * 批量删除checkset
      *
      * @param id 要删除的checksetId
      * @return 变化的行数
      */
     @Override
-    public long deleteCheckSet(@Param("id") List<Integer> id) {
+    public Long deleteCheckSet(List<Integer> id) {
         return checkSetMapper.deleteCheckSet(id);
     }
 
@@ -90,7 +67,18 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return CheckSet列表
      */
     @Override
-    public List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId) {
+    public List<CheckSet> getCheckListByStu(Integer stuId) {
         return checkSetMapper.getCheckListByStu(stuId);
+    }
+
+    /**
+     * 教师通过用户id获取签到列表
+     *
+     * @param userId 要查找的用户id
+     * @return 对应的checkSet列表
+     */
+    @Override
+    public List<CheckSet> getCheckSetListByTeacher(Integer userId,String nick) {
+        return checkSetMapper.getCheckSetListByTeacher(userId,nick);
     }
 }

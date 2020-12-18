@@ -2,10 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.mapper.CheckInMapper;
 import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.Sign;
 import com.example.demo.service.CheckInService;
-import com.example.demo.service.SignService;
-import com.example.demo.service.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,61 +15,73 @@ import java.util.List;
 public class CheckInServiceImpl implements CheckInService {
     @Resource
     private CheckInMapper checkInMapper;
-    @Resource
-    private TokenService tokenService;
-    @Resource
-    private SignService signService;
+
     /**
      * 创建一场签到
      *
-     * @param checkin 要创建的签到
+     * @param checkIn 要创建的签到
      * @return 带有id的签到
      */
     @Override
-    public boolean createCheckIn(CheckIn checkin) {
-        return checkInMapper.createCheckIn(checkin);
+    public boolean createCheckIn(CheckIn checkIn) {
+        return checkInMapper.createCheckIn(checkIn);
     }
 
     /**
      * 更新签到
+     *
+     * @param checkIn 要更新的checkin
+     * @return 更新好的CheckIn
      */
     @Override
-    public long updateCheckIn(CheckIn checkin) {
-        return checkInMapper.updateCheckIn(checkin);
+    public long updateCheckIn(CheckIn checkIn) {
+        return checkInMapper.updateCheckIn(checkIn);
     }
 
     /**
-     * 获取签到信息
+     * 获取用户发起的一场签到记录信息
+     *
+     * @param id checkInId
+     * @return 对应的checkin
      */
     @Override
     public CheckIn getCheckIn(Integer id) {
         return checkInMapper.getCheckIn(id);
     }
+
     /**
-     *判断用户是否签到过
-     * @param check_id,要判断的checkin的id，token用户登录的token
-     * @return 是否签到过
+     * 某个用户是否已完成某场签到
+     *
+     * @param userId  用户id
+     * @param checkId 签到id
+     * @return 是否完成签到
      */
     @Override
-    public boolean ifSign(Integer check_id,String token){
-        Integer stuId=tokenService.getUserIdByToken(token);
-        List<Sign> signList=signService.getSignList(stuId);
-        for(Sign value : signList){
-            if(value.getCheckId().equals(check_id)){
-                return false;
-            }
-        }
-        return true;
+    public Boolean isSign(Integer userId, Integer checkId) {
+        return checkInMapper.isSign(userId, checkId) > 0;
     }
+
     /**
      * 根据setId获取checkin列表
      *
-     * @param setId 对应的checkSetId
+     * @param setId 查找的setId
      * @return 对应的checkin列表
      */
     @Override
     public List<CheckIn> getCheckInListBySetId(Integer setId) {
         return checkInMapper.getCheckInListBySetId(setId);
+    }
+
+    /**
+     * 学生获取CheckIn列表
+     *
+     * @param setId  checkSetId
+     * @param userId 用户id
+     * @return 对应的checkIn列表
+     */
+    @Override
+    public List<CheckIn> getCheckInListByStu(Integer setId, Integer userId) {
+        return checkInMapper.getCheckInListByStu(setId, userId);
     }
 
     /**

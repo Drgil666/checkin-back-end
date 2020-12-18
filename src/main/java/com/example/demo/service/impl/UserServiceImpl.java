@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author Gilbert
@@ -94,15 +93,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer isExist(String username) {
         return userMapper.isExist(username);
-    }
-
-    /**
-     * 导出表格
-     *
-     * @return 表格文件
-     */
-    @Override
-    public List<User> userInFor() {
-        return userMapper.userInFor();
     }
 }

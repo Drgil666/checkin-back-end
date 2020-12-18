@@ -3,8 +3,6 @@ package com.example.demo.mapper;
 import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
-import java.util.List;
-
 /**
  * @author Gilbert
  * @date 2020/9/24 15:31
@@ -19,7 +17,7 @@ public interface UserMapper {
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("insert into user (username,stu_no,mail,photo_id,nick,school,academy,major) values  (#{user.username},#{user.stuNo},#{user.mail},#{user.photoId},#{user.nick},#{user.school},#{user.academy},#{user.major})")
-    boolean createUser(@Param("user") User user);
+    Boolean createUser(@Param("user") User user);
 
     /**
      * 更新用户
@@ -28,7 +26,7 @@ public interface UserMapper {
      * @return 更新好的User
      */
     @Update("update user set username=#{user.username},stu_no=#{user.stuNo},mail=#{user.mail},photo_id=#{user.photoId},nick=#{user.nick},school=#{user.school},academy=#{user.academy},major=#{user.major} where id=#{user.id}")
-    long updateUser(@Param("user") User user);
+    Long updateUser(@Param("user") User user);
 
     /**
      * 通过id获取用户信息
@@ -74,12 +72,4 @@ public interface UserMapper {
      */
     @Select("select count(*) from user where username=#{username} limit 1")
     Integer isExist(@Param("username") String username);
-
-    /**
-     * 导出表格
-     *
-     * @return 表格文件
-     */
-    @Select("select * from user")
-    List<User> userInFor();
 }

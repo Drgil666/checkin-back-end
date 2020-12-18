@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dao.BcryptDao;
 import com.example.demo.mapper.AdminMapper;
 import com.example.demo.pojo.Admin;
 import com.example.demo.service.AdminService;
@@ -14,15 +15,18 @@ import javax.annotation.Resource;
 public class AdminServiceImpl implements AdminService {
     @Resource
     private AdminMapper adminMapper;
+    @Resource
+    private BcryptDao bcryptDao;
 
     /**
      * 创建管理员账户
      *
-     * @param admin 要更新的admin username账户名，password密码，nick昵称
+     * @param admin 要更新的管理员
      * @return 是否创建成功
      */
     @Override
-    public boolean createAdmin(Admin admin) {
+    public Boolean createAdmin(Admin admin) {
+        admin.setPassword(bcryptDao.encode(admin.getPassword()));
         return adminMapper.createAdmin(admin);
     }
 
@@ -33,22 +37,27 @@ public class AdminServiceImpl implements AdminService {
      * @return 更新好的admin
      */
     @Override
-    public long updateAdmin(Admin admin) {
+    public Long updateAdmin(Admin admin) {
+        admin.setPassword(bcryptDao.encode(admin.getPassword()));
         return adminMapper.updateAdmin(admin);
     }
 
     /**
      * 删除admin
      *
-     * @param id 要删除的adminid
+     * @param id 要删除的admin的Id
+     * @return 影响行数
      */
     @Override
-    public long deleteAdmin(Integer id) {
+    public Long deleteAdmin(Integer id) {
         return adminMapper.deleteAdmin(id);
     }
 
     /**
-     * 获取管理员信息
+     * 根据id获取获取管理员账户信息
+     *
+     * @param id 签到id
+     * @return 对应的管理员账户信息
      */
     @Override
     public Admin getAdmin(Integer id) {
@@ -59,7 +68,7 @@ public class AdminServiceImpl implements AdminService {
      * 管理员登录
      *
      * @param username 登录的管理员用户名
-     * @return 是否登录成功
+     * @return 对应的管理员
      */
     @Override
     public Admin getAdminByUsername(String username) {
@@ -70,7 +79,7 @@ public class AdminServiceImpl implements AdminService {
      * 用户名是否重复
      *
      * @param username 用户名
-     * @return 是否重复(不重复为null)
+     * @return 是否存在
      */
     @Override
     public Integer adminExist(String username) {

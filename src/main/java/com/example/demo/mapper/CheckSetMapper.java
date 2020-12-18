@@ -12,23 +12,23 @@ import java.util.List;
 @Mapper
 public interface CheckSetMapper {
     /**
-     * 创建checkset
+     * 创建checkSet
      *
-     * @param checkset 要创建的checkset
+     * @param checkSet 要创建的checkSet
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("insert into checkset (nick,user_id,visible) values (#{checkset.nick},#{checkset.userId},#{checkset.visible})")
-    boolean createCheckSet(@Param("checkset") CheckSet checkset);
+    Boolean createCheckSet(@Param("checkset") CheckSet checkSet);
 
     /**
      * 更新签到
      *
-     * @param checkset 要更新的checkset
+     * @param checkSet 要更新的checkSet
      * @return 更新好的CheckSet
      */
     @Insert("update checkset set nick=#{checkset.nick},user_id=#{checkset.userId},visible=#{checkset.visible} where id=#{checkset.id}")
-    long updateCheckSet(@Param("checkset") CheckSet checkset);
+    Long updateCheckSet(@Param("checkset") CheckSet checkSet);
 
     /**
      * 根据id获取获取签到
@@ -39,23 +39,6 @@ public interface CheckSetMapper {
     @Select("select * from checkset where id=#{id}")
     CheckSet getCheckSet(@Param("id") Integer id);
 
-    /**
-     * 根据用户id获取签到列表
-     *
-     * @param userId 要查找的用户id
-     * @return 对应的checkset列表
-     */
-    @Select("select * from checkSet where user_id=#{userId}")
-    List<CheckSet> getCheckSetList(@Param("userId") Integer userId);
-
-    /**
-     * 根据nick查找checkSet
-     *
-     * @param nick 要查找你的昵称
-     * @return 对应的checkin
-     */
-    @Select("select * from checkset where nick like '%${nick}%' ")
-    List<CheckSet> getCheckSetNick(@Param("nick") String nick);
 
     /**
      * 批量删除checkset
@@ -63,7 +46,7 @@ public interface CheckSetMapper {
      * @param id 要删除的checksetId
      * @return 变化的行数
      */
-    long deleteCheckSet(@Param("id") List<Integer> id);
+    Long deleteCheckSet(@Param("id") List<Integer> id);
 
     /**
      * 学生获取CheckSet列表
@@ -74,4 +57,14 @@ public interface CheckSetMapper {
     @Select("select DISTINCT checkset.* from checkin.checkset,checkin,signin " +
             "where checkset.id=checkin.set_id and checkin.id=signin.check_id and signin.stu_id=#{stuId}")
     List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
+
+    /**
+     * 教师通过用户id和签到名获取签到列表
+     *
+     * @param userId 要查找的用户id
+     * @param nick   签到名
+     * @return 对应的checkSet列表
+     */
+    @Select("select * from checkSet where checkSet.user_id=#{userId} and checkset.nick like '%${nick}%'")
+    List<CheckSet> getCheckSetListByTeacher(@Param("userId") Integer userId, @Param("nick") String nick);
 }

@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckSet;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,22 +9,20 @@ import java.util.List;
  */
 public interface CheckSetService {
     /**
-     * 创建checkset
+     * 创建checkSet
      *
-     * @param checkset 要创建的checkset
+     * @param checkSet 要创建的checkSet
      * @return 是否创建成功
      */
-
-    boolean createCheckSet(CheckSet checkset);
+    Boolean createCheckSet(CheckSet checkSet);
 
     /**
      * 更新签到
      *
-     * @param checkset 要更新的checkset
+     * @param checkSet 要更新的checkSet
      * @return 更新好的CheckSet
      */
-
-    long updateCheckSet(CheckSet checkset);
+    Long updateCheckSet(CheckSet checkSet);
 
     /**
      * 根据id获取获取签到
@@ -33,26 +30,7 @@ public interface CheckSetService {
      * @param id 签到id
      * @return 对应的签到
      */
-
     CheckSet getCheckSet(Integer id);
-
-    /**
-     * 根据用户id获取签到列表
-     *
-     * @param userId 要查找的用户id
-     * @return 对应的checkset列表
-     */
-
-    List<CheckSet> getCheckSetList(Integer userId);
-
-    /**
-     * 根据nick查找checkset
-     *
-     * @param nick 要查找你的昵称
-     * @return 对应的checkset
-     */
-
-    List<CheckSet> getCheckSetNick(String nick);
 
     /**
      * 批量删除checkset
@@ -60,12 +38,22 @@ public interface CheckSetService {
      * @param id 要删除的checksetId
      * @return 变化的行数
      */
-    long deleteCheckSet(@Param("id") List<Integer> id);
+    Long deleteCheckSet(List<Integer> id);
+
     /**
      * 学生获取CheckSet列表
      *
      * @param stuId 学生id
      * @return CheckSet列表
      */
-    List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
+    List<CheckSet> getCheckListByStu(Integer stuId);
+
+    /**
+     * 教师通过用户id和签到名获取签到列表
+     *
+     * @param userId 要查找的用户id
+     * @param nick   签到名
+     * @return 对应的checkSet列表
+     */
+    List<CheckSet> getCheckSetListByTeacher(Integer userId, String nick);
 }
