@@ -5,10 +5,10 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.ListPageUtil;
-import com.example.demo.utils.ReturnPage;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -66,7 +66,7 @@ public class CheckInController {
     }
 
     @ResponseBody
-    @GetMapping("/admin/list")
+    @GetMapping("/teacher/list")
     public Response<ReturnPage<CheckIn>> getCheckInBySetId(@RequestHeader("Token") String token,
                                                            @RequestParam("setId") Integer setId,
                                                            @RequestParam(value = "current", required = false) Integer current,
