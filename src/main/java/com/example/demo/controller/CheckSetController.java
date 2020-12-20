@@ -85,6 +85,7 @@ public class CheckSetController {
     @ResponseBody
     @GetMapping("/teacher/list")
     public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@RequestHeader("Token") String token,
+                                                              @RequestParam(value = "userId", required = false) Integer userId,
                                                               @RequestParam(value = "nick", required = false) String nick,
                                                               @RequestParam(value = "current", required = false) Integer current,
                                                               @RequestParam(value = "pageSize", required = false) Integer pageSize,
@@ -92,7 +93,9 @@ public class CheckSetController {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer userId = tokenService.getUserIdByToken(token);
+        if (userId == null) {
+            userId = tokenService.getUserIdByToken(token);
+        }
         if (userId == null) {
             return Response.createErr("获取userId失败!userId为空");
         }
