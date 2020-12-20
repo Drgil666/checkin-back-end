@@ -7,11 +7,15 @@ import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.ListPageUtil;
+import com.example.demo.pojo.vo.ReturnPage;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Gilbert
@@ -122,7 +126,26 @@ public class UserController {
             return Response.createErr("获取用户失败!");
         }
     }
-
+    @ResponseBody
+    @GetMapping("/admin/list")
+    public Response<ReturnPage<User>> getCheckSetByNick(@RequestHeader("Token") String token,
+                                                            @RequestParam(value = "nick") String nick,
+                                                            @RequestParam(value = "current", required = false,defaultValue="1") Integer current,
+                                                            @RequestParam(value = "pageSize", required = false,defaultValue="2") Integer pageSize,
+                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        Integer userId = tokenService.getUserIdByToken(token);
+        if (userId == null) {
+            return Response.createErr("获取userId失败!userId为空");
+        }
+        ListPageUtil.paging(current, pageSize, sorter);
+        List<User> userSetList = userService.getUserByNick(nick);
+        PageInfo<User> pageInfo = new PageInfo<>(userSetList);
+        ReturnPage<User> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
+    }
     @ResponseBody
     @GetMapping("/check")
     public String check() {
