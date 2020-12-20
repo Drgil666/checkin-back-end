@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.pojo.CheckIn;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -33,8 +32,7 @@ public interface CheckInService {
      * @param checkId 签到id
      * @return 是否完成签到
      */
-    @Select("select count(*) from signin where signin.stu_id=#{userId} and signin.check_id=#{checkId} LIMIT 1")
-    Boolean isSign(@Param("userId") Integer userId, @Param("checkId") Integer checkId);
+    Boolean isSign(Integer userId, Integer checkId);
 
     /**
      * 获取用户发起的一场签到记录信息

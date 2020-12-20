@@ -5,10 +5,10 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.ListPageUtil;
-import com.example.demo.utils.ReturnPage;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -66,7 +66,7 @@ public class CheckInController {
     }
 
     @ResponseBody
-    @GetMapping("/admin/list")
+    @GetMapping("/teacher/list")
     public Response<ReturnPage<CheckIn>> getCheckInBySetId(@RequestHeader("Token") String token,
                                                            @RequestParam("setId") Integer setId,
                                                            @RequestParam(value = "current", required = false) Integer current,
@@ -83,7 +83,7 @@ public class CheckInController {
     }
 
     @ResponseBody
-    @GetMapping("/user/list")
+    @GetMapping("/stu/list")
     public Response<ReturnPage<CheckIn>> getCheckInByStu(@RequestHeader("Token") String token,
                                                          @RequestParam("setId") Integer setId,
                                                          @RequestParam(value = "current", required = false) Integer current,
@@ -94,7 +94,7 @@ public class CheckInController {
         }
         ListPageUtil.paging(current, pageSize, sorter);
         Integer userId = tokenService.getUserIdByToken(token);
-        List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
+        List<CheckIn> checkInList = checkInService.getCheckInListByStu(setId, userId);
         PageInfo<CheckIn> pageInfo = new PageInfo<>(checkInList);
         ReturnPage<CheckIn> returnPage = ListPageUtil.returnPage(pageInfo);
         return Response.createSuc(returnPage);
@@ -102,7 +102,7 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/isSign")
-    public Response<Boolean> isSign(@RequestHeader("Token") String token, Integer checkId) {
+    public Response<Boolean> isSign(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }

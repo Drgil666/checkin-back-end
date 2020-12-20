@@ -5,7 +5,6 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
-import com.example.demo.service.PhotoService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +24,6 @@ import javax.annotation.Resource;
 public class UserController {
     @Resource
     private UserService userService;
-    @Resource
-    private PhotoService photoService;
     @Resource
     private TokenService tokenService;
 
@@ -82,7 +79,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/findByStuNo")
+    @GetMapping("/stuNo")
     public Response<User> getUserByStuNo(@RequestHeader("Token") String token, @RequestParam("stuNo") String stuNo) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
@@ -96,7 +93,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/findByMail")
+    @GetMapping("/mail")
     public Response<User> getUserByMail(@RequestHeader("Token") String token, @RequestParam("mail") String mail) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
@@ -110,7 +107,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/findByNick")
+    @GetMapping("/nick")
     public Response<User> getUserByUserName(@RequestHeader("Token") String token, @RequestParam("username") String username) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");

@@ -21,7 +21,7 @@ import java.util.Map;
 @Controller
 @Slf4j
 @CrossOrigin(origins = "*")
-@RequestMapping("/admin/user")
+@RequestMapping("/admin")
 public class AdminController {
     @Resource
     private AdminService adminService;

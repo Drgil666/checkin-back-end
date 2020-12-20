@@ -66,6 +66,6 @@ public interface SignService {
      * @param userId  用户id
      * @return 学生名
      */
-    List<SignVO> getSignByCheckIdAndUserId(Integer checkId, Integer userId);
+    SignVO getSignByCheckIdAndUserId(Integer checkId, Integer userId);
 
 }
