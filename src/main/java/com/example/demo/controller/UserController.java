@@ -61,11 +61,14 @@ public class UserController {
 
     @ResponseBody
     @GetMapping()
-    public Response<User> user(@RequestHeader("Token") String token) {
+    public Response<User> user(@RequestHeader("Token") String token,
+                               @RequestParam(value = "id",required = false) Integer userId) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer userId = tokenService.getUserIdByToken(token);
+        if(userId==null) {
+            userId = tokenService.getUserIdByToken(token);
+        }
         if (userId != null) {
             User user = userService.getUser(userId);
             if (user != null) {

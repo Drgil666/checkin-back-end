@@ -83,7 +83,7 @@ public class CheckSetController {
 
 
     @ResponseBody
-    @GetMapping("/admin/list")
+    @GetMapping("/teacher/list")
     public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@RequestHeader("Token") String token,
                                                               @RequestParam(value = "nick", required = false) String nick,
                                                               @RequestParam(value = "current", required = false) Integer current,

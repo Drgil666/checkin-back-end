@@ -1,8 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.TokenDao;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.User;
+import com.example.demo.service.AdminService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,10 @@ public class TokenServiceImpl implements TokenService {
     private TokenDao tokenDao;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private AdminService adminService;
+    public static final Integer TYPE_USER = 1;
+    public static final Integer TYPE_ADMIN = 2;
 
     /**
      * 生成token
@@ -30,7 +37,7 @@ public class TokenServiceImpl implements TokenService {
      * @return 生成的token
      */
     @Override
-    public String createToken(String id) {
+    public String createToken(String id, Integer type) {
         if (userService.isExist(id) != null) {
             String uuid = UUID.randomUUID().toString();
             String exToken = tokenDao.getValue(id);
@@ -38,8 +45,16 @@ public class TokenServiceImpl implements TokenService {
             if (exToken != null) {
                 tokenDao.deleteValue(exToken);
             }
-            tokenDao.setValue(uuid, id);
-            tokenDao.setValue(id, uuid);
+            JSONObject json = new JSONObject();
+            json.put("username", id);
+            if (type.equals(TYPE_USER)) {
+                json.put("type", "user");
+            } else if (type.equals(TYPE_ADMIN)) {
+                json.put("type", "admin");
+            }
+            String newId = json.toJSONString();
+            tokenDao.setValue(uuid, newId);
+            tokenDao.setValue(newId, uuid);
             return uuid;
         } else {
             return null;
@@ -54,12 +69,21 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public Integer getUserIdByToken(String token) {
-        String username = tokenDao.getValue(token);
-        if (username == null) {
+        String jsonString = tokenDao.getValue(token);
+        JSONObject json = JSONObject.parseObject(jsonString);
+        String username = json.getString("username");
+        String type = json.getString("type");
+        if (username == null || type == null) {
             return null;
         }
-        User user = userMapper.getUserByUserName(username);
-        return user.getId();
+        if ("user".equals(type)) {
+            User user = userMapper.getUserByUserName(username);
+            return user.getId();
+        } else if ("admin".equals(type)) {
+            Admin admin = adminService.getAdminByUsername(username);
+            return admin.getId();
+        }
+        return null;
     }
 
     /**
@@ -69,7 +93,7 @@ public class TokenServiceImpl implements TokenService {
      * @return 是否是最新的token
      */
     @Override
-    public boolean loginCheck(String token) {
+    public Boolean loginCheck(String token) {
         String userId = tokenDao.getValue(token);
         if (userId != null) {
             return tokenDao.getValue(userId).equals(token);

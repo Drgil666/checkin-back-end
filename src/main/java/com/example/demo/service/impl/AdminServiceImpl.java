@@ -82,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
      * @return 是否存在
      */
     @Override
-    public Integer adminExist(String username) {
-        return adminMapper.adminExist(username);
+    public Boolean adminExist(String username) {
+        return adminMapper.adminExist(username)>0;
     }
 }

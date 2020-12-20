@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Map;
 
+import static com.example.demo.service.impl.TokenServiceImpl.TYPE_USER;
+
 /**
  * @author Gilbert
  * @date 2020/10/13 16:14
@@ -29,13 +31,13 @@ public class LoginController {
         String username = data.get("username");
         Integer userId = userService.isExist(username);
         if (userId != null) {
-            String token = tokenService.createToken(username);
+            String token = tokenService.createToken(username,TYPE_USER);
             return Response.createSuc(token);
         } else {
             User user = new User();
             user.setUsername(username);
             userService.createUser(user);
-            String token = tokenService.createToken(username);
+            String token = tokenService.createToken(username,TYPE_USER);
             return Response.createSuc(token);
         }
     }
