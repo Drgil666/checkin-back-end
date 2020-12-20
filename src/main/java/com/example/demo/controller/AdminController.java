@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Map;
 
+import static com.example.demo.service.impl.TokenServiceImpl.TYPE_ADMIN;
+
 /**
  * @author chentao
  */
@@ -38,7 +40,7 @@ public class AdminController {
         }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if (adminService.adminExist(request.getData().getUsername()) != null) {
+                if (adminService.adminExist(request.getData().getUsername())) {
                     return Response.createErr("用户名已被注册!");
                 }
                 adminService.createAdmin(request.getData());
@@ -70,7 +72,7 @@ public class AdminController {
             Admin admin = adminService.getAdminByUsername(username);
             if (admin != null) {
                 if (bcryptService.checkPassword(password, admin.getPassword())) {
-                    String token = tokenService.createToken(username);
+                    String token = tokenService.createToken(username, TYPE_ADMIN);
                     return Response.createSuc(token);
                 }
             }
@@ -80,9 +82,12 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Admin> admin(@RequestHeader("Token") String token, @RequestParam("id") Integer id) {
+    public Response<Admin> admin(@RequestHeader("Token") String token, @RequestParam(value = "id", required = false) Integer id) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
+        }
+        if (id == null) {
+            id = tokenService.getUserIdByToken(token);
         }
         Admin admin = adminService.getAdmin(id);
         if (admin != null) {
