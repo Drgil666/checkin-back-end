@@ -40,11 +40,6 @@ public class TokenServiceImpl implements TokenService {
     public String createToken(String id, Integer type) {
         if (userService.isExist(id) != null) {
             String uuid = UUID.randomUUID().toString();
-            String exToken = tokenDao.getValue(id);
-            tokenDao.deleteValue(id);
-            if (exToken != null) {
-                tokenDao.deleteValue(exToken);
-            }
             JSONObject json = new JSONObject();
             json.put("username", id);
             if (type.equals(TYPE_USER)) {
@@ -53,6 +48,11 @@ public class TokenServiceImpl implements TokenService {
                 json.put("type", "admin");
             }
             String newId = json.toJSONString();
+            String exToken=tokenDao.getValue(newId);
+            if(exToken!=null){
+                tokenDao.deleteValue(exToken);
+            }
+            tokenDao.deleteValue(newId);
             tokenDao.setValue(uuid, newId);
             tokenDao.setValue(newId, uuid);
             return uuid;
