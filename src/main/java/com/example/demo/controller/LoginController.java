@@ -31,13 +31,13 @@ public class LoginController {
         String username = data.get("username");
         Integer userId = userService.isExist(username);
         if (userId != null) {
-            String token = tokenService.createToken(username,TYPE_USER);
+            String token = tokenService.createToken(username, TYPE_USER);
             return Response.createSuc(token);
         } else {
             User user = new User();
             user.setUsername(username);
             userService.createUser(user);
-            String token = tokenService.createToken(username,TYPE_USER);
+            String token = tokenService.createToken(username, TYPE_USER);
             return Response.createSuc(token);
         }
     }
