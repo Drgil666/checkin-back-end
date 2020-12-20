@@ -46,7 +46,7 @@ public class CheckSetServiceImplTest {
 
     @Test
     void getCheckSetList() {
-        List<CheckSet> setList = checkSetService.getCheckSetListByTeacher(1,"");
+        List<CheckSet> setList = checkSetService.getCheckSetListByTeacher(1, "");
         System.out.println(setList);
     }
 

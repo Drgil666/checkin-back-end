@@ -5,10 +5,10 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckSetService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.ListPageUtil;
-import com.example.demo.utils.ReturnPage;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -83,7 +83,7 @@ public class CheckSetController {
 
 
     @ResponseBody
-    @GetMapping("/admin/list")
+    @GetMapping("/teacher/list")
     public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@RequestHeader("Token") String token,
                                                               @RequestParam(value = "nick", required = false) String nick,
                                                               @RequestParam(value = "current", required = false) Integer current,

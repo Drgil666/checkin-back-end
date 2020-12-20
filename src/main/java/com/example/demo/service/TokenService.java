@@ -9,9 +9,10 @@ public interface TokenService {
      * 生成token
      *
      * @param id 用户openId
+     * @param type 用户类型
      * @return 生成的token
      */
-    String createToken(String id);
+    String createToken(String id,Integer type);
 
     /**
      * 通过Token获取用户id
@@ -27,5 +28,5 @@ public interface TokenService {
      * @param token 用户token
      * @return 是否是最新的token
      */
-    boolean loginCheck(String token);
+    Boolean loginCheck(String token);
 }
