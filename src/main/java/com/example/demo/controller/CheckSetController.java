@@ -80,7 +80,22 @@ public class CheckSetController {
             return Response.createErr("获取失败!");
         }
     }
-
+    @ResponseBody
+    @GetMapping("/admin/list")
+    public Response<ReturnPage<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token,
+                                                              @RequestParam(value = "nick") String nick,
+                                                              @RequestParam(value = "current", required = false,defaultValue="1") Integer current,
+                                                              @RequestParam(value = "pageSize", required = false,defaultValue="2") Integer pageSize,
+                                                              @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        ListPageUtil.paging(current, pageSize, sorter);
+        List<CheckSet> checkSetList = checkSetService.getCheckSetListByNickAdmin(nick);
+        PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
+        ReturnPage<CheckSet> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
+    }
 
     @ResponseBody
     @GetMapping("/teacher/list")

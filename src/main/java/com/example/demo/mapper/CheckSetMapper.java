@@ -67,4 +67,10 @@ public interface CheckSetMapper {
      */
     @Select("select * from checkSet where checkSet.user_id=#{userId} and checkset.nick like '%${nick}%'")
     List<CheckSet> getCheckSetListByTeacher(@Param("userId") Integer userId, @Param("nick") String nick);
+    /**
+     * 管理员端通过签到名获取签到列表
+     * nick 签到名
+     */
+    @Select("select * from checkSet where checkset.nick like '%${nick}%'")
+    List<CheckSet> getCheckSetListByNickAdmin(@Param("nick") String nick);
 }
