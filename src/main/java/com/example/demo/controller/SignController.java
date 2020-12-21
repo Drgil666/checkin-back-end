@@ -71,6 +71,20 @@ public class SignController {
     }
 
     @ResponseBody
+    @GetMapping()
+    public Response<Sign> sign(@RequestHeader("Token") String token, @RequestParam("id") Integer id) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        Sign sign = signService.getSign(id);
+        if (sign != null) {
+            return Response.createSuc(sign);
+        } else {
+            return Response.createErr("签到不存在!");
+        }
+    }
+
+    @ResponseBody
     @GetMapping("/checkId")
     public Response<ReturnPage<SignVO>> getSignByCheckId(@RequestHeader("Token") String token,
                                                          @RequestParam("checkId") Integer checkId,

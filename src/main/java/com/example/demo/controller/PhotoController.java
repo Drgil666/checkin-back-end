@@ -65,13 +65,19 @@ public class PhotoController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Photo> photo(@RequestHeader("Token") String token) {
+    public Response<Photo> photo(@RequestHeader("Token") String token,
+                                 @RequestParam(value = "id", defaultValue = "", required = false) String id) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
-        Integer userId = tokenService.getUserIdByToken(token);
-        User user = userService.getUser(userId);
-        Photo photo = photoService.getPhoto(user.getPhotoId());
+        Photo photo;
+        if (id != null) {
+            photo = photoService.getPhoto(id);
+        } else {
+            Integer userId = tokenService.getUserIdByToken(token);
+            User user = userService.getUser(userId);
+            photo = photoService.getPhoto(user.getPhotoId());
+        }
         if (photo != null) {
             return Response.createSuc(photo);
         } else {
