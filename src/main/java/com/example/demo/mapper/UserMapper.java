@@ -3,6 +3,8 @@ package com.example.demo.mapper;
 import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * @author Gilbert
  * @date 2020/9/24 15:31
@@ -72,4 +74,12 @@ public interface UserMapper {
      */
     @Select("select count(*) from user where username=#{username} limit 1")
     Integer isExist(@Param("username") String username);
+    /**
+     * 通过用户昵称获取用户名
+     * @param  nick 用户昵称
+     * @return 用户
+     */
+    @Select("select * from user where user.nick like '%${nick}%'")
+    List<User> getUserByNick(@Param("nick") String nick);
+
 }
