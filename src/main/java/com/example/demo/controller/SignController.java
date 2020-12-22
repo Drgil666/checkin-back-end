@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
+import com.example.demo.pojo.CheckSet;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
@@ -115,5 +116,28 @@ public class SignController {
         } else {
             return Response.createErr("获取签到信息失败!");
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/userId")
+    public Response<ReturnPage<Sign>> getSignByUserId(@RequestHeader("Token") String token,
+                                                      @RequestParam("userId") Integer userId,
+                                                      @RequestParam(value = "current", required = false) Integer current,
+                                                      @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                      @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        if (userId == null) {
+            userId = tokenService.getUserIdByToken(token);
+        }
+        if (userId == null) {
+            return Response.createErr("获取userId失败!userId为空");
+        }
+        ListPageUtil.paging(current, pageSize, sorter);
+        List<Sign> signList = signService.getSignList(userId);
+        PageInfo<Sign> pageInfo = new PageInfo<>(signList);
+        ReturnPage<Sign> returnPage = ListPageUtil.returnPage(pageInfo);
+        return Response.createSuc(returnPage);
     }
 }

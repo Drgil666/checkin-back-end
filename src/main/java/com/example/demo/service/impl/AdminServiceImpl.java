@@ -83,6 +83,6 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public Boolean adminExist(String username) {
-        return adminMapper.adminExist(username)>0;
+        return adminMapper.adminExist(username) > 0;
     }
 }

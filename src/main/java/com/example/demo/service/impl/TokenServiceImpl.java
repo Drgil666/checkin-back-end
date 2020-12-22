@@ -48,8 +48,8 @@ public class TokenServiceImpl implements TokenService {
                 json.put("type", "admin");
             }
             String newId = json.toJSONString();
-            String exToken=tokenDao.getValue(newId);
-            if(exToken!=null){
+            String exToken = tokenDao.getValue(newId);
+            if (exToken != null) {
                 tokenDao.deleteValue(exToken);
             }
             tokenDao.deleteValue(newId);

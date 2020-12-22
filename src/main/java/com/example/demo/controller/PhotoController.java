@@ -84,4 +84,26 @@ public class PhotoController {
             return Response.createErr("获取照片失败!");
         }
     }
+
+    @ResponseBody
+    @GetMapping("/admin")
+    public Response<Photo> photoByUserId(@RequestHeader("Token") String token,
+                                         @RequestParam(value = "userId", required = false) Integer userId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        if (userId == null) {
+            userId = tokenService.getUserIdByToken(token);
+        }
+        if (userId == null) {
+            return Response.createErr("获取userId失败!userId为空");
+        }
+        User user = userService.getUser(userId);
+        Photo photo = photoService.getPhoto(user.getPhotoId());
+        if (photo != null) {
+            return Response.createSuc(photo);
+        } else {
+            return Response.createErr("获取照片失败!");
+        }
+    }
 }
