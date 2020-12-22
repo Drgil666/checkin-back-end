@@ -5,10 +5,10 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ListPageUtil;
-import com.example.demo.pojo.vo.ReturnPage;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -126,13 +126,14 @@ public class UserController {
             return Response.createErr("获取用户失败!");
         }
     }
+
     @ResponseBody
     @GetMapping("/admin/list")
     public Response<ReturnPage<User>> getCheckSetByNick(@RequestHeader("Token") String token,
-                                                            @RequestParam(value = "nick") String nick,
-                                                            @RequestParam(value = "current", required = false,defaultValue="1") Integer current,
-                                                            @RequestParam(value = "pageSize", required = false,defaultValue="2") Integer pageSize,
-                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+                                                        @RequestParam(value = "nick") String nick,
+                                                        @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
+                                                        @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
+                                                        @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }
@@ -146,9 +147,26 @@ public class UserController {
         ReturnPage<User> returnPage = ListPageUtil.returnPage(pageInfo);
         return Response.createSuc(returnPage);
     }
+
     @ResponseBody
     @GetMapping("/check")
     public String check() {
         return "ok2";
+    }
+
+    @ResponseBody
+    @PostMapping("/update/photo")
+    public Response<User> updatePhoto(@RequestHeader("Token") String token, @RequestBody String photoId) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createErr("您没有权限!请重新登录!");
+        }
+        Integer userId = tokenService.getUserIdByToken(token);
+        User user = userService.getUser(userId);
+        user.setPhotoId(photoId);
+        if (userService.updateUser(user) == 1) {
+            return Response.createSuc(user);
+        } else {
+            return Response.createErr("更新照片失败!");
+        }
     }
 }

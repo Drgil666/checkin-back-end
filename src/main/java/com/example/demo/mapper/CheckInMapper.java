@@ -73,6 +73,6 @@ public interface CheckInMapper {
      * @param checkId 签到id
      * @return 是否完成签到
      */
-    @Select("select count(*) from signin where signin.stu_id=#{userId} and signin.check_id=#{checkId} LIMIT 1")
+    @Select("select count(*) from signin where stu_id=#{userId} and check_id=#{checkId}")
     Long isSign(@Param("userId") Integer userId, @Param("checkId") Integer checkId);
 }

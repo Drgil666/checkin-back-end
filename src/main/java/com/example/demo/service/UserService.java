@@ -64,9 +64,11 @@ public interface UserService {
      * @return 对应id
      */
     Integer isExist(String username);
+
     /**
      * 通过用户昵称获取用户名
-     * @param  nick 用户昵称
+     *
+     * @param nick 用户昵称
      * @return 用户
      */
     List<User> getUserByNick(String nick);

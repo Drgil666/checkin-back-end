@@ -81,12 +81,13 @@ public class CheckSetServiceImpl implements CheckSetService {
     public List<CheckSet> getCheckSetListByTeacher(Integer userId, String nick) {
         return checkSetMapper.getCheckSetListByTeacher(userId, nick);
     }
+
     /**
      * 管理员端通过签到名获取签到列表
      * nick 签到名
      */
     @Override
-    public List<CheckSet>getCheckSetListByNickAdmin(String nick){
+    public List<CheckSet> getCheckSetListByNickAdmin(String nick) {
         return checkSetMapper.getCheckSetListByNickAdmin(nick);
     }
 }

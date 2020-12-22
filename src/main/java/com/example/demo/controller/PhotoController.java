@@ -41,10 +41,6 @@ public class PhotoController {
             case CUDRequest.CREATE_METHOD: {
                 photoService.createPhoto(request.getData());
                 if (request.getData().getId() != null) {
-                    Integer userId = tokenService.getUserIdByToken(token);
-                    User user = userService.getUser(userId);
-                    user.setPhotoId(request.getData().getId());
-                    userService.updateUser(user);
                     return Response.createSuc(request.getData());
                 } else {
                     return Response.createErr("创建照片失败!");
@@ -66,7 +62,7 @@ public class PhotoController {
     @ResponseBody
     @GetMapping()
     public Response<Photo> photo(@RequestHeader("Token") String token,
-                                 @RequestParam(value = "id", defaultValue = "", required = false) String id) {
+                                 @RequestParam(value = "id", required = false) String id) {
         if (!tokenService.loginCheck(token)) {
             return Response.createErr("您没有权限!请重新登录!");
         }

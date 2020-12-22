@@ -84,15 +84,18 @@ public class UserServiceImpl implements UserService {
     public User getUserByUserName(String username) {
         return userMapper.getUserByUserName(username);
     }
+
     /**
      * 通过用户昵称获取用户名
-     * @param  nick 用户昵称
+     *
+     * @param nick 用户昵称
      * @return 用户
      */
     @Override
-    public List<User> getUserByNick(String nick){
+    public List<User> getUserByNick(String nick) {
         return userMapper.getUserByNick(nick);
     }
+
     /**
      * 查询用户名是否存在
      *

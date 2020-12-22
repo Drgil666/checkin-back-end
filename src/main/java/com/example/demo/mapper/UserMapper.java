@@ -74,9 +74,11 @@ public interface UserMapper {
      */
     @Select("select count(*) from user where username=#{username} limit 1")
     Integer isExist(@Param("username") String username);
+
     /**
      * 通过用户昵称获取用户名
-     * @param  nick 用户昵称
+     *
+     * @param nick 用户昵称
      * @return 用户
      */
     @Select("select * from user where user.nick like '%${nick}%'")

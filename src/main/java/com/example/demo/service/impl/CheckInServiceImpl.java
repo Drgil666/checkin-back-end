@@ -58,7 +58,8 @@ public class CheckInServiceImpl implements CheckInService {
      */
     @Override
     public Boolean isSign(Integer userId, Integer checkId) {
-        return checkInMapper.isSign(userId, checkId) > 0;
+        Long count = checkInMapper.isSign(userId, checkId);
+        return count > 0;
     }
 
     /**

@@ -56,10 +56,11 @@ public interface CheckSetService {
      * @return 对应的checkSet列表
      */
     List<CheckSet> getCheckSetListByTeacher(Integer userId, String nick);
+
     /**
      * 管理员端通过签到名获取签到列表
      * nick 签到名
      */
-    List<CheckSet>getCheckSetListByNickAdmin(String nick);
+    List<CheckSet> getCheckSetListByNickAdmin(String nick);
 
 }

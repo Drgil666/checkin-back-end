@@ -107,7 +107,7 @@ public class CheckInController {
             return Response.createErr("您没有权限!请重新登录!");
         }
         Integer userId = tokenService.getUserIdByToken(token);
-        Boolean isSign = checkInService.isSign(checkId, userId);
+        Boolean isSign = checkInService.isSign(userId, checkId);
         return Response.createSuc(isSign);
     }
 
