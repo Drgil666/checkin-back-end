@@ -30,7 +30,7 @@ public class LoginController {
     public Response<String> login(@RequestBody Map<String, String> data) {
         String username = data.get("username");
         Integer userId = userService.isExist(username);
-        if (userId != null) {
+        if (userId != 0) {
             String token = tokenService.createToken(username, TYPE_USER);
             return Response.createSuc(token);
         } else {
