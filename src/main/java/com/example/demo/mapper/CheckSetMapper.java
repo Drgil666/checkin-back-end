@@ -54,7 +54,7 @@ public interface CheckSetMapper {
      * @param stuId 学生id
      * @return CheckSet列表
      */
-    @Select("select DISTINCT checkset.* from checkin.checkset,checkin,signin " +
+    @Select("select DISTINCT checkset.* from checkset,checkin,signin " +
             "where checkset.id=checkin.set_id and checkin.id=signin.check_id and signin.stu_id=#{stuId}")
     List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
 
