@@ -84,7 +84,7 @@ public class CheckSetController {
     @ResponseBody
     @GetMapping("/admin/list")
     public Response<ReturnPage<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token,
-                                                            @RequestParam(value = "nick") String nick,
+                                                            @RequestParam(value = "nick", required = false) String nick,
                                                             @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                             @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                             @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
