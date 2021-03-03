@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Gilbert
@@ -49,6 +50,50 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Integer id) {
         return userMapper.getUser(id);
+    }
+
+    /**
+     * 通过学号获取用户信息
+     *
+     * @param stuNo 学号
+     * @return 用户
+     */
+    @Override
+    public User getUserByStuNo(String stuNo) {
+        return userMapper.getUserByStuNo(stuNo);
+    }
+
+    /**
+     * 通过邮箱获取用户信息
+     *
+     * @param mail 邮箱
+     * @return 用户
+     */
+    @Override
+    public User getUserByMail(String mail) {
+        return userMapper.getUserByMail(mail);
+    }
+
+    /**
+     * 通过姓名获取用户信息
+     *
+     * @param username 姓名
+     * @return 用户
+     */
+    @Override
+    public User getUserByUserName(String username) {
+        return userMapper.getUserByUserName(username);
+    }
+
+    /**
+     * 通过用户昵称获取用户名
+     *
+     * @param nick 用户昵称
+     * @return 用户
+     */
+    @Override
+    public List<User> getUserByNick(String nick) {
+        return userMapper.getUserByNick(nick);
     }
 
     /**

@@ -47,9 +47,9 @@ public class QrCodeServiceImpl implements QrCodeService {
             height = (height == null ? weight : height);
         }
         // 相关设置
-        HashMap<EncodeHintType, Comparable> hints = new HashMap<>();
+        HashMap<EncodeHintType, Comparable> hints = new HashMap<>(10);
         // L(7%) M(15%) Q(25%) H(30%)
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
         // 二维码边界空白大小1,2,3,4，默认4，最大
         hints.put(EncodeHintType.MARGIN, 1);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
@@ -96,7 +96,6 @@ public class QrCodeServiceImpl implements QrCodeService {
     @Override
     public String createQr(HashMap<String, Object> map) {
         String json = JSON.toJSONString(map);
-        String image = writeToBase64(json, 200, 200);
-        return image+22;
+        return writeToBase64(json, 180, 180);
     }
 }

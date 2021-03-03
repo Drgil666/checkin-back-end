@@ -41,5 +41,4 @@ public class User {
      * 专业
      */
     private Integer major;
-    //TODO:学校、学院、专业的类型有待商榷
 }

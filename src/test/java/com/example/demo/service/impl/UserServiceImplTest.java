@@ -30,7 +30,7 @@ public class UserServiceImplTest {
         user.setNick("nick1");
         user.setPhotoId("111");
         user.setStuNo("120");
-        user.setUsername("112233");
+        user.setUsername("oz-Eg5WRyK549JCWx8Ar8Z8pCbH8");
         userService.createUser(user);
         System.out.println(user.getId());
     }

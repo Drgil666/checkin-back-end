@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.pojo.User;
 
+import java.util.List;
+
 /**
  * @author Gilbert
  * @date 2020/9/24 15:41
@@ -32,10 +34,42 @@ public interface UserService {
     User getUser(Integer id);
 
     /**
+     * 通过学号获取用户信息
+     *
+     * @param stuNo 学号
+     * @return 用户
+     */
+    User getUserByStuNo(String stuNo);
+
+    /**
+     * 通过邮箱获取用户信息
+     *
+     * @param mail 邮箱
+     * @return 用户
+     */
+    User getUserByMail(String mail);
+
+    /**
+     * 通过姓名获取用户信息
+     *
+     * @param username 姓名
+     * @return 用户
+     */
+    User getUserByUserName(String username);
+
+    /**
      * 查询用户名是否存在
      *
      * @param username 用户名
      * @return 对应id
      */
     Integer isExist(String username);
+
+    /**
+     * 通过用户昵称获取用户名
+     *
+     * @param nick 用户昵称
+     * @return 用户
+     */
+    List<User> getUserByNick(String nick);
 }
