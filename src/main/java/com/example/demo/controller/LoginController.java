@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.service.HttpService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,8 @@ public class LoginController {
     private UserService userService;
     @Resource
     private TokenService tokenService;
-
+    @Resource
+    private HttpService httpService;
     @ResponseBody
     @PostMapping("/login")
     public Response<String> login(@RequestBody Map<String, String> data) {
@@ -40,5 +42,12 @@ public class LoginController {
             String token = tokenService.createToken(username, TYPE_USER);
             return Response.createSuc(token);
         }
+    }
+    @ResponseBody
+    @GetMapping("/openId")
+    public Object getOpenId(@RequestParam("js_code") String jsCode)
+    {
+        Object object=httpService.getOpenId(jsCode);
+        return object;
     }
 }

@@ -41,9 +41,9 @@ public interface CheckSetMapper {
 
 
     /**
-     * 批量删除checkset
+     * 批量删除checkSet
      *
-     * @param id 要删除的checksetId
+     * @param id 要删除的checkSetId
      * @return 变化的行数
      */
     Long deleteCheckSet(@Param("id") List<Integer> id);
@@ -54,7 +54,7 @@ public interface CheckSetMapper {
      * @param stuId 学生id
      * @return CheckSet列表
      */
-    @Select("select DISTINCT checkset.* from checkin.checkset,checkin,signin " +
+    @Select("select DISTINCT checkset.* from checkset,checkin,signin " +
             "where checkset.id=checkin.set_id and checkin.id=signin.check_id and signin.stu_id=#{stuId}")
     List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
 
@@ -65,13 +65,14 @@ public interface CheckSetMapper {
      * @param nick   签到名
      * @return 对应的checkSet列表
      */
-    @Select("select * from checkSet where checkSet.user_id=#{userId} and checkset.nick like '%${nick}%'")
+    @Select("select * from checkset where user_id=#{userId} and nick like '%${nick}%'")
     List<CheckSet> getCheckSetListByTeacher(@Param("userId") Integer userId, @Param("nick") String nick);
 
     /**
      * 管理员端通过签到名获取签到列表
-     * nick 签到名
+     * @param nick 签到名
+     * @return 对应的checkSet列表
      */
-    @Select("select * from checkSet where checkset.nick like '%${nick}%'")
+    @Select("select * from checkset where nick like '%${nick}%'")
     List<CheckSet> getCheckSetListByNickAdmin(@Param("nick") String nick);
 }
