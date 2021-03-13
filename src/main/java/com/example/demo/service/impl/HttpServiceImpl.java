@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.service.HttpService;
+import com.sun.istack.internal.NotNull;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import java.util.List;
 public class HttpServiceImpl implements HttpService {
     @Resource
     private RestTemplate restTemplate;
+
     /**
      * 获取openId
      *
@@ -30,7 +32,7 @@ public class HttpServiceImpl implements HttpService {
      * @return 对应的返回值
      */
     @Override
-    public Object getOpenId(String jsCode) {
+    public Object getOpenId(@NotNull String jsCode) {
         List<HttpMessageConverter<?>> converterList = restTemplate.getMessageConverters();
         converterList.remove(1);
         // 移除原来的转换器
@@ -41,10 +43,10 @@ public class HttpServiceImpl implements HttpService {
         restTemplate.setMessageConverters(converterList);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<String> httpEntity = new HttpEntity<String>(httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
         URI uri = URI.create("https://api.weixin.qq.com/sns/jscode2session?appid=wx3ed951293baeadc9" +
-                "&secret=0d75d409db2e94ce3bed3a611b23ac25&grant_type=authorization_code&js_code="+jsCode);
-        ResponseEntity<String> result = restTemplate.postForEntity(uri,httpEntity, String.class);
+                "&secret=0d75d409db2e94ce3bed3a611b23ac25&grant_type=authorization_code&js_code=" + jsCode);
+        ResponseEntity<String> result = restTemplate.postForEntity(uri, httpEntity, String.class);
         return result.getBody();
     }
 }

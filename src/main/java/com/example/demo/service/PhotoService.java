@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.Photo;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface PhotoService {
      * @param photo 照片类
      * @return 带有id的Photo类
      */
-    Photo createPhoto(Photo photo);
+    Photo createPhoto(@NotNull Photo photo);
 
     /**
      * 更新照片
@@ -23,7 +24,7 @@ public interface PhotoService {
      * @param photo 照片类
      * @return 影响行数
      */
-    Photo updatePhoto(Photo photo);
+    Photo updatePhoto(@NotNull Photo photo);
 
     /**
      * 获取照片
@@ -31,7 +32,7 @@ public interface PhotoService {
      * @param id 照片MongoId
      * @return 照片类
      */
-    Photo getPhoto(String id);
+    Photo getPhoto(@NotNull String id);
 
     /**
      * 批量删除照片类
@@ -39,5 +40,5 @@ public interface PhotoService {
      * @param id 要删除的照片的id
      * @return 影响行数
      */
-    long deletePhoto(List<String> id);
+    long deletePhoto(@NotNull List<String> id);
 }

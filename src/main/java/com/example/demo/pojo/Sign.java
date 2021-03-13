@@ -26,4 +26,12 @@ public class Sign {
      * 对应签到id
      */
     private Integer checkId;
+    /**
+     * 签到人名字
+     */
+    private String nick;
+    /**
+     * 签到人学号
+     */
+    private String stuNo;
 }

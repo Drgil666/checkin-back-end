@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckSet;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface CheckSetService {
      * @param checkSet 要创建的checkSet
      * @return 是否创建成功
      */
-    Boolean createCheckSet(CheckSet checkSet);
+    Boolean createCheckSet(@NotNull CheckSet checkSet);
 
     /**
      * 更新签到
@@ -22,7 +23,7 @@ public interface CheckSetService {
      * @param checkSet 要更新的checkSet
      * @return 更新好的CheckSet
      */
-    Long updateCheckSet(CheckSet checkSet);
+    Long updateCheckSet(@NotNull CheckSet checkSet);
 
     /**
      * 根据id获取获取签到
@@ -30,7 +31,7 @@ public interface CheckSetService {
      * @param id 签到id
      * @return 对应的签到
      */
-    CheckSet getCheckSet(Integer id);
+    CheckSet getCheckSet(@NotNull Integer id);
 
     /**
      * 批量删除checkset
@@ -38,7 +39,7 @@ public interface CheckSetService {
      * @param id 要删除的checksetId
      * @return 变化的行数
      */
-    Long deleteCheckSet(List<Integer> id);
+    Long deleteCheckSet(@NotNull List<Integer> id);
 
     /**
      * 学生获取CheckSet列表
@@ -46,7 +47,7 @@ public interface CheckSetService {
      * @param stuId 学生id
      * @return CheckSet列表
      */
-    List<CheckSet> getCheckListByStu(Integer stuId);
+    List<CheckSet> getCheckListByStu(@NotNull Integer stuId);
 
     /**
      * 教师通过用户id和签到名获取签到列表
@@ -55,12 +56,12 @@ public interface CheckSetService {
      * @param nick   签到名
      * @return 对应的checkSet列表
      */
-    List<CheckSet> getCheckSetListByTeacher(Integer userId, String nick);
+    List<CheckSet> getCheckSetListByTeacher(@NotNull Integer userId, @NotNull String nick);
 
     /**
      * 管理员端通过签到名获取签到列表
      * nick 签到名
      */
-    List<CheckSet> getCheckSetListByNickAdmin(String nick);
+    List<CheckSet> getCheckSetListByNickAdmin(@NotNull String nick);
 
 }

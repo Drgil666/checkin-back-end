@@ -9,6 +9,7 @@ import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +36,7 @@ public class SignController {
     @ResponseBody
     @PostMapping()
     public Response<Sign> sign(@RequestHeader("Token") String token, @RequestBody CUDRequest<Sign, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
@@ -65,7 +64,7 @@ public class SignController {
                 }
             }
             default: {
-                return Response.createErr("method错误!");
+                return Response.createErr(CUDRequest.METHOD_ERROR);
             }
         }
     }
@@ -73,9 +72,7 @@ public class SignController {
     @ResponseBody
     @GetMapping()
     public Response<Sign> sign(@RequestHeader("Token") String token, @RequestParam("id") Integer id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Sign sign = signService.getSign(id);
         if (sign != null) {
             return Response.createSuc(sign);
@@ -91,9 +88,7 @@ public class SignController {
                                                          @RequestParam(value = "current", required = false) Integer current,
                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                          @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<SignVO> signVOList = signService.getSignByCheckId(checkId);
         PageInfo<SignVO> pageInfo = new PageInfo<>(signVOList);
@@ -105,9 +100,7 @@ public class SignController {
     @GetMapping("/checkId/userId")
     public Response<SignVO> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
                                                       @RequestParam("checkId") Integer checkId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
         SignVO signVO = signService.getSignByCheckIdAndUserId(checkId, userId);
         if (signVO != null) {
@@ -124,9 +117,7 @@ public class SignController {
                                                       @RequestParam(value = "current", required = false) Integer current,
                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                       @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }

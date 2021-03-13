@@ -1,8 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.User;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,7 @@ public class UserServiceImpl implements UserService {
      * @return 带有id的用户
      */
     @Override
-    public boolean createUser(User user) {
+    public boolean createUser(@NotNull User user) {
         return userMapper.createUser(user);
     }
 
@@ -37,7 +40,8 @@ public class UserServiceImpl implements UserService {
      * @return 更新好的User
      */
     @Override
-    public long updateUser(User user) {
+    public long updateUser(@NotNull User user) {
+        AssertionUtil.notNull(user.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "user的id为空!");
         return userMapper.updateUser(user);
     }
 
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
      * @return 用户
      */
     @Override
-    public User getUser(Integer id) {
+    public User getUser(@NotNull Integer id) {
         return userMapper.getUser(id);
     }
 
@@ -59,7 +63,7 @@ public class UserServiceImpl implements UserService {
      * @return 用户
      */
     @Override
-    public User getUserByStuNo(String stuNo) {
+    public User getUserByStuNo(@NotNull String stuNo) {
         return userMapper.getUserByStuNo(stuNo);
     }
 
@@ -70,7 +74,7 @@ public class UserServiceImpl implements UserService {
      * @return 用户
      */
     @Override
-    public User getUserByMail(String mail) {
+    public User getUserByMail(@NotNull String mail) {
         return userMapper.getUserByMail(mail);
     }
 
@@ -81,7 +85,7 @@ public class UserServiceImpl implements UserService {
      * @return 用户
      */
     @Override
-    public User getUserByUserName(String username) {
+    public User getUserByUserName(@NotNull String username) {
         return userMapper.getUserByUserName(username);
     }
 
@@ -92,7 +96,7 @@ public class UserServiceImpl implements UserService {
      * @return 用户
      */
     @Override
-    public List<User> getUserByNick(String nick) {
+    public List<User> getUserByNick(@NotNull String nick) {
         return userMapper.getUserByNick(nick);
     }
 
@@ -103,7 +107,7 @@ public class UserServiceImpl implements UserService {
      * @return 对应id
      */
     @Override
-    public Integer isExist(String username) {
+    public Integer isExist(@NotNull String username) {
         return userMapper.isExist(username);
     }
 }

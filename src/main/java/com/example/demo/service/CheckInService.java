@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckIn;
-import org.apache.ibatis.annotations.Param;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface CheckInService {
      * @param checkIn 要更新的checkin
      * @return 是否创建成功
      */
-    boolean createCheckIn(CheckIn checkIn);
+    boolean createCheckIn(@NotNull CheckIn checkIn);
 
     /**
      * 更新签到
@@ -23,7 +23,7 @@ public interface CheckInService {
      * @param checkIn 要更新的checkin
      * @return 更新好的CheckIn
      */
-    long updateCheckIn(CheckIn checkIn);
+    long updateCheckIn(@NotNull CheckIn checkIn);
 
     /**
      * 某个用户是否已完成某场签到
@@ -32,7 +32,7 @@ public interface CheckInService {
      * @param checkId 签到id
      * @return 是否完成签到
      */
-    Boolean isSign(Integer userId, Integer checkId);
+    Boolean isSign(@NotNull Integer userId, @NotNull Integer checkId);
 
     /**
      * 获取用户发起的一场签到记录信息
@@ -40,7 +40,7 @@ public interface CheckInService {
      * @param id checkInId
      * @return 对应的checkin
      */
-    CheckIn getCheckIn(Integer id);
+    CheckIn getCheckIn(@NotNull Integer id);
 
 
     /**
@@ -50,7 +50,7 @@ public interface CheckInService {
      * @return 对应的checkin列表
      */
 
-    List<CheckIn> getCheckInListBySetId(Integer setId);
+    List<CheckIn> getCheckInListBySetId(@NotNull Integer setId);
 
     /**
      * 学生获取CheckIn列表
@@ -59,7 +59,7 @@ public interface CheckInService {
      * @param userId 用户id
      * @return 对应的checkIn列表
      */
-    List<CheckIn> getCheckInListByStu(@Param("setId") Integer setId, @Param("userId") Integer userId);
+    List<CheckIn> getCheckInListByStu(Integer setId, Integer userId);
 
     /**
      * 批量删除checkin
@@ -67,5 +67,5 @@ public interface CheckInService {
      * @param id 要删除的checkinId
      * @return 变化的行数
      */
-    long deleteCheckIn(@Param("id") List<Integer> id);
+    long deleteCheckIn(List<Integer> id);
 }

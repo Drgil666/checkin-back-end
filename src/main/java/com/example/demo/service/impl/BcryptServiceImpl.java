@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.BcryptDao;
 import com.example.demo.service.BcryptService;
+import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,10 +23,7 @@ public class BcryptServiceImpl implements BcryptService {
      * @return 加密好的密码
      */
     @Override
-    public String encode(String password) {
-        if (password == null) {
-            return null;
-        }
+    public String encode(@NotNull String password) {
         return bcryptDao.encode(password);
     }
 
@@ -37,10 +35,7 @@ public class BcryptServiceImpl implements BcryptService {
      * @return 是否匹配
      */
     @Override
-    public Boolean checkPassword(String password, String hash) {
-        if (password == null || hash == null) {
-            return null;
-        }
+    public Boolean checkPassword(@NotNull String password, @NotNull String hash) {
         return bcryptDao.checkPassword(password, hash);
     }
 }

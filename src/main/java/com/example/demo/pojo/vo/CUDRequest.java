@@ -16,6 +16,7 @@ public class CUDRequest<T, K> {
     public static final String CREATE_METHOD = "create";
     public static final String UPDATE_METHOD = "update";
     public static final String DELETE_METHOD = "delete";
+    public static final String METHOD_ERROR = "method错误!";
     private String method;
     private T data;
     private List<K> key;

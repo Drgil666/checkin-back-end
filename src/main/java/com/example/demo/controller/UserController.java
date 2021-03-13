@@ -8,6 +8,7 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,7 @@ public class UserController {
     @ResponseBody
     @PostMapping()
     public Response<User> user(@RequestHeader("Token") String token, @RequestBody CUDRequest<User, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {
@@ -67,30 +66,23 @@ public class UserController {
     @GetMapping()
     public Response<User> user(@RequestHeader("Token") String token,
                                @RequestParam(value = "id", required = false) Integer userId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }
-        if (userId != null) {
-            User user = userService.getUser(userId);
-            if (user != null) {
-                return Response.createSuc(user);
-            } else {
-                return Response.createErr("获取用户失败!");
-            }
+        AssertionUtil.notNull(userId, ErrorCode.BIZ_PARAM_ILLEGAL, "userId获取失败!");
+        User user = userService.getUser(userId);
+        if (user != null) {
+            return Response.createSuc(user);
         } else {
-            return Response.createErr("userId获取失败!");
+            return Response.createErr("获取用户失败!");
         }
     }
 
     @ResponseBody
     @GetMapping("/stuNo")
     public Response<User> getUserByStuNo(@RequestHeader("Token") String token, @RequestParam("stuNo") String stuNo) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         User user = userService.getUserByStuNo(stuNo);
         if (user != null) {
             return Response.createSuc(user);
@@ -102,9 +94,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/mail")
     public Response<User> getUserByMail(@RequestHeader("Token") String token, @RequestParam("mail") String mail) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         User user = userService.getUserByMail(mail);
         if (user != null) {
             return Response.createSuc(user);
@@ -116,9 +106,8 @@ public class UserController {
     @ResponseBody
     @GetMapping("/nick")
     public Response<User> getUserByUserName(@RequestHeader("Token") String token, @RequestParam("username") String username) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+
         User user = userService.getUserByUserName(username);
         if (user != null) {
             return Response.createSuc(user);
@@ -134,9 +123,8 @@ public class UserController {
                                                         @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                         @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                         @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+
         Integer userId = tokenService.getUserIdByToken(token);
         if (userId == null) {
             return Response.createErr("获取userId失败!userId为空");
@@ -157,9 +145,8 @@ public class UserController {
     @ResponseBody
     @PostMapping("/update/photo")
     public Response<User> updatePhoto(@RequestHeader("Token") String token, @RequestBody String photoId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+
         Integer userId = tokenService.getUserIdByToken(token);
         User user = userService.getUser(userId);
         user.setPhotoId(photoId);

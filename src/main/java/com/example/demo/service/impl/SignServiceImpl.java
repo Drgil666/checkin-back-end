@@ -1,11 +1,12 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.SignMapper;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.vo.SignVO;
-import com.example.demo.service.CheckInService;
 import com.example.demo.service.SignService;
-import com.example.demo.service.TokenService;
+import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,12 +19,6 @@ import java.util.List;
 public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
-    @Resource
-    private SignService signService;
-    @Resource
-    private CheckInService checkInService;
-    @Resource
-    private TokenService tokenService;
 
 
     /**
@@ -33,7 +28,7 @@ public class SignServiceImpl implements SignService {
      * @return 是否创建成功
      */
     @Override
-    public Boolean createSign(Sign sign) {
+    public Boolean createSign(@NotNull Sign sign) {
         return signMapper.createSign(sign);
     }
 
@@ -44,7 +39,8 @@ public class SignServiceImpl implements SignService {
      * @return 更新好的sign
      */
     @Override
-    public Long updateSign(Sign sign) {
+    public Long updateSign(@NotNull Sign sign) {
+        AssertionUtil.notNull(sign.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "sign的id不能为空!");
         return signMapper.updateSign(sign);
     }
 
@@ -55,7 +51,7 @@ public class SignServiceImpl implements SignService {
      * @return 对应的签到
      */
     @Override
-    public Sign getSign(Integer id) {
+    public Sign getSign(@NotNull Integer id) {
         return signMapper.getSign(id);
     }
 
@@ -66,7 +62,7 @@ public class SignServiceImpl implements SignService {
      * @return 对应的sign列表
      */
     @Override
-    public List<Sign> getSignList(Integer stuId) {
+    public List<Sign> getSignList(@NotNull Integer stuId) {
         return signMapper.getSignList(stuId);
     }
 
@@ -77,7 +73,7 @@ public class SignServiceImpl implements SignService {
      * @return 影响的行数
      */
     @Override
-    public Long deleteSign(List<Integer> id) {
+    public Long deleteSign(@NotNull List<Integer> id) {
         return signMapper.deleteSign(id);
     }
 
@@ -88,7 +84,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public List<SignVO> getSignByCheckId(Integer checkId) {
+    public List<SignVO> getSignByCheckId(@NotNull Integer checkId) {
         return signMapper.getSignByCheckId(checkId);
     }
 
@@ -100,7 +96,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public SignVO getSignByCheckIdAndUserId(Integer checkId, Integer userId) {
+    public SignVO getSignByCheckIdAndUserId(@NotNull Integer checkId, @NotNull Integer userId) {
         return signMapper.getSignByCheckIdAndUserId(checkId, userId);
     }
 }
