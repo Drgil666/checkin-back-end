@@ -3,12 +3,13 @@ package com.example.demo.controller;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Sign;
+import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
-import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
 import com.example.demo.service.TokenService;
+import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
@@ -32,6 +33,8 @@ public class SignController {
     private SignService signService;
     @Resource
     private TokenService tokenService;
+    @Resource
+    private UserService userService;
 
     @ResponseBody
     @PostMapping()
@@ -40,7 +43,10 @@ public class SignController {
         Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
+                User user = userService.getUser(stuId);
                 request.getData().setStuId(stuId);
+                request.getData().setNick(user.getNick());
+                request.getData().setStuNo(user.getStuNo());
                 signService.createSign(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -49,7 +55,10 @@ public class SignController {
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
+                User user = userService.getUser(stuId);
                 request.getData().setStuId(stuId);
+                request.getData().setNick(user.getNick());
+                request.getData().setStuNo(user.getStuNo());
                 if (signService.updateSign(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -83,28 +92,28 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/checkId")
-    public Response<ReturnPage<SignVO>> getSignByCheckId(@RequestHeader("Token") String token,
-                                                         @RequestParam("checkId") Integer checkId,
-                                                         @RequestParam(value = "current", required = false) Integer current,
-                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                         @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    public Response<ReturnPage<Sign>> getSignByCheckId(@RequestHeader("Token") String token,
+                                                       @RequestParam("checkId") Integer checkId,
+                                                       @RequestParam(value = "current", required = false) Integer current,
+                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                       @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
-        List<SignVO> signVOList = signService.getSignByCheckId(checkId);
-        PageInfo<SignVO> pageInfo = new PageInfo<>(signVOList);
-        ReturnPage<SignVO> returnPage = ListPageUtil.returnPage(pageInfo);
+        List<Sign> signVOList = signService.getSignByCheckId(checkId);
+        PageInfo<Sign> pageInfo = new PageInfo<>(signVOList);
+        ReturnPage<Sign> returnPage = ListPageUtil.returnPage(pageInfo);
         return Response.createSuc(returnPage);
     }
 
     @ResponseBody
     @GetMapping("/checkId/userId")
-    public Response<SignVO> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
-                                                      @RequestParam("checkId") Integer checkId) {
+    public Response<Sign> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
+                                                    @RequestParam("checkId") Integer checkId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
-        SignVO signVO = signService.getSignByCheckIdAndUserId(checkId, userId);
-        if (signVO != null) {
-            return Response.createSuc(signVO);
+        Sign sign = signService.getSignByCheckIdAndUserId(checkId, userId);
+        if (sign != null) {
+            return Response.createSuc(sign);
         } else {
             return Response.createErr("获取签到信息失败!");
         }

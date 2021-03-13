@@ -3,8 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.SignMapper;
 import com.example.demo.pojo.Sign;
-import com.example.demo.pojo.vo.SignVO;
 import com.example.demo.service.SignService;
+import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
 import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,8 @@ import java.util.List;
 public class SignServiceImpl implements SignService {
     @Resource
     private SignMapper signMapper;
-
+    @Resource
+    private UserService userService;
 
     /**
      * 创建学生签到记录
@@ -84,7 +85,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public List<SignVO> getSignByCheckId(@NotNull Integer checkId) {
+    public List<Sign> getSignByCheckId(@NotNull Integer checkId) {
         return signMapper.getSignByCheckId(checkId);
     }
 
@@ -96,7 +97,7 @@ public class SignServiceImpl implements SignService {
      * @return 学生名
      */
     @Override
-    public SignVO getSignByCheckIdAndUserId(@NotNull Integer checkId, @NotNull Integer userId) {
+    public Sign getSignByCheckIdAndUserId(@NotNull Integer checkId, @NotNull Integer userId) {
         return signMapper.getSignByCheckIdAndUserId(checkId, userId);
     }
 }

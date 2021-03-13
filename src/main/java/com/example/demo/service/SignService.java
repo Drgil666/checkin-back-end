@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 
 import com.example.demo.pojo.Sign;
-import com.example.demo.pojo.vo.SignVO;
 import com.sun.istack.internal.NotNull;
 
 import java.util.List;
@@ -58,7 +57,7 @@ public interface SignService {
      * @param checkId 获取签到信息的checkinId
      * @return 学生名
      */
-    List<SignVO> getSignByCheckId(@NotNull Integer checkId);
+    List<Sign> getSignByCheckId(@NotNull Integer checkId);
 
     /**
      * 根据checkinId和userId获取对应的signIn
@@ -67,6 +66,6 @@ public interface SignService {
      * @param userId  用户id
      * @return 学生名
      */
-    SignVO getSignByCheckIdAndUserId(@NotNull Integer checkId, @NotNull Integer userId);
+    Sign getSignByCheckIdAndUserId(@NotNull Integer checkId, @NotNull Integer userId);
 
 }
