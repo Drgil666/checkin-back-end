@@ -18,7 +18,7 @@ public interface SchoolMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into school (id, nick) VALUES (#{school.id},#{school.nick})")
+    @Insert("insert into school (nick) VALUES (#{school.nick})")
     Boolean createSchool(@Param("school") School school);
 
     /**

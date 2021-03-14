@@ -18,7 +18,7 @@ public interface AcademyMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into academy (id, nick, school_id) VALUES (#{academy.id},#{academy.nick},#{academy.schoolId})")
+    @Insert("insert into academy (nick, school_id) VALUES (#{academy.nick},#{academy.schoolId})")
     Boolean createAcademy(@Param("academy") Academy academy);
 
     /**
