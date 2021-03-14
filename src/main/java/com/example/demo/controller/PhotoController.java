@@ -9,6 +9,7 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.PhotoService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.AssertionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +35,7 @@ public class PhotoController {
     @ResponseBody
     @PostMapping()
     public Response<Photo> photo(@RequestHeader("Token") String token, @RequestBody CUDRequest<Photo, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 photoService.createPhoto(request.getData());
@@ -54,7 +53,7 @@ public class PhotoController {
                 }
             }
             default: {
-                return Response.createErr("method错误!");
+                return Response.createErr(CUDRequest.METHOD_ERROR);
             }
         }
     }
@@ -63,9 +62,7 @@ public class PhotoController {
     @GetMapping()
     public Response<Photo> photo(@RequestHeader("Token") String token,
                                  @RequestParam(value = "id", required = false) String id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Photo photo;
         if (id != null) {
             photo = photoService.getPhoto(id);
@@ -85,9 +82,7 @@ public class PhotoController {
     @GetMapping("/admin")
     public Response<Photo> photoByUserId(@RequestHeader("Token") String token,
                                          @RequestParam(value = "userId", required = false) Integer userId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }

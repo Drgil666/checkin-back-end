@@ -2,7 +2,6 @@ package com.example.demo.mapper;
 
 
 import com.example.demo.pojo.Sign;
-import com.example.demo.pojo.vo.SignVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -19,7 +18,8 @@ public interface SignMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into signin (stu_id,sign_time,photo_id,check_id) values (#{sign.stuId},#{sign.signTime},#{sign.photoId},#{sign.checkId})")
+    @Insert("insert into signin (stu_id,sign_time,photo_id,check_id,nick,stu_no) values " +
+            "(#{sign.stuId},#{sign.signTime},#{sign.photoId},#{sign.checkId},#{sign.nick},#{sign.stuNo})")
     Boolean createSign(@Param("sign") Sign sign);
 
     /**
@@ -28,7 +28,8 @@ public interface SignMapper {
      * @param sign 要更新的sign
      * @return 更新好的sign
      */
-    @Insert("update signin set id=#{sign.id},stu_id=#{sign.stuId},sign_time=#{sign.signTime},photo_id=#{sign.photoId},check_id=#{sign.checkId} where id=#{sign.id}")
+    @Insert("update signin set id=#{sign.id},stu_id=#{sign.stuId},sign_time=#{sign.signTime}," +
+            "photo_id=#{sign.photoId},check_id=#{sign.checkId},nick=#{sign.nick},stu_no=#{sign.stuNo} where id=#{sign.id}")
     Long updateSign(@Param("sign") Sign sign);
 
     /**
@@ -52,7 +53,7 @@ public interface SignMapper {
     /**
      * 批量删除sign
      *
-     * @param id 要删除的signid
+     * @param id 要删除的signId
      * @return 影响的行数
      */
     long deleteSign(@Param("id") List<Integer> id);
@@ -63,9 +64,8 @@ public interface SignMapper {
      * @param checkId 获取签到信息的checkinId
      * @return 学生名
      */
-    @Select("select signin.*,user.nick as nick,user.stu_no as stu_no from signin inner join user" +
-            " on signin.stu_id = user.id where signin.check_id=#{checkId}")
-    List<SignVO> getSignByCheckId(@Param("checkId") Integer checkId);
+    @Select("select signin.* from signin where signin.check_id=#{checkId}")
+    List<Sign> getSignByCheckId(@Param("checkId") Integer checkId);
 
     /**
      * 根据checkinId和userId获取对应的signIn
@@ -74,6 +74,6 @@ public interface SignMapper {
      * @param userId  用户id
      * @return 学生名
      */
-    @Select("select signin.*,user.nick as nick,user.stu_no from signin inner join user on signin.stu_id=user.id where check_id=#{checkId} and stu_id=#{userId}")
-    SignVO getSignByCheckIdAndUserId(@Param("checkId") Integer checkId, @Param("userId") Integer userId);
+    @Select("select signin.* from signin where check_id=#{checkId} and stu_id=#{userId}")
+    Sign getSignByCheckIdAndUserId(@Param("checkId") Integer checkId, @Param("userId") Integer userId);
 }

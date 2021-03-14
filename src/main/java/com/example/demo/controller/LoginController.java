@@ -27,12 +27,16 @@ public class LoginController {
     private TokenService tokenService;
     @Resource
     private HttpService httpService;
+
     @ResponseBody
     @PostMapping("/login")
     public Response<String> login(@RequestBody Map<String, String> data) {
         String username = data.get("username");
+        if (username == null) {
+            return Response.createErr("登录失败!");
+        }
         Integer userId = userService.isExist(username);
-        if (userId != 0) {
+        if (userId != null) {
             String token = tokenService.createToken(username, TYPE_USER);
             return Response.createSuc(token);
         } else {
@@ -43,11 +47,10 @@ public class LoginController {
             return Response.createSuc(token);
         }
     }
+
     @ResponseBody
     @GetMapping("/openId")
-    public Object getOpenId(@RequestParam("js_code") String jsCode)
-    {
-        Object object=httpService.getOpenId(jsCode);
-        return object;
+    public Object getOpenId(@RequestParam("js_code") String jsCode) {
+        return httpService.getOpenId(jsCode);
     }
 }

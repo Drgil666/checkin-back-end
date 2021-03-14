@@ -9,6 +9,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.internal.Base64;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class QrCodeServiceImpl implements QrCodeService {
      * @return 生成的二维码图片
      */
     @Override
-    public BufferedImage createImage(String content, Integer weight, Integer height) {
+    public BufferedImage createImage(@NotNull String content, @NotNull Integer weight, @NotNull Integer height) {
         if (weight == null && height == null) {
             weight = 300;
             height = 300;
@@ -74,7 +75,7 @@ public class QrCodeServiceImpl implements QrCodeService {
      * @return 转换好的字符串
      */
     @Override
-    public String writeToBase64(String content, Integer weight, Integer height) {
+    public String writeToBase64(@NotNull String content, @NotNull Integer weight, @NotNull Integer height) {
         try {
             BufferedImage image = createImage(content, weight, height);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -94,7 +95,7 @@ public class QrCodeServiceImpl implements QrCodeService {
      * @return 生成的base64串
      */
     @Override
-    public String createQr(HashMap<String, Object> map) {
+    public String createQr(@NotNull HashMap<String, Object> map) {
         String json = JSON.toJSONString(map);
         return writeToBase64(json, 180, 180);
     }

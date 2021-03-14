@@ -70,6 +70,7 @@ public interface CheckSetMapper {
 
     /**
      * 管理员端通过签到名获取签到列表
+     *
      * @param nick 签到名
      * @return 对应的checkSet列表
      */

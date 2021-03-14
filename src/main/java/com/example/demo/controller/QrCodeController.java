@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.QrCodeService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.AssertionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,7 @@ public class QrCodeController {
     @ResponseBody
     @PostMapping()
     public Response<String> createQr(@RequestHeader("Token") String token, @RequestBody HashMap<String, Object> map) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         String qrCode = qrCodeService.createQr(map);
         if (qrCode != null) {
             return Response.createSuc(qrCode);

@@ -8,6 +8,7 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -32,24 +33,23 @@ public class CheckInController {
 
     @ResponseBody
     @PostMapping()
-    public Response<CheckIn> checkin(@RequestHeader("Token") String token, @RequestBody CUDRequest<CheckIn, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+    public Response<CheckIn> checkin(@RequestHeader("Token") String token,
+                                     @RequestBody CUDRequest<CheckIn, Integer> request) {
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkInService.createCheckIn(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
                 } else {
-                    return Response.createErr("添加签到记录失败!");
+                    return Response.createErr("添加签到环节失败!");
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
                 if (checkInService.updateCheckIn(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
-                    throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
+                    throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新签到环节失败!");
                 }
             }
             case CUDRequest.DELETE_METHOD: {
@@ -60,7 +60,7 @@ public class CheckInController {
                 }
             }
             default: {
-                return Response.createErr("method错误!");
+                return Response.createErr(CUDRequest.METHOD_ERROR);
             }
         }
     }
@@ -72,9 +72,7 @@ public class CheckInController {
                                                            @RequestParam(value = "current", required = false) Integer current,
                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
         PageInfo<CheckIn> pageInfo = new PageInfo<>(checkInList);
@@ -89,9 +87,7 @@ public class CheckInController {
                                                          @RequestParam(value = "current", required = false) Integer current,
                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                          @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         Integer userId = tokenService.getUserIdByToken(token);
         List<CheckIn> checkInList = checkInService.getCheckInListByStu(setId, userId);
@@ -103,9 +99,7 @@ public class CheckInController {
     @ResponseBody
     @GetMapping("/isSign")
     public Response<Boolean> isSign(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
         Boolean isSign = checkInService.isSign(userId, checkId);
         return Response.createSuc(isSign);
@@ -114,9 +108,7 @@ public class CheckInController {
     @ResponseBody
     @GetMapping()
     public Response<CheckIn> getCheckIn(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkInId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         CheckIn checkIn = checkInService.getCheckIn(checkInId);
         if (checkIn != null) {
             return Response.createSuc(checkIn);

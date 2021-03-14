@@ -1,8 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.CheckSetMapper;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.service.CheckSetService;
+import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +26,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return 是否创建成功
      */
     @Override
-    public Boolean createCheckSet(CheckSet checkSet) {
+    public Boolean createCheckSet(@NotNull CheckSet checkSet) {
         return checkSetMapper.createCheckSet(checkSet);
     }
 
@@ -34,19 +37,21 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return 更新好的CheckSet
      */
     @Override
-    public Long updateCheckSet(CheckSet checkSet) {
+    public Long updateCheckSet(@NotNull CheckSet checkSet) {
+        AssertionUtil.notNull(checkSet.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "checkSet的Id不能为空!");
         return checkSetMapper.updateCheckSet(checkSet);
     }
 
     /**
      * 根据id获取获取签到
      *
-     * @param id 签到id
+     * @param checkSetId 签到id
      * @return 对应的签到
      */
     @Override
-    public CheckSet getCheckSet(Integer id) {
-        return checkSetMapper.getCheckSet(id);
+    public CheckSet getCheckSet(Integer checkSetId) {
+        AssertionUtil.notNull(checkSetId, ErrorCode.BIZ_PARAM_ILLEGAL, "checkSetId不能为空!");
+        return checkSetMapper.getCheckSet(checkSetId);
     }
 
     /**
@@ -57,6 +62,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      */
     @Override
     public Long deleteCheckSet(List<Integer> id) {
+        AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return checkSetMapper.deleteCheckSet(id);
     }
 
@@ -68,6 +74,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      */
     @Override
     public List<CheckSet> getCheckListByStu(Integer stuId) {
+        AssertionUtil.notNull(stuId, ErrorCode.BIZ_PARAM_ILLEGAL, "stuId不能为空!");
         return checkSetMapper.getCheckListByStu(stuId);
     }
 

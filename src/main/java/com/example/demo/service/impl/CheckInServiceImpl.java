@@ -1,8 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.CheckInMapper;
 import com.example.demo.pojo.CheckIn;
 import com.example.demo.service.CheckInService;
+import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +26,7 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 带有id的签到
      */
     @Override
-    public boolean createCheckIn(CheckIn checkIn) {
+    public boolean createCheckIn(@NotNull CheckIn checkIn) {
         return checkInMapper.createCheckIn(checkIn);
     }
 
@@ -34,7 +37,8 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 更新好的CheckIn
      */
     @Override
-    public long updateCheckIn(CheckIn checkIn) {
+    public long updateCheckIn(@NotNull CheckIn checkIn) {
+        AssertionUtil.notNull(checkIn.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "checkIn的Id为空!");
         return checkInMapper.updateCheckIn(checkIn);
     }
 
@@ -45,44 +49,44 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 对应的checkin
      */
     @Override
-    public CheckIn getCheckIn(Integer id) {
+    public CheckIn getCheckIn(@NotNull Integer id) {
         return checkInMapper.getCheckIn(id);
     }
 
     /**
      * 某个用户是否已完成某场签到
      *
-     * @param userId  用户id
-     * @param checkId 签到id
+     * @param userId    用户id
+     * @param checkInId 签到id
      * @return 是否完成签到
      */
     @Override
-    public Boolean isSign(Integer userId, Integer checkId) {
-        Long count = checkInMapper.isSign(userId, checkId);
+    public Boolean isSign(@NotNull Integer userId, @NotNull Integer checkInId) {
+        Long count = checkInMapper.isSign(userId, checkInId);
         return count > 0;
     }
 
     /**
      * 根据setId获取checkin列表
      *
-     * @param setId 查找的setId
+     * @param checkSetId 查找的setId
      * @return 对应的checkin列表
      */
     @Override
-    public List<CheckIn> getCheckInListBySetId(Integer setId) {
-        return checkInMapper.getCheckInListBySetId(setId);
+    public List<CheckIn> getCheckInListBySetId(@NotNull Integer checkSetId) {
+        return checkInMapper.getCheckInListBySetId(checkSetId);
     }
 
     /**
      * 学生获取CheckIn列表
      *
-     * @param setId  checkSetId
-     * @param userId 用户id
+     * @param checkSetId checkSetId
+     * @param userId     用户id
      * @return 对应的checkIn列表
      */
     @Override
-    public List<CheckIn> getCheckInListByStu(Integer setId, Integer userId) {
-        return checkInMapper.getCheckInListByStu(setId, userId);
+    public List<CheckIn> getCheckInListByStu(@NotNull Integer checkSetId, @NotNull Integer userId) {
+        return checkInMapper.getCheckInListByStu(checkSetId, userId);
     }
 
     /**
@@ -92,7 +96,7 @@ public class CheckInServiceImpl implements CheckInService {
      * @return 变化的行数
      */
     @Override
-    public long deleteCheckIn(List<Integer> id) {
+    public long deleteCheckIn(@NotNull List<Integer> id) {
         return checkInMapper.deleteCheckIn(id);
     }
 }

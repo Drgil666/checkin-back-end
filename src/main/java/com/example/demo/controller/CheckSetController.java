@@ -8,6 +8,7 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckSetService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +34,14 @@ public class CheckSetController {
     @ResponseBody
     @PostMapping()
     public Response<CheckSet> checkSet(@RequestHeader("Token") String token, @RequestBody CUDRequest<CheckSet, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
         request.getData().setUserId(userId);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkSetService.createCheckSet(request.getData());
-                if (request.getData().getId() != null) {
-                    return Response.createSuc(request.getData());
-                } else {
-                    return Response.createErr("添加签到记录失败!");
-                }
+                AssertionUtil.notNull(request.getData().getId(), ErrorCode.INNER_PARAM_ILLEGAL, "添加签到记录失败!");
+                return Response.createSuc(request.getData());
             }
             case CUDRequest.UPDATE_METHOD: {
                 if (checkSetService.updateCheckSet(request.getData()) == 1) {
@@ -62,17 +58,16 @@ public class CheckSetController {
                 }
             }
             default: {
-                return Response.createErr("method错误!");
+                return Response.createErr(CUDRequest.METHOD_ERROR);
             }
         }
     }
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckSet> getCheckSet(@RequestHeader("Token") String token, @RequestParam("checkSetId") Integer checkSetId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+    public Response<CheckSet> getCheckSet(@RequestHeader("Token") String token,
+                                          @RequestParam("checkSetId") Integer checkSetId) {
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         CheckSet checkset = checkSetService.getCheckSet(checkSetId);
         if (checkset != null) {
             return Response.createSuc(checkset);
@@ -88,9 +83,7 @@ public class CheckSetController {
                                                             @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                             @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                             @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckSetListByNickAdmin(nick);
         PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
@@ -106,14 +99,9 @@ public class CheckSetController {
                                                               @RequestParam(value = "current", required = false) Integer current,
                                                               @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                               @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
-        }
-        if (userId == null) {
-            return Response.createErr("获取userId失败!userId为空");
         }
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckSetListByTeacher(userId, nick);
@@ -128,9 +116,7 @@ public class CheckSetController {
                                                             @RequestParam(value = "current", required = false) Integer current,
                                                             @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                             @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createErr("您没有权限!请重新登录!");
-        }
+        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer stuId = tokenService.getUserIdByToken(token);
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckListByStu(stuId);

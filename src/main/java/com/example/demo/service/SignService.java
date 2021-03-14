@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.pojo.Sign;
-import com.example.demo.pojo.vo.SignVO;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface SignService {
      * @param sign 要更新的sign
      * @return 是否创建成功
      */
-    Boolean createSign(Sign sign);
+    Boolean createSign(@NotNull Sign sign);
 
     /**
      * 更新签到
@@ -25,7 +25,7 @@ public interface SignService {
      * @param sign 要更新的sign
      * @return 更新好的sign
      */
-    Long updateSign(Sign sign);
+    Long updateSign(@NotNull Sign sign);
 
     /**
      * 根据id获取获取签到
@@ -33,7 +33,7 @@ public interface SignService {
      * @param id 签到id
      * @return 对应的签到
      */
-    Sign getSign(Integer id);
+    Sign getSign(@NotNull Integer id);
 
     /**
      * 根据学生id获取签到列表
@@ -41,7 +41,7 @@ public interface SignService {
      * @param stuId 要查找的学生id
      * @return 对应的sign列表
      */
-    List<Sign> getSignList(Integer stuId);
+    List<Sign> getSignList(@NotNull Integer stuId);
 
     /**
      * 批量删除sign
@@ -49,7 +49,7 @@ public interface SignService {
      * @param id 要删除的signid
      * @return 影响的行数
      */
-    Long deleteSign(List<Integer> id);
+    Long deleteSign(@NotNull List<Integer> id);
 
     /**
      * 根据CheckId获取签到信息
@@ -57,7 +57,7 @@ public interface SignService {
      * @param checkId 获取签到信息的checkinId
      * @return 学生名
      */
-    List<SignVO> getSignByCheckId(Integer checkId);
+    List<Sign> getSignByCheckId(@NotNull Integer checkId);
 
     /**
      * 根据checkinId和userId获取对应的signIn
@@ -66,6 +66,6 @@ public interface SignService {
      * @param userId  用户id
      * @return 学生名
      */
-    SignVO getSignByCheckIdAndUserId(Integer checkId, Integer userId);
+    Sign getSignByCheckIdAndUserId(@NotNull Integer checkId, @NotNull Integer userId);
 
 }

@@ -1,8 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.PhotoDao;
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.Photo;
 import com.example.demo.service.PhotoService;
+import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +27,7 @@ public class PhotoServiceImpl implements PhotoService {
      * @return 带有id的Photo类
      */
     @Override
-    public Photo createPhoto(Photo photo) {
+    public Photo createPhoto(@NotNull Photo photo) {
         return photoDao.createPhoto(photo);
     }
 
@@ -35,7 +38,8 @@ public class PhotoServiceImpl implements PhotoService {
      * @return 影响行数
      */
     @Override
-    public Photo updatePhoto(Photo photo) {
+    public Photo updatePhoto(@NotNull Photo photo) {
+        AssertionUtil.notNull(photo.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "photo的Id不能为空!");
         return photoDao.updatePhoto(photo);
     }
 
@@ -46,7 +50,7 @@ public class PhotoServiceImpl implements PhotoService {
      * @return 照片类
      */
     @Override
-    public Photo getPhoto(String id) {
+    public Photo getPhoto(@NotNull String id) {
         return photoDao.getPhoto(id);
     }
 
@@ -57,7 +61,7 @@ public class PhotoServiceImpl implements PhotoService {
      * @return 影响行数
      */
     @Override
-    public long deletePhoto(List<String> id) {
+    public long deletePhoto(@NotNull List<String> id) {
         return photoDao.deletePhoto(id);
     }
 }
