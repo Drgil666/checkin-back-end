@@ -60,7 +60,8 @@ public interface CheckSetService {
 
     /**
      * 管理员端通过签到名获取签到列表
-     * nick 签到名
+     *@param nick 签到名
+     * @return checkSet列表
      */
     List<CheckSet> getCheckSetListByNickAdmin(@NotNull String nick);
 
