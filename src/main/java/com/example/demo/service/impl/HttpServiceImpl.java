@@ -42,7 +42,7 @@ public class HttpServiceImpl implements HttpService {
         // 添加新的转换器(注:convert顺序错误会导致失败)
         restTemplate.setMessageConverters(converterList);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
         URI uri = URI.create("https://api.weixin.qq.com/sns/jscode2session?appid=wx3ed951293baeadc9" +
                 "&secret=0d75d409db2e94ce3bed3a611b23ac25&grant_type=authorization_code&js_code=" + jsCode);

@@ -1,6 +1,5 @@
 package com.example.demo.pojo.vo;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 /**
@@ -9,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class LoginVO {
-    @NotNull
     private String username;
     private String password;
 }
