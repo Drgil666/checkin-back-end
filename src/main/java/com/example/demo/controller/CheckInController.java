@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+﻿package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
@@ -70,7 +70,7 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/teacher/list")
-    @ApiOperation(value = "根据大签到id获取所有对应的小签到")
+    @ApiOperation(value = "根据大签到id获取所有对应的小签到信息")
     public Response<ReturnPage<CheckIn>> getCheckInBySetId(@ApiParam(value = "加密验证参数")@RequestHeader("Token") String token,
                                                            @ApiParam(value = "大签到id")@RequestParam("setId") Integer setId,
                                                            @ApiParam(value = "当前页面")@RequestParam(value = "current", required = false) Integer current,
