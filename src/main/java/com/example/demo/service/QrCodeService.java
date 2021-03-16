@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.pojo.vo.QrCheckInVO;
 import com.sun.istack.internal.NotNull;
 
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 /**
  * @author yutao
@@ -35,8 +35,8 @@ public interface QrCodeService {
     /**
      * 生成二维码
      *
-     * @param map 二维码存储信息
+     * @param vo 二维码存储信息
      * @return 生成的base64串
      */
-    String createQr(@NotNull HashMap<String, Object> map);
+    String createQr(@NotNull QrCheckInVO vo);
 }

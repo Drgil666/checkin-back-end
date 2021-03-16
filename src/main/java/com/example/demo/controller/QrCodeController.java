@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ErrorCode;
+import com.example.demo.pojo.vo.QrCheckInVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.QrCodeService;
 import com.example.demo.service.TokenService;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 
 /**
  * @author yutao
@@ -28,9 +28,9 @@ public class QrCodeController {
 
     @ResponseBody
     @PostMapping()
-    public Response<String> createQr(@RequestHeader("Token") String token, @RequestBody HashMap<String, Object> map) {
+    public Response<String> createQr(@RequestHeader("Token") String token, @RequestBody QrCheckInVO vo) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
-        String qrCode = qrCodeService.createQr(map);
+        String qrCode = qrCodeService.createQr(vo);
         if (qrCode != null) {
             return Response.createSuc(qrCode);
         } else {

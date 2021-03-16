@@ -4,18 +4,17 @@ import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.LoginVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.BcryptService;
 import com.example.demo.service.TokenService;
-import com.example.demo.service.impl.TokenServiceImpl;
 import com.example.demo.utils.AssertionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 import static com.example.demo.service.impl.TokenServiceImpl.TYPE_ADMIN;
 
@@ -67,9 +66,9 @@ public class AdminController {
 
     @ResponseBody
     @PostMapping("/login")
-    public Response<String> login(@RequestBody Map<String, String> data) {
-        String username = data.get(TokenServiceImpl.ATTRIBUTE_USERNAME);
-        String password = data.get(TokenServiceImpl.ATTRIBUTE_PASSWORD);
+    public Response<String> login(@RequestBody LoginVO data) {
+        String username = data.getUsername();
+        String password = data.getPassword();
         AssertionUtil.notNull(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
         Admin admin = adminService.getAdminByUsername(username);
         if (bcryptService.checkPassword(password, admin.getPassword())) {

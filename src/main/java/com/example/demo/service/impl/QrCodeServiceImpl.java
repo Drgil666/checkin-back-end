@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.pojo.vo.QrCheckInVO;
 import com.example.demo.service.QrCodeService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -91,12 +92,12 @@ public class QrCodeServiceImpl implements QrCodeService {
     /**
      * 生成二维码
      *
-     * @param map 二维码存储信息
+     * @param vo 二维码存储信息
      * @return 生成的base64串
      */
     @Override
-    public String createQr(@NotNull HashMap<String, Object> map) {
-        String json = JSON.toJSONString(map);
+    public String createQr(@NotNull QrCheckInVO vo) {
+        String json = JSON.toJSONString(vo);
         return writeToBase64(json, 180, 180);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.pojo.User;
+import com.example.demo.pojo.vo.LoginVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.HttpService;
 import com.example.demo.service.TokenService;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 import static com.example.demo.service.impl.TokenServiceImpl.TYPE_USER;
 
@@ -30,8 +30,8 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/login")
-    public Response<String> login(@RequestBody Map<String, String> data) {
-        String username = data.get("username");
+    public Response<String> login(@RequestBody LoginVO data) {
+        String username = data.getUsername();
         if (username == null) {
             return Response.createErr("登录失败!");
         }
