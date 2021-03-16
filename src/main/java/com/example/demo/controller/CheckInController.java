@@ -11,6 +11,9 @@ import com.example.demo.service.TokenService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/checkin")
+@Api(tags = "小签到")
 public class CheckInController {
     @Resource
     private CheckInService checkInService;
@@ -33,8 +37,9 @@ public class CheckInController {
 
     @ResponseBody
     @PostMapping()
-    public Response<CheckIn> checkin(@RequestHeader("Token") String token,
-                                     @RequestBody CUDRequest<CheckIn, Integer> request) {
+    @ApiOperation(value = "创建/更新小签到")
+    public Response<CheckIn> checkin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                     @ApiParam(value = "包含小签到具体信息，操作信息") @RequestBody CUDRequest<CheckIn, Integer> request) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
@@ -67,11 +72,12 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/teacher/list")
-    public Response<ReturnPage<CheckIn>> getCheckInBySetId(@RequestHeader("Token") String token,
-                                                           @RequestParam("setId") Integer setId,
-                                                           @RequestParam(value = "current", required = false) Integer current,
-                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                           @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "根据大签到id获取所有对应的小签到信息")
+    public Response<ReturnPage<CheckIn>> getCheckInBySetId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                           @ApiParam(value = "大签到id") @RequestParam("setId") Integer setId,
+                                                           @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                           @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                           @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
@@ -82,11 +88,12 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/stu/list")
-    public Response<ReturnPage<CheckIn>> getCheckInByStu(@RequestHeader("Token") String token,
-                                                         @RequestParam("setId") Integer setId,
-                                                         @RequestParam(value = "current", required = false) Integer current,
-                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                         @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "根据小签到id和当前用户id判断学生是否已签到")
+    public Response<ReturnPage<CheckIn>> getCheckInByStu(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                         @ApiParam(value = "大签到id") @RequestParam("setId") Integer setId,
+                                                         @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                         @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                         @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         Integer userId = tokenService.getUserIdByToken(token);
@@ -98,7 +105,9 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping("/isSign")
-    public Response<Boolean> isSign(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkId) {
+    @ApiOperation(value = "根据小签到id和当前用户id判断学生是否已签到")
+    public Response<Boolean> isSign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                    @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
         Boolean isSign = checkInService.isSign(userId, checkId);
@@ -107,7 +116,9 @@ public class CheckInController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckIn> getCheckIn(@RequestHeader("Token") String token, @RequestParam("checkId") Integer checkInId) {
+    @ApiOperation(value = "通过小签到id获取具体签到信息")
+    public Response<CheckIn> getCheckIn(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                        @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkInId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         CheckIn checkIn = checkInService.getCheckIn(checkInId);
         if (checkIn != null) {

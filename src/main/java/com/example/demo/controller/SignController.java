@@ -13,6 +13,9 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/sign")
+@Api(tags = "签到记录")
 public class SignController {
     @Resource
     private SignService signService;
@@ -38,7 +42,9 @@ public class SignController {
 
     @ResponseBody
     @PostMapping()
-    public Response<Sign> sign(@RequestHeader("Token") String token, @RequestBody CUDRequest<Sign, Integer> request) {
+    @ApiOperation(value = "创建/更新/删除签到记录")
+    public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                               @ApiParam(value = "包含签到记录信息，操作信息") @RequestBody CUDRequest<Sign, Integer> request) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
@@ -80,7 +86,9 @@ public class SignController {
 
     @ResponseBody
     @GetMapping()
-    public Response<Sign> sign(@RequestHeader("Token") String token, @RequestParam("id") Integer id) {
+    @ApiOperation(value = "根据签到记录id查找对应的签到记录")
+    public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                               @ApiParam(value = "签到记录信息id") @RequestParam("id") Integer id) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Sign sign = signService.getSign(id);
         if (sign != null) {
@@ -92,11 +100,12 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/checkId")
-    public Response<ReturnPage<Sign>> getSignByCheckId(@RequestHeader("Token") String token,
-                                                       @RequestParam("checkId") Integer checkId,
-                                                       @RequestParam(value = "current", required = false) Integer current,
-                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                       @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "通过小签到id查找对应的签到记录")
+    public Response<ReturnPage<Sign>> getSignByCheckId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                       @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId,
+                                                       @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                       @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                       @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<Sign> signVOList = signService.getSignByCheckId(checkId);
@@ -107,8 +116,9 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/checkId/userId")
-    public Response<Sign> getSignByCheckIdAndUserId(@RequestHeader("Token") String token,
-                                                    @RequestParam("checkId") Integer checkId) {
+    @ApiOperation(value = "通过小签到id和用户id查找签到记录")
+    public Response<Sign> getSignByCheckIdAndUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                    @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
         Sign sign = signService.getSignByCheckIdAndUserId(checkId, userId);
@@ -121,11 +131,12 @@ public class SignController {
 
     @ResponseBody
     @GetMapping("/userId")
-    public Response<ReturnPage<Sign>> getSignByUserId(@RequestHeader("Token") String token,
-                                                      @RequestParam("userId") Integer userId,
-                                                      @RequestParam(value = "current", required = false) Integer current,
-                                                      @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                      @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "通过用户id查找签到记录")
+    public Response<ReturnPage<Sign>> getSignByUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                      @ApiParam(value = "用户id") @RequestParam("userId") Integer userId,
+                                                      @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                      @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                      @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);

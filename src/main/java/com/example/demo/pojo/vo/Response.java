@@ -1,5 +1,7 @@
 package com.example.demo.pojo.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,9 +11,13 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@ApiModel(description = "Response")
 public class Response<T> {
+    @ApiModelProperty(value = "错误码", name = "code", required = true)
     private Integer code;
+    @ApiModelProperty(value = "错误信息", name = "msg", required = true)
     private String msg;
+    @ApiModelProperty(value = "数据", name = "data", required = true)
     private T data;
 
     public static <T> Response<T> createSuc(T o) {

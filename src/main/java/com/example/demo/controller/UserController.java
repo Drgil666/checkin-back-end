@@ -11,6 +11,9 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/user")
+@Api(tags = "用户")
 public class UserController {
     @Resource
     private UserService userService;
@@ -34,7 +38,9 @@ public class UserController {
 
     @ResponseBody
     @PostMapping()
-    public Response<User> user(@RequestHeader("Token") String token, @RequestBody CUDRequest<User, Integer> request) {
+    @ApiOperation(value = "创建/更新/删除用户")
+    public Response<User> user(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                               @ApiParam(value = "包含用户信息，操作信息") @RequestBody CUDRequest<User, Integer> request) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
@@ -64,8 +70,9 @@ public class UserController {
 
     @ResponseBody
     @GetMapping()
-    public Response<User> user(@RequestHeader("Token") String token,
-                               @RequestParam(value = "id", required = false) Integer userId) {
+    @ApiOperation(value = "通过用户id获取用户")
+    public Response<User> user(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                               @ApiParam(value = "用户id") @RequestParam(value = "id", required = false) Integer userId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
@@ -81,7 +88,9 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/stuNo")
-    public Response<User> getUserByStuNo(@RequestHeader("Token") String token, @RequestParam("stuNo") String stuNo) {
+    @ApiOperation(value = "通过学号获取用户信息")
+    public Response<User> getUserByStuNo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                         @ApiParam(value = "学号") @RequestParam("stuNo") String stuNo) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         User user = userService.getUserByStuNo(stuNo);
         if (user != null) {
@@ -93,7 +102,9 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/mail")
-    public Response<User> getUserByMail(@RequestHeader("Token") String token, @RequestParam("mail") String mail) {
+    @ApiOperation(value = "通过邮箱获取用户信息")
+    public Response<User> getUserByMail(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                        @ApiParam(value = "邮箱") @RequestParam("mail") String mail) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         User user = userService.getUserByMail(mail);
         if (user != null) {
@@ -105,7 +116,9 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/nick")
-    public Response<User> getUserByUserName(@RequestHeader("Token") String token, @RequestParam("username") String username) {
+    @ApiOperation(value = "通过账户名获取用户信息")
+    public Response<User> getUserByUserName(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                            @ApiParam(value = "账户名") @RequestParam("username") String username) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
 
         User user = userService.getUserByUserName(username);
@@ -118,11 +131,12 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/admin/list")
-    public Response<ReturnPage<User>> getCheckSetByNick(@RequestHeader("Token") String token,
-                                                        @RequestParam(value = "nick") String nick,
-                                                        @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
-                                                        @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
-                                                        @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "通过昵称获取用户信息")
+    public Response<ReturnPage<User>> getCheckSetByNick(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                        @ApiParam(value = "昵称") @RequestParam(value = "nick") String nick,
+                                                        @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
+                                                        @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
+                                                        @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
 
         Integer userId = tokenService.getUserIdByToken(token);
@@ -144,7 +158,9 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/update/photo")
-    public Response<User> updatePhoto(@RequestHeader("Token") String token, @RequestBody String photoId) {
+    @ApiOperation(value = "更新照片")
+    public Response<User> updatePhoto(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                      @ApiParam(value = "照片id") @RequestBody String photoId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
 
         Integer userId = tokenService.getUserIdByToken(token);

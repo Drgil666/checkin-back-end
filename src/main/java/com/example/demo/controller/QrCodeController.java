@@ -6,6 +6,9 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.QrCodeService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.AssertionUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,7 @@ import javax.annotation.Resource;
 @Controller
 @Slf4j
 @RequestMapping("/api/qrCode")
+@Api(tags = "二维码")
 public class QrCodeController {
     @Resource
     private QrCodeService qrCodeService;
@@ -28,7 +32,9 @@ public class QrCodeController {
 
     @ResponseBody
     @PostMapping()
-    public Response<String> createQr(@RequestHeader("Token") String token, @RequestBody QrCheckInVO vo) {
+    @ApiOperation(value = "根据信息创建二维码")
+    public Response<String> createQr(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                     @ApiParam(value = "二维码相关信息") @RequestBody QrCheckInVO vo) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         String qrCode = qrCodeService.createQr(vo);
         if (qrCode != null) {

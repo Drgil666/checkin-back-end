@@ -11,6 +11,9 @@ import com.example.demo.service.TokenService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/checkSet")
+@Api(tags = "大签到")
 public class CheckSetController {
     @Resource
     private CheckSetService checkSetService;
@@ -33,7 +37,8 @@ public class CheckSetController {
 
     @ResponseBody
     @PostMapping()
-    public Response<CheckSet> checkSet(@RequestHeader("Token") String token, @RequestBody CUDRequest<CheckSet, Integer> request) {
+    public Response<CheckSet> checkSet(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                       @ApiParam(value = "包含大签到信息，操作信息") @RequestBody CUDRequest<CheckSet, Integer> request) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer userId = tokenService.getUserIdByToken(token);
         request.getData().setUserId(userId);
@@ -65,8 +70,9 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping()
-    public Response<CheckSet> getCheckSet(@RequestHeader("Token") String token,
-                                          @RequestParam("checkSetId") Integer checkSetId) {
+    @ApiOperation(value = "根据CheckSetId获取CheckSet")
+    public Response<CheckSet> getCheckSet(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                          @ApiParam(value = "大签到id") @RequestParam("checkSetId") Integer checkSetId) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         CheckSet checkset = checkSetService.getCheckSet(checkSetId);
         if (checkset != null) {
@@ -78,11 +84,12 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/admin/list")
-    public Response<ReturnPage<CheckSet>> getCheckSetByNick(@RequestHeader("Token") String token,
-                                                            @RequestParam(value = "nick", required = false) String nick,
-                                                            @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
-                                                            @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
-                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "教师获取自己发起的签到")
+    public Response<ReturnPage<CheckSet>> getCheckSetByNick(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                            @ApiParam(value = "昵称") @RequestParam(value = "nick", required = false) String nick,
+                                                            @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
+                                                            @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
+                                                            @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckSetListByNickAdmin(nick);
@@ -93,12 +100,13 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/teacher/list")
-    public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@RequestHeader("Token") String token,
-                                                              @RequestParam(value = "userId", required = false) Integer userId,
-                                                              @RequestParam(value = "nick", required = false) String nick,
-                                                              @RequestParam(value = "current", required = false) Integer current,
-                                                              @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                              @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "通过用户id获取签到信息")
+    public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                              @ApiParam(value = "用户id") @RequestParam(value = "userId", required = false) Integer userId,
+                                                              @ApiParam(value = "昵称") @RequestParam(value = "nick", required = false) String nick,
+                                                              @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                              @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                              @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
@@ -112,10 +120,11 @@ public class CheckSetController {
 
     @ResponseBody
     @GetMapping("/stu/list")
-    public Response<ReturnPage<CheckSet>> getCheckSetBySign(@RequestHeader("Token") String token,
-                                                            @RequestParam(value = "current", required = false) Integer current,
-                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                                            @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+    @ApiOperation(value = "学生获得自己完成的大签到")
+    public Response<ReturnPage<CheckSet>> getCheckSetBySign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                            @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                            @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                            @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         Integer stuId = tokenService.getUserIdByToken(token);
         ListPageUtil.paging(current, pageSize, sorter);
