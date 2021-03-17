@@ -79,7 +79,7 @@ public class TokenServiceImpl implements TokenService {
         JSONObject json = JSONObject.parseObject(jsonString);
         String username = json.getString(ATTRIBUTE_USERNAME);
         String type = json.getString(ATTRIBUTE_TYPE);
-        AssertionUtil.isTrue((username == null || type == null), ErrorCode.BIZ_PARAM_ILLEGAL, "Token不存在!");
+        AssertionUtil.isTrue(!(username == null || type == null), ErrorCode.BIZ_PARAM_ILLEGAL, "Token不存在!");
         if (ATTRIBUTE_USER.equals(type)) {
             User user = userMapper.getUserByUserName(username);
             return user.getId();
