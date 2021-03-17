@@ -41,7 +41,7 @@ public class LoginController {
             return Response.createErr("登录失败!");
         }
         Integer userId = userService.isExist(username);
-        if (userId != null) {
+        if (userId != 0) {
             String token = tokenService.createToken(username, TYPE_USER);
             return Response.createSuc(token);
         } else {
