@@ -15,7 +15,8 @@ public interface AdminMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into admin (username,password,nick) values (#{admin.username},#{admin.password},#{admin.nick})")
+    @Insert("insert into admin (username,password,nick,type,school_id)" +
+            " values (#{admin.username},#{admin.password},#{admin.nick},#{admin.type},#{admin.schoolId})")
     Boolean createAdmin(@Param("admin") Admin admin);
 
     /**
@@ -24,7 +25,9 @@ public interface AdminMapper {
      * @param admin 要更新的admin
      * @return 更新好的admin
      */
-    @Insert("update admin set id=#{admin.id},username=#{admin.username},password=#{admin.password},nick=#{admin.nick} where id=#{admin.id}")
+    @Insert("update admin set id=#{admin.id}," +
+            "username=#{admin.username},password=#{admin.password}," +
+            "nick=#{admin.nick},type=#{admin.type},school_id=#{admin.schoolId} where id=#{admin.id}")
     Long updateAdmin(@Param("admin") Admin admin);
 
     /**
