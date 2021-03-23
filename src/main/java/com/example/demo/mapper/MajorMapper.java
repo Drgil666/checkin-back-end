@@ -47,4 +47,15 @@ public interface MajorMapper {
      * @return 影响的行数
      */
     Long deleteMajor(@Param("id") List<Integer> id);
+
+    /**
+     * 根据学院id获取专业列表
+     *
+     * @param id      学院id
+     * @param keyword 专业名
+     * @return 专业列表
+     */
+    @Select("select * from major where academy_id=#{id}")
+    List<Major> getMajorListByAcademyIdAndKeyWord(@Param("id") Integer id, @Param("keyword") String keyword);
+
 }

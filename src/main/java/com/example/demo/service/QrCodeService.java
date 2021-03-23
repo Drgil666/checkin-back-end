@@ -4,7 +4,6 @@ import com.example.demo.pojo.vo.QrCheckInVO;
 import com.sun.istack.internal.NotNull;
 
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 /**
  * @author yutao

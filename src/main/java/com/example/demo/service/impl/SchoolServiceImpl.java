@@ -5,6 +5,8 @@ import com.example.demo.mapper.SchoolMapper;
 import com.example.demo.pojo.School;
 import com.example.demo.service.SchoolService;
 import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 /**
  * @author DrGilbert
  */
+@Service
 public class SchoolServiceImpl implements SchoolService {
     @Resource
     private SchoolMapper schoolMapper;
@@ -65,12 +68,36 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     /**
-     * 获取全体学校列表
+     * 根据名称查找学校
      *
-     * @return 对应的学校
+     * @param keyword 学校名
+     * @return 学校列表
      */
     @Override
-    public List<School> getSchoolList() {
-        return schoolMapper.getSchoolList();
+    public List<School> getSchoolListByKeyword(@NotNull String keyword) {
+        return schoolMapper.getSchoolListByKeyword(keyword);
     }
+
+    /**
+     * 根据学院id查找学校
+     *
+     * @param id 学院id
+     * @return 学校
+     */
+    @Override
+    public School getSchoolByAcademyId(@NotNull Integer id) {
+        return schoolMapper.getSchoolByAcademyId(id);
+    }
+
+    /**
+     * 根据专业id查找学校
+     *
+     * @param id 专业id
+     * @return 学校
+     */
+    @Override
+    public School getSchoolByMajorId(Integer id) {
+        return schoolMapper.getSchoolByMajorId(id);
+    }
+
 }

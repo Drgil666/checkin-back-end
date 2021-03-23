@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.TokenDao;
 import com.example.demo.exception.ErrorCode;
@@ -104,5 +105,17 @@ public class TokenServiceImpl implements TokenService {
             return tokenDao.getValue(userId).equals(token);
         }
         return false;
+    }
+
+    /**
+     * 获取Token对应的登录类型
+     *
+     * @param token 用户token
+     * @return 用户的登录类型
+     */
+    @Override
+    public String getLoginType(@NotNull String token) {
+        JSONObject jsonObject = JSON.parseObject(tokenDao.getValue(token));
+        return jsonObject.getString(ATTRIBUTE_TYPE);
     }
 }

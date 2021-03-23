@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.School;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface SchoolService {
      * @param school 要创建的学校
      * @return 是否创建成功
      */
-    Boolean createSchool(School school);
+    Boolean createSchool(@NotNull School school);
 
     /**
      * 更新学校
@@ -22,7 +23,7 @@ public interface SchoolService {
      * @param school 要更新的学校
      * @return 更新好的学校
      */
-    Long updateSchool(School school);
+    Long updateSchool(@NotNull School school);
 
     /**
      * 获取学校
@@ -30,7 +31,7 @@ public interface SchoolService {
      * @param id 学校id
      * @return 对应的学校
      */
-    School getSchool(Integer id);
+    School getSchool(@NotNull Integer id);
 
     /**
      * 批量删除学校
@@ -38,12 +39,29 @@ public interface SchoolService {
      * @param id 要删除的id列表
      * @return 影响的行数
      */
-    Long deleteSchool(List<Integer> id);
+    Long deleteSchool(@NotNull List<Integer> id);
 
     /**
-     * 获取全体学校列表
+     * 根据名称查找学校
      *
-     * @return 对应的学校
+     * @param keyword 学校名
+     * @return 学校列表
      */
-    List<School> getSchoolList();
+    List<School> getSchoolListByKeyword(@NotNull String keyword);
+
+    /**
+     * 根据学院id查找学校
+     *
+     * @param id 学院id
+     * @return 学校
+     */
+    School getSchoolByAcademyId(@NotNull Integer id);
+
+    /**
+     * 根据专业id查找学校
+     *
+     * @param id 专业id
+     * @return 学校
+     */
+    School getSchoolByMajorId(@NotNull Integer id);
 }

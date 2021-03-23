@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.Major;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface MajorService {
      * @param major 要创建的专业
      * @return 是否创建成功
      */
-    Boolean createMajor(Major major);
+    Boolean createMajor(@NotNull Major major);
 
     /**
      * 更新专业
@@ -23,7 +24,7 @@ public interface MajorService {
      * @param major 要更新的major
      * @return 影响的行数
      */
-    Long updateMajor(Major major);
+    Long updateMajor(@NotNull Major major);
 
     /**
      * 获取专业
@@ -31,7 +32,7 @@ public interface MajorService {
      * @param id 专业id
      * @return 获取专业id
      */
-    Major getMajor(Integer id);
+    Major getMajor(@NotNull Integer id);
 
     /**
      * 批量删除专业
@@ -39,5 +40,13 @@ public interface MajorService {
      * @param id 专业的id
      * @return 影响的行数
      */
-    Long deleteMajor(List<Integer> id);
+    Long deleteMajor(@NotNull List<Integer> id);
+
+    /**
+     * 根据学院id获取专业列表(允许其为空,表示全学院查找)
+     *
+     * @param id 学院id
+     * @return 专业列表
+     */
+    List<Major> getMajorListByAcademyIdAndKeyWord(Integer id, String keyword);
 }

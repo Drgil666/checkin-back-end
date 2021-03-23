@@ -65,7 +65,7 @@ public interface CheckSetMapper {
      * @param nick   签到名
      * @return 对应的checkSet列表
      */
-    @Select("select * from checkset where user_id=#{userId} and nick like '%${nick}%'")
+    @Select("select * from checkset where user_id=#{userId} and nick like CONCAT('%',#{nick},'%')")
     List<CheckSet> getCheckSetListByTeacher(@Param("userId") Integer userId, @Param("nick") String nick);
 
     /**
@@ -74,6 +74,6 @@ public interface CheckSetMapper {
      * @param nick 签到名
      * @return 对应的checkSet列表
      */
-    @Select("select * from checkset where nick like '%${nick}%'")
+    @Select("select * from checkset where nick like CONCAT('%',#{nick},'%')")
     List<CheckSet> getCheckSetListByNickAdmin(@Param("nick") String nick);
 }

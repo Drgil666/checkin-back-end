@@ -81,7 +81,7 @@ public interface UserMapper {
      * @param nick 用户昵称
      * @return 用户
      */
-    @Select("select * from user where user.nick like '%${nick}%'")
+    @Select("select * from user where user.nick like CONCAT('%',#{nick},'%')")
     List<User> getUserByNick(@Param("nick") String nick);
 
 }

@@ -5,14 +5,18 @@ import com.example.demo.mapper.MajorMapper;
 import com.example.demo.pojo.Major;
 import com.example.demo.service.MajorService;
 import com.example.demo.utils.AssertionUtil;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * @author DrGilbert
  * @date 2021/3/14 20:12
  */
+@Service
 public class MajorServiceImpl implements MajorService {
+    @Resource
     private MajorMapper majorMapper;
 
     /**
@@ -61,5 +65,16 @@ public class MajorServiceImpl implements MajorService {
     public Long deleteMajor(List<Integer> id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return majorMapper.deleteMajor(id);
+    }
+
+    /**
+     * 根据学院id获取专业列表
+     *
+     * @param id 学院id
+     * @return 专业列表
+     */
+    @Override
+    public List<Major> getMajorListByAcademyIdAndKeyWord(Integer id, String keyword) {
+        return majorMapper.getMajorListByAcademyIdAndKeyWord(id, keyword);
     }
 }

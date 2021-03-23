@@ -5,14 +5,19 @@ import com.example.demo.mapper.AcademyMapper;
 import com.example.demo.pojo.Academy;
 import com.example.demo.service.AcademyService;
 import com.example.demo.utils.AssertionUtil;
+import com.sun.istack.internal.NotNull;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * @author DrGilbert
  * @date 2021/3/14 20:09
  */
+@Service
 public class AcademyServiceImpl implements AcademyService {
+    @Resource
     private AcademyMapper academyMapper;
 
     /**
@@ -61,5 +66,38 @@ public class AcademyServiceImpl implements AcademyService {
     public Long deleteAcademy(List<Integer> id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return academyMapper.deleteAcademy(id);
+    }
+
+    /**
+     * 根据学院名查找学院列表
+     *
+     * @param keyword 学院名
+     * @return 学院列表
+     */
+    @Override
+    public List<Academy> getAcademyListByKeyword(@NotNull String keyword) {
+        return academyMapper.getAcademyListByKeyword(keyword);
+    }
+
+    /**
+     * 根据专业id获取学院
+     *
+     * @param id 专业id
+     * @return 学院
+     */
+    @Override
+    public Academy getAcademyByMajorId(@NotNull Integer id) {
+        return academyMapper.getAcademyByMajorId(id);
+    }
+
+    /**
+     * 根据学校id获取学院列表
+     *
+     * @param id 学校id
+     * @return 学院列表
+     */
+    @Override
+    public List<Academy> getAcademyListBySchoolId(Integer id) {
+        return academyMapper.getAcademyListBySchoolId(id);
     }
 }

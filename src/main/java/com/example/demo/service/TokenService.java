@@ -31,4 +31,12 @@ public interface TokenService {
      * @return 是否是最新的token
      */
     Boolean loginCheck(@NotNull String token);
+
+    /**
+     * 获取Token对应的登录类型
+     *
+     * @param token 用户token
+     * @return 用户的登录类型
+     */
+    String getLoginType(@NotNull String token);
 }

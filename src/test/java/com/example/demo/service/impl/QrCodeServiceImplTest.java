@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
@@ -20,7 +19,7 @@ class QrCodeServiceImplTest {
 
     @Test
     void createImage() {
-        QrCheckInVO vo=new QrCheckInVO();
+        QrCheckInVO vo = new QrCheckInVO();
         User user = new User();
         user.setSchool(0);
         user.setAcademy(0);

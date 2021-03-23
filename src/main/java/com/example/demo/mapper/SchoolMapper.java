@@ -48,10 +48,30 @@ public interface SchoolMapper {
     Long deleteSchool(@Param("id") List<Integer> id);
 
     /**
-     * 获取全体学校列表
+     * 根据名称查找学校
      *
-     * @return 对应的学校
+     * @param keyword 学校名
+     * @return 学校列表
      */
-    @Select("select * from school")
-    List<School> getSchoolList();
+    @Select("select * from school where nick like CONCAT('%',#{keyword},'%')")
+    List<School> getSchoolListByKeyword(@Param("keyword") String keyword);
+
+    /**
+     * 根据学院id查找学校
+     *
+     * @param id 学院id
+     * @return 学校
+     */
+    @Select("select * from school inner join academy on academy.school_id=#{id}")
+    School getSchoolByAcademyId(@Param("id") Integer id);
+
+    /**
+     * 根据专业id查找学校
+     *
+     * @param id 专业id
+     * @return 学校
+     */
+    @Select("select * from school inner join academy on school.id = academy.school_id " +
+            "inner join major on major.academy_id=academy.id")
+    School getSchoolByMajorId(@Param("id") Integer id);
 }

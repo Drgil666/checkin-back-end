@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.Academy;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface AcademyService {
      * @param academy 要创建的学院
      * @return 是否创建成功
      */
-    Boolean createAcademy(Academy academy);
+    Boolean createAcademy(@NotNull Academy academy);
 
     /**
      * 更新学院
@@ -23,7 +24,7 @@ public interface AcademyService {
      * @param academy 要更新的学院
      * @return 影响的行数
      */
-    Long updateAcademy(Academy academy);
+    Long updateAcademy(@NotNull Academy academy);
 
     /**
      * 查找学院
@@ -31,7 +32,7 @@ public interface AcademyService {
      * @param id 学院id
      * @return 对应的学院
      */
-    Academy getAcademy(Integer id);
+    Academy getAcademy(@NotNull Integer id);
 
     /**
      * 批量删除学院
@@ -39,5 +40,29 @@ public interface AcademyService {
      * @param id id的列表
      * @return 影响行数
      */
-    Long deleteAcademy(List<Integer> id);
+    Long deleteAcademy(@NotNull List<Integer> id);
+
+    /**
+     * 根据学院名查找学院列表
+     *
+     * @param keyword 学院名
+     * @return 学院列表
+     */
+    List<Academy> getAcademyListByKeyword(@NotNull String keyword);
+
+    /**
+     * 根据专业id获取学院
+     *
+     * @param id 专业id
+     * @return 学院
+     */
+    Academy getAcademyByMajorId(@NotNull Integer id);
+
+    /**
+     * 根据学校id获取学院列表
+     *
+     * @param id 学校id
+     * @return 学院列表
+     */
+    List<Academy> getAcademyListBySchoolId(@NotNull Integer id);
 }
