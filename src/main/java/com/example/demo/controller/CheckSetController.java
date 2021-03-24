@@ -86,7 +86,7 @@ public class CheckSetController {
     @GetMapping("/admin/list")
     @ApiOperation(value = "教师获取自己发起的签到")
     public Response<ReturnPage<CheckSet>> getCheckSetByNick(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                                            @ApiParam(value = "昵称") @RequestParam(value = "nick", required = false) String nick,
+                                                            @ApiParam(value = "昵称") @RequestParam(value = "nick", required = false, defaultValue = "") String nick,
                                                             @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                             @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                             @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
@@ -103,7 +103,7 @@ public class CheckSetController {
     @ApiOperation(value = "通过用户id获取签到信息")
     public Response<ReturnPage<CheckSet>> getCheckSetByUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                               @ApiParam(value = "用户id") @RequestParam(value = "userId", required = false) Integer userId,
-                                                              @ApiParam(value = "昵称") @RequestParam(value = "nick", required = false) String nick,
+                                                              @ApiParam(value = "昵称") @RequestParam(value = "nick", required = false, defaultValue = "") String nick,
                                                               @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                               @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                               @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {

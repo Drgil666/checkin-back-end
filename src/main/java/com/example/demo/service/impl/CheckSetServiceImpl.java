@@ -85,7 +85,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return 对应的checkSet列表
      */
     @Override
-    public List<CheckSet> getCheckSetListByTeacher(@NotNull Integer userId, @NotNull String nick) {
+    public List<CheckSet> getCheckSetListByTeacher(@NotNull Integer userId, String nick) {
         return checkSetMapper.getCheckSetListByTeacher(userId, nick);
     }
 

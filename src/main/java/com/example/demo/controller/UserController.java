@@ -133,7 +133,7 @@ public class UserController {
     @GetMapping("/admin/list")
     @ApiOperation(value = "通过昵称获取用户信息")
     public Response<ReturnPage<User>> getCheckSetByNick(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                                        @ApiParam(value = "昵称") @RequestParam(value = "nick") String nick,
+                                                        @ApiParam(value = "昵称") @RequestParam(value = "nick", defaultValue = "") String nick,
                                                         @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                         @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                         @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {

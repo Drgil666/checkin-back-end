@@ -104,7 +104,7 @@ public class AcademyController {
     }
 
     @ResponseBody
-    @GetMapping("/academy/list")
+    @GetMapping("/academy/major/list")
     @ApiOperation(value = "根据专业id获取学院")
     public Response<Academy> getAcademyByMajorId(@RequestHeader("Token") String token,
                                                  @RequestParam("id") Integer id) {

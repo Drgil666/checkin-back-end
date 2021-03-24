@@ -7,11 +7,4 @@
             #{id}
         </foreach>
     </delete>
-    <select id="getMajorListByAcademyIdAndKeyWord" parameterType="integer">
-        select * from major where
-        <if test="id!=null">
-            academy_id=#{id} and
-        </if>
-        nick like CONCAT('%',#{keyword},'%')
-    </select>
 </mapper>

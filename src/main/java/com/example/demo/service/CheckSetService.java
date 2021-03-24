@@ -56,7 +56,7 @@ public interface CheckSetService {
      * @param nick   签到名
      * @return 对应的checkSet列表
      */
-    List<CheckSet> getCheckSetListByTeacher(@NotNull Integer userId, @NotNull String nick);
+    List<CheckSet> getCheckSetListByTeacher(@NotNull Integer userId, String nick);
 
     /**
      * 管理员端通过签到名获取签到列表

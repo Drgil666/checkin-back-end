@@ -55,7 +55,7 @@ public interface MajorMapper {
      * @param keyword 专业名
      * @return 专业列表
      */
-    @Select("select * from major where academy_id=#{id}")
+    @Select("select * from major where academy_id=#{id} and nick like CONCAT('%',#{keyword},'%')")
     List<Major> getMajorListByAcademyIdAndKeyWord(@Param("id") Integer id, @Param("keyword") String keyword);
 
 }
