@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.vo.QrCheckInVO;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
 

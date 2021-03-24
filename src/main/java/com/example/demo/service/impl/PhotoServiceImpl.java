@@ -5,7 +5,7 @@ import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.Photo;
 import com.example.demo.service.PhotoService;
 import com.example.demo.utils.AssertionUtil;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

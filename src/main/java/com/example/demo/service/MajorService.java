@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.Major;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -45,8 +45,9 @@ public interface MajorService {
     /**
      * 根据学院id获取专业列表(允许其为空,表示全学院查找)
      *
-     * @param id 学院id
+     * @param id      学院id
+     * @param keyword 关键词
      * @return 专业列表
      */
-    List<Major> getMajorListByAcademyIdAndKeyWord(Integer id, String keyword);
+    List<Major> getMajorListByAcademyIdAndKeyWord(@NotNull Integer id, @NotNull String keyword);
 }

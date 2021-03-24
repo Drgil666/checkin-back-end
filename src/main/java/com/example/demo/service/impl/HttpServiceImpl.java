@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.service.HttpService;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

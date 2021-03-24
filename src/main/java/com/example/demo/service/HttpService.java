@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Gilbert

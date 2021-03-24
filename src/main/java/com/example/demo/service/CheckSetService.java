@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckSet;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -34,9 +34,9 @@ public interface CheckSetService {
     CheckSet getCheckSet(@NotNull Integer id);
 
     /**
-     * 批量删除checkset
+     * 批量删除checkSet
      *
-     * @param id 要删除的checksetId
+     * @param id 要删除的id
      * @return 变化的行数
      */
     Long deleteCheckSet(@NotNull List<Integer> id);

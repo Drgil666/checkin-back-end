@@ -5,7 +5,7 @@ import com.example.demo.mapper.CheckSetMapper;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.service.CheckSetService;
 import com.example.demo.utils.AssertionUtil;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,7 +49,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return 对应的签到
      */
     @Override
-    public CheckSet getCheckSet(Integer checkSetId) {
+    public CheckSet getCheckSet(@NotNull Integer checkSetId) {
         AssertionUtil.notNull(checkSetId, ErrorCode.BIZ_PARAM_ILLEGAL, "checkSetId不能为空!");
         return checkSetMapper.getCheckSet(checkSetId);
     }
@@ -61,7 +61,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return 变化的行数
      */
     @Override
-    public Long deleteCheckSet(List<Integer> id) {
+    public Long deleteCheckSet(@NotNull List<Integer> id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return checkSetMapper.deleteCheckSet(id);
     }
@@ -73,7 +73,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return CheckSet列表
      */
     @Override
-    public List<CheckSet> getCheckListByStu(Integer stuId) {
+    public List<CheckSet> getCheckListByStu(@NotNull Integer stuId) {
         AssertionUtil.notNull(stuId, ErrorCode.BIZ_PARAM_ILLEGAL, "stuId不能为空!");
         return checkSetMapper.getCheckListByStu(stuId);
     }
@@ -85,7 +85,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * @return 对应的checkSet列表
      */
     @Override
-    public List<CheckSet> getCheckSetListByTeacher(Integer userId, String nick) {
+    public List<CheckSet> getCheckSetListByTeacher(@NotNull Integer userId, @NotNull String nick) {
         return checkSetMapper.getCheckSetListByTeacher(userId, nick);
     }
 
@@ -94,7 +94,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * nick 签到名
      */
     @Override
-    public List<CheckSet> getCheckSetListByNickAdmin(String nick) {
+    public List<CheckSet> getCheckSetListByNickAdmin(@NotNull String nick) {
         return checkSetMapper.getCheckSetListByNickAdmin(nick);
     }
 }

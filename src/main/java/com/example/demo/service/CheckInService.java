@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.pojo.CheckIn;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

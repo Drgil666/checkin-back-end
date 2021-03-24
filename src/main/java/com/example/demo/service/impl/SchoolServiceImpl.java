@@ -5,7 +5,7 @@ import com.example.demo.mapper.SchoolMapper;
 import com.example.demo.pojo.School;
 import com.example.demo.service.SchoolService;
 import com.example.demo.utils.AssertionUtil;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,7 +26,7 @@ public class SchoolServiceImpl implements SchoolService {
      * @return 是否创建成功
      */
     @Override
-    public Boolean createSchool(School school) {
+    public Boolean createSchool(@NotNull School school) {
         AssertionUtil.notNull(school, ErrorCode.BIZ_PARAM_ILLEGAL, "school不能为空！");
         return schoolMapper.createSchool(school);
     }
@@ -38,7 +38,7 @@ public class SchoolServiceImpl implements SchoolService {
      * @return 更新好的学校
      */
     @Override
-    public Long updateSchool(School school) {
+    public Long updateSchool(@NotNull School school) {
         AssertionUtil.notNull(school.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "school的id不能为空！");
         return schoolMapper.updateSchool(school);
     }
@@ -50,7 +50,7 @@ public class SchoolServiceImpl implements SchoolService {
      * @return 对应的学校
      */
     @Override
-    public School getSchool(Integer id) {
+    public School getSchool(@NotNull Integer id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空！");
         return schoolMapper.getSchool(id);
     }
@@ -62,7 +62,7 @@ public class SchoolServiceImpl implements SchoolService {
      * @return 影响的行数
      */
     @Override
-    public Long deleteSchool(List<Integer> id) {
+    public Long deleteSchool(@NotNull List<Integer> id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return schoolMapper.deleteSchool(id);
     }
@@ -96,7 +96,7 @@ public class SchoolServiceImpl implements SchoolService {
      * @return 学校
      */
     @Override
-    public School getSchoolByMajorId(Integer id) {
+    public School getSchoolByMajorId(@NotNull Integer id) {
         return schoolMapper.getSchoolByMajorId(id);
     }
 

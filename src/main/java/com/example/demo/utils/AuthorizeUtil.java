@@ -1,9 +1,9 @@
 package com.example.demo.utils;
 
 import com.example.demo.exception.ErrorCode;
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author DrGilbert

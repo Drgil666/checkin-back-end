@@ -6,7 +6,7 @@ import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

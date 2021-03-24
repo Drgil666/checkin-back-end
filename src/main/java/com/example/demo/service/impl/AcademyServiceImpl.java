@@ -5,7 +5,7 @@ import com.example.demo.mapper.AcademyMapper;
 import com.example.demo.pojo.Academy;
 import com.example.demo.service.AcademyService;
 import com.example.demo.utils.AssertionUtil;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,7 +27,7 @@ public class AcademyServiceImpl implements AcademyService {
      * @return 是否创建成功
      */
     @Override
-    public Boolean createAcademy(Academy academy) {
+    public Boolean createAcademy(@NotNull Academy academy) {
         AssertionUtil.notNull(academy, ErrorCode.BIZ_PARAM_ILLEGAL, "academy不能为空!");
         return academyMapper.createAcademy(academy);
     }
@@ -39,7 +39,7 @@ public class AcademyServiceImpl implements AcademyService {
      * @return 影响的行数
      */
     @Override
-    public Long updateAcademy(Academy academy) {
+    public Long updateAcademy(@NotNull Academy academy) {
         AssertionUtil.notNull(academy.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "academy的id不能为空!");
         return academyMapper.updateAcademy(academy);
     }
@@ -51,7 +51,7 @@ public class AcademyServiceImpl implements AcademyService {
      * @return 对应的学院
      */
     @Override
-    public Academy getAcademy(Integer id) {
+    public Academy getAcademy(@NotNull Integer id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return academyMapper.getAcademy(id);
     }
@@ -63,7 +63,7 @@ public class AcademyServiceImpl implements AcademyService {
      * @return 影响行数
      */
     @Override
-    public Long deleteAcademy(List<Integer> id) {
+    public Long deleteAcademy(@NotNull List<Integer> id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return academyMapper.deleteAcademy(id);
     }
@@ -97,7 +97,7 @@ public class AcademyServiceImpl implements AcademyService {
      * @return 学院列表
      */
     @Override
-    public List<Academy> getAcademyListBySchoolId(Integer id) {
+    public List<Academy> getAcademyListBySchoolId(@NotNull Integer id) {
         return academyMapper.getAcademyListBySchoolId(id);
     }
 }

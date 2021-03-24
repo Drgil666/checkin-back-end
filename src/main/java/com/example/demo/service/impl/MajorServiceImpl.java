@@ -5,6 +5,7 @@ import com.example.demo.mapper.MajorMapper;
 import com.example.demo.pojo.Major;
 import com.example.demo.service.MajorService;
 import com.example.demo.utils.AssertionUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,7 +27,7 @@ public class MajorServiceImpl implements MajorService {
      * @return 是否创建成功
      */
     @Override
-    public Boolean createMajor(Major major) {
+    public Boolean createMajor(@NotNull Major major) {
         AssertionUtil.notNull(major, ErrorCode.BIZ_PARAM_ILLEGAL, "major不能为空!");
         return majorMapper.createMajor(major);
     }
@@ -38,7 +39,7 @@ public class MajorServiceImpl implements MajorService {
      * @return 影响的行数
      */
     @Override
-    public Long updateMajor(Major major) {
+    public Long updateMajor(@NotNull Major major) {
         AssertionUtil.notNull(major.getId(), ErrorCode.BIZ_PARAM_ILLEGAL, "major的id不能为空!");
         return majorMapper.updateMajor(major);
     }
@@ -50,7 +51,7 @@ public class MajorServiceImpl implements MajorService {
      * @return 获取专业id
      */
     @Override
-    public Major getMajor(Integer id) {
+    public Major getMajor(@NotNull Integer id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return majorMapper.getMajor(id);
     }
@@ -62,7 +63,7 @@ public class MajorServiceImpl implements MajorService {
      * @return 影响的行数
      */
     @Override
-    public Long deleteMajor(List<Integer> id) {
+    public Long deleteMajor(@NotNull List<Integer> id) {
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id不能为空!");
         return majorMapper.deleteMajor(id);
     }
@@ -74,7 +75,7 @@ public class MajorServiceImpl implements MajorService {
      * @return 专业列表
      */
     @Override
-    public List<Major> getMajorListByAcademyIdAndKeyWord(Integer id, String keyword) {
+    public List<Major> getMajorListByAcademyIdAndKeyWord(@NotNull Integer id, @NotNull String keyword) {
         return majorMapper.getMajorListByAcademyIdAndKeyWord(id, keyword);
     }
 }
