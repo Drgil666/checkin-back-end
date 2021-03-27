@@ -26,7 +26,7 @@ public class ListPageUtil {
     public static void paging(Integer current, Integer pageSize, String sorter) throws Exception {
         if (current == null && pageSize == null) {
             current = 1;
-            pageSize = INT_LIMIT;
+            pageSize = 100000;
         }
         assert current != null : "current参数错误!";
         assert pageSize != null : "pageSize参数错误!";
