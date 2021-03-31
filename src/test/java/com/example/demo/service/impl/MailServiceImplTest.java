@@ -22,12 +22,12 @@ public class MailServiceImplTest {
 
     @Test
     public void sendSimpleMail() throws UnsupportedEncodingException {
-        mailService.sendSimpleMail("2574105038@qq.com", "主题1", "内容1");
+        mailService.sendSimpleMail("2574105038@qq.com", "subject1", "content1");
     }
 
     @Test
     public void sendHtmlMail() {
-        mailService.sendHtmlMail("2574105038@qq.com", "主题1", "内容1");
+        mailService.sendHtmlMail("2574105038@qq.com", "subject1", "content1");
     }
 
     @Test
