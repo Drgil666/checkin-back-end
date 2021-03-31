@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.pojo.vo.QrCheckInVO;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
@@ -38,5 +37,5 @@ public interface QrCodeService {
      * @param vo 二维码存储信息
      * @return 生成的base64串
      */
-    String createQr(@NotNull QrCheckInVO vo);
+    String createQr(@NotNull String vo);
 }

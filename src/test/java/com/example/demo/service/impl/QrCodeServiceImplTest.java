@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.pojo.User;
-import com.example.demo.pojo.vo.QrCheckInVO;
 import com.example.demo.service.QrCodeService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +18,7 @@ class QrCodeServiceImplTest {
 
     @Test
     void createImage() {
-        QrCheckInVO vo = new QrCheckInVO();
+        String vo = "sss";
         User user = new User();
         user.setSchool(0);
         user.setAcademy(0);

@@ -23,7 +23,7 @@ import java.io.File;
 public class MailServiceImpl implements MailService {
     @Resource
     private JavaMailSender javaMailSender;
-    @Value("${spring.mail.form}")
+    @Value("${spring.mail.from}")
     private String from;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
