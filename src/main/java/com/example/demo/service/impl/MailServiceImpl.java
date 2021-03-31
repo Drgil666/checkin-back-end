@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Date;
 
 /**
  * @author DrGilbert
@@ -36,18 +37,25 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public void sendSimpleMail(String to, String subject, String content) {
-        //创建SimpleMailMessage对象
-        SimpleMailMessage message = new SimpleMailMessage();
-        //邮件发送人
-        message.setFrom(from);
-        //邮件接收人
-        message.setTo(to);
-        //邮件主题
-        message.setSubject(subject);
-        //邮件内容
-        message.setText(content);
-        //发送邮件
-        javaMailSender.send(message);
+        try {
+            //创建MimeMessage对象
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            //邮件发送人
+            helper.setFrom(from);
+            //邮件接收人
+            helper.setTo(to);
+            //邮件主题
+            helper.setSubject(subject);
+            //邮件内容
+            helper.setText(content);
+            helper.setSentDate(new Date());
+            //发送邮件
+            javaMailSender.send(message);
+        } catch (MailException | MessagingException ex) {
+            // simply log it and go on...
+            ex.printStackTrace();
+        }
     }
 
     /**

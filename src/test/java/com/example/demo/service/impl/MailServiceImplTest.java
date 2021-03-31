@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
 
 /**
  * @author DrGilbert
@@ -21,8 +20,8 @@ public class MailServiceImplTest {
     private MailService mailService;
 
     @Test
-    public void sendSimpleMail() throws UnsupportedEncodingException {
-        mailService.sendSimpleMail("2574105038@qq.com", "subject1", "content1");
+    public void sendSimpleMail() {
+        mailService.sendSimpleMail("2574105038@qq.com", "这是一个主题", "这是邮件正文");
     }
 
     @Test

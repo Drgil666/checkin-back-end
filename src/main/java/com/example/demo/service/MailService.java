@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * @author DrGilbert
  * @date 2021/3/31 10:33
@@ -14,7 +12,7 @@ public interface MailService {
      * @param subject 主题
      * @param content 内容
      */
-    void sendSimpleMail(String to, String subject, String content) throws UnsupportedEncodingException;
+    void sendSimpleMail(String to, String subject, String content);
 
     /**
      * 发送HTML邮件
