@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.service.HttpService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,7 +20,7 @@ public class HttpServiceImplTest {
     private HttpService httpService;
 
     @Test
-    void getOpenId() {
+    public void getOpenId() {
         System.out.println(httpService.getOpenId("083H5Q0w36UWFV2CGW2w3arTj20H5Q02"));
     }
 }

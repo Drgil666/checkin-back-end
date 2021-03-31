@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.DemoApplication;
 import com.example.demo.pojo.Sign;
 import com.example.demo.service.SignService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,7 +23,7 @@ public class SignServiceImplTest {
     private SignService signService;
 
     @Test
-    void createSign() {
+    public void createSign() {
         Sign sign = new Sign();
         sign.setStuId(1);
         sign.setSignTime(new Date());
@@ -34,20 +34,20 @@ public class SignServiceImplTest {
     }
 
     @Test
-    void updateSign() {
+    public void updateSign() {
         Sign sign = signService.getSign(2);
         sign.setPhotoId("222");
         signService.updateSign(sign);
     }
 
     @Test
-    void getSign() {
+    public void getSign() {
         Sign sign = signService.getSign(1);
         System.out.println(sign.getId());
     }
 
     @Test
-    void getSignList() {
+    public void getSignList() {
         List<Sign> signList;
         signList = signService.getSignList(1);
         System.out.println(signList);
@@ -55,7 +55,7 @@ public class SignServiceImplTest {
 
 
     @Test
-    void deleteSign() {
+    public void deleteSign() {
         List<Integer> id = new ArrayList<>();
         id.add(10);
         id.add(11);

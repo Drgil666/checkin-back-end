@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * @author DrGilbert
@@ -8,19 +8,19 @@ import org.junit.jupiter.api.Test;
  */
 class TokenServiceImplTest {
     @Test
-    void createToken() {
+    public void createToken() {
 
     }
 
     @Test
-    void getUserIdByToken() {
+    public void getUserIdByToken() {
     }
 
     @Test
-    void loginCheck() {
+    public void loginCheck() {
     }
 
     @Test
-    void getLoginType() {
+    public void getLoginType() {
     }
 }

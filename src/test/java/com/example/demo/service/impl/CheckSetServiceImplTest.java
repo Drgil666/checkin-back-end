@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.DemoApplication;
 import com.example.demo.pojo.CheckSet;
 import com.example.demo.service.CheckSetService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,7 +22,7 @@ public class CheckSetServiceImplTest {
     private CheckSetService checkSetService;
 
     @Test
-    void createCheckSet() {
+    public void createCheckSet() {
         CheckSet checkSet = new CheckSet();
         checkSet.setNick("阿里云测试");
         checkSet.setUserId(1);
@@ -32,27 +32,27 @@ public class CheckSetServiceImplTest {
     }
 
     @Test
-    void updateCheckSet() {
+    public void updateCheckSet() {
         CheckSet checkSet = checkSetService.getCheckSet(1);
         checkSet.setNick("更新测试");
         System.out.println(checkSetService.updateCheckSet(checkSet));
     }
 
     @Test
-    void getCheckSet() {
+    public void getCheckSet() {
         CheckSet checkSet = checkSetService.getCheckSet(2);
         System.out.println(checkSet);
     }
 
     @Test
-    void getCheckSetList() {
+    public void getCheckSetList() {
         List<CheckSet> setList = checkSetService.getCheckSetListByTeacher(1, "");
         System.out.println(setList);
     }
 
 
     @Test
-    void deleteCheckSet() {
+    public void deleteCheckSet() {
         List<Integer> id = new ArrayList<>();
         id.add(3);
         id.add(4);
@@ -60,7 +60,7 @@ public class CheckSetServiceImplTest {
     }
 
     @Test
-    void getCheckByStu() {
+    public void getCheckByStu() {
         List<CheckSet> checkSetList = checkSetService.getCheckListByStu(1);
         System.out.println(checkSetList);
     }
