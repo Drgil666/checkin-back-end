@@ -151,7 +151,7 @@
             <artifactId>arcsoft-sdk-face</artifactId>
             <version>3.0.0.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/libs/arcsoft-sdk-face-3.0.0.0.jar</systemPath>
+            <systemPath>${pom.basedir}/libs/arcsoft-sdk-face-3.0.0.0.jar</systemPath>
         </dependency>
         <!--        线程池相关-->
         <dependency>
