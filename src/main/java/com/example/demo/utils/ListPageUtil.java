@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,8 +29,8 @@ public class ListPageUtil {
             current = 1;
             pageSize = 100000;
         }
-        assert current != null : "current参数错误!";
-        assert pageSize != null : "pageSize参数错误!";
+        AssertionUtil.notNull(current, ErrorCode.BIZ_PARAM_ILLEGAL, "current参数错误!");
+        AssertionUtil.notNull(pageSize, ErrorCode.BIZ_PARAM_ILLEGAL, "pageSize参数错误!");
         if (sorter != null) {
             sorter = OrderToolUtil.toOrderString(sorter);
             PageHelper.startPage(current, pageSize, sorter);

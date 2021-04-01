@@ -6,9 +6,9 @@ import com.arcsoft.face.enums.DetectOrient;
 import com.arcsoft.face.toolkit.ImageFactory;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.example.demo.exception.ErrorCode;
-import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.FaceEngineFactory;
 import com.example.demo.service.FaceService;
+import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -85,9 +85,7 @@ public class FaceServiceImpl implements FaceService {
         FaceEngine faceEngine = null;
         try {
             faceEngine = faceEngineGeneralPool.borrowObject();
-            if (faceEngine == null) {
-                throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "获取引擎失败");
-            }
+            AssertionUtil.notNull(faceEngine, ErrorCode.INNER_PARAM_ILLEGAL, "获取引擎失败");
             List<FaceInfo> faceInfoList = new ArrayList<>();
             int errorCode = faceEngine.detectFaces(imageInfo.getImageData(),
                     imageInfo.getWidth(),
@@ -122,9 +120,8 @@ public class FaceServiceImpl implements FaceService {
         ImageInfo imageInfo2 = getImageInfo(img2);
         List<FaceInfo> faceInfoList1 = detectFaces(img1);
         List<FaceInfo> faceInfoList2 = detectFaces(img2);
-        if (CollectionUtils.isEmpty(faceInfoList1) || CollectionUtils.isEmpty(faceInfoList2)) {
-            throw new ErrorException(ErrorCode.UNKNOWN_ERROR, "未检测到人脸");
-        }
+        AssertionUtil.isTrue(!(CollectionUtils.isEmpty(faceInfoList1) ||
+                CollectionUtils.isEmpty(faceInfoList2)), ErrorCode.UNKNOWN_ERROR, "未检测到人脸");
 
         byte[] feature1 = extractFaceFeature(imageInfo1, faceInfoList1.get(0));
         byte[] feature2 = extractFaceFeature(imageInfo2, faceInfoList2.get(0));
@@ -132,9 +129,7 @@ public class FaceServiceImpl implements FaceService {
         FaceEngine faceEngine = null;
         try {
             faceEngine = faceEngineGeneralPool.borrowObject();
-            if (faceEngine == null) {
-                throw new ErrorException(ErrorCode.UNKNOWN_ERROR, "获取引擎失败");
-            }
+            AssertionUtil.notNull(faceEngine, ErrorCode.UNKNOWN_ERROR, "获取引擎失败");
             FaceFeature faceFeature1 = new FaceFeature();
             faceFeature1.setFeatureData(feature1);
             FaceFeature faceFeature2 = new FaceFeature();
@@ -169,9 +164,7 @@ public class FaceServiceImpl implements FaceService {
         FaceEngine faceEngine = null;
         try {
             faceEngine = faceEngineGeneralPool.borrowObject();
-            if (faceEngine == null) {
-                throw new ErrorException(ErrorCode.UNKNOWN_ERROR, "获取引擎失败");
-            }
+            AssertionUtil.notNull(faceEngine, ErrorCode.UNKNOWN_ERROR, "获取引擎失败");
             FaceFeature faceFeature = new FaceFeature();
             //提取人脸特征
             int errorCode = faceEngine.extractFaceFeature(imageInfo.getImageData(), imageInfo.getWidth(), imageInfo.getHeight(), imageInfo.getImageFormat(), faceInfo, faceFeature);

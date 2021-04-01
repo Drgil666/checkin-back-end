@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.example.demo.exception.ErrorCode;
 import com.google.common.base.CaseFormat;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +31,7 @@ public class OrderToolUtil {
         String[] sorterSet = s.split(";");
         for (String sorter : sorterSet) {
             String[] entry = sorter.split(":");
-            assert entry.length == 2 : "参数非法";
+            AssertionUtil.isTrue(entry.length == 2, ErrorCode.BIZ_PARAM_ILLEGAL, "sorter参数非法");
             String key = entry[0];
             String value = entry[1];
             map.put(key, value);
