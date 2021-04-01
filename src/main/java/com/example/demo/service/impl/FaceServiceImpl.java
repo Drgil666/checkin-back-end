@@ -31,7 +31,8 @@ import java.util.concurrent.Executors;
 public class FaceServiceImpl implements FaceService {
     public static final String APP_ID = "Aabc3fgCYw5dfJEAAuJ9kwo9hzhY6Yu1azbQ6nkE5RjY";
     public static final String SDK_KEY = "Hzpq8QyVckTpsKEPLgSetXtS3k7CiYByNsFKb3qrjznD";
-    public static final String SDK_LIB_PATH = "Y:\\Users\\DrGilbert\\IdeaProjects\\checkin-back-end\\libs\\WIN64";
+    //    public static final String SDK_LIB_PATH = "Y:\\Users\\DrGilbert\\IdeaProjects\\checkin-back-end\\libs\\WIN64";
+    public static final String SDK_LIB_PATH = "/var/lib/jenkins/workspace/zjgsu-checkin-back-end/libs/WIN64";
     public static final Integer DETECT_POO_SIZE = 5;
     public static final Integer COMPARE_POO_SIZE = 5;
     private ExecutorService compareExecutorService;
