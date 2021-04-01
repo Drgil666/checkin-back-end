@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.arcsoft.face.FaceInfo;
 import com.arcsoft.face.toolkit.ImageInfo;
+import com.example.demo.pojo.ProcessInfo;
 
 import java.util.List;
 
@@ -36,4 +37,11 @@ public interface FaceService {
      */
     byte[] extractFaceFeature(ImageInfo imageInfo, FaceInfo faceInfo);
 
+    /**
+     * 活体检测
+     *
+     * @param img 图片base64
+     * @return 脸的信息
+     */
+    List<ProcessInfo> liveDetect(String img);
 }

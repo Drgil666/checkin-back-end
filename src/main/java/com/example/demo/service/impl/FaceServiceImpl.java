@@ -7,6 +7,7 @@ import com.arcsoft.face.toolkit.ImageFactory;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.FaceEngineFactory;
+import com.example.demo.pojo.ProcessInfo;
 import com.example.demo.service.FaceService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.Base64Util;
@@ -54,6 +55,7 @@ public class FaceServiceImpl implements FaceService {
         detectFunctionCfg.setSupportAge(true);
         detectFunctionCfg.setSupportGender(true);
         detectFunctionCfg.setSupportLiveness(true);
+        detectFunctionCfg.setSupportIRLiveness(true);
         detectCfg.setFunctionConfiguration(detectFunctionCfg);
         detectCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);
         detectCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);
@@ -74,7 +76,7 @@ public class FaceServiceImpl implements FaceService {
     }
 
     /**
-     * 人脸检测
+     * 获取人脸特征
      *
      * @param img 照片base64
      * @return 人脸信息
@@ -178,6 +180,57 @@ public class FaceServiceImpl implements FaceService {
         } finally {
             if (faceEngine != null) {
                 //释放引擎对象
+                faceEngineGeneralPool.returnObject(faceEngine);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 活体检测
+     *
+     * @param img 图片base64
+     */
+    @Override
+    public List<ProcessInfo> liveDetect(String img) {
+        ImageInfo imageInfo = getImageInfo(img);
+        List<FaceInfo> faceInfoList = detectFaces(img);
+        FaceEngine faceEngine = null;
+        try {
+            //获取引擎对象
+            faceEngine = faceEngineGeneralPool.borrowObject();
+            AssertionUtil.notNull(faceEngine, ErrorCode.UNKNOWN_ERROR, "获取引擎失败");
+            FunctionConfiguration functionConfiguration = new FunctionConfiguration();
+            functionConfiguration.setSupportAge(true);
+            functionConfiguration.setSupportAge(true);
+            functionConfiguration.setSupportGender(true);
+            functionConfiguration.setSupportLiveness(true);
+            int errorCode = faceEngine.process(imageInfo.getImageData(),
+                    imageInfo.getWidth(),
+                    imageInfo.getHeight(),
+                    imageInfo.getImageFormat(),
+                    faceInfoList, functionConfiguration);
+            if (errorCode == 0) {
+                List<ProcessInfo> processInfoList = new ArrayList<>();
+                List<GenderInfo> genderInfoList = new ArrayList<GenderInfo>();
+                faceEngine.getGender(genderInfoList);
+                List<AgeInfo> ageInfoList = new ArrayList<AgeInfo>();
+                faceEngine.getAge(ageInfoList);
+                List<LivenessInfo> livenessInfoList = new ArrayList<>();
+                faceEngine.getLiveness(livenessInfoList);
+                for (int i = 0; i < genderInfoList.size(); i++) {
+                    ProcessInfo processInfo = new ProcessInfo();
+                    processInfo.setGender(genderInfoList.get(i).getGender());
+                    processInfo.setAge(ageInfoList.get(i).getAge());
+                    processInfo.setLiveness(livenessInfoList.get(i).getLiveness());
+                    processInfoList.add(processInfo);
+                }
+                return processInfoList;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (faceEngine != null) {
                 faceEngineGeneralPool.returnObject(faceEngine);
             }
         }
