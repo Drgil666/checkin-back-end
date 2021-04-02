@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import cn.yueshutong.springbootstartercurrentlimiting.annotation.CurrentLimiter;
 import com.arcsoft.face.FaceInfo;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.Photo;
@@ -44,6 +45,7 @@ public class FaceController {
 
     @ResponseBody
     @PostMapping()
+    @CurrentLimiter(QPS = 5)
     public Response<Float> compareDetect(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                          @ApiParam(value = "包含大签到信息，操作信息") @RequestBody PhotoVO request) {
         AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
