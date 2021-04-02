@@ -124,10 +124,8 @@ public class FaceServiceImpl implements FaceService {
         List<FaceInfo> faceInfoList2 = detectFaces(img2);
         AssertionUtil.isTrue(!(CollectionUtils.isEmpty(faceInfoList1) ||
                 CollectionUtils.isEmpty(faceInfoList2)), ErrorCode.UNKNOWN_ERROR, "未检测到人脸");
-
         byte[] feature1 = extractFaceFeature(imageInfo1, faceInfoList1.get(0));
         byte[] feature2 = extractFaceFeature(imageInfo2, faceInfoList2.get(0));
-
         FaceEngine faceEngine = null;
         try {
             faceEngine = faceEngineGeneralPool.borrowObject();
@@ -201,7 +199,6 @@ public class FaceServiceImpl implements FaceService {
             faceEngine = faceEngineGeneralPool.borrowObject();
             AssertionUtil.notNull(faceEngine, ErrorCode.UNKNOWN_ERROR, "获取引擎失败");
             FunctionConfiguration functionConfiguration = new FunctionConfiguration();
-            functionConfiguration.setSupportAge(true);
             functionConfiguration.setSupportAge(true);
             functionConfiguration.setSupportGender(true);
             functionConfiguration.setSupportLiveness(true);
