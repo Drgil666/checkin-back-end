@@ -1,19 +1,20 @@
 package com.example.demo.exception;
 
-import cn.yueshutong.springbootstartercurrentlimiting.annotation.CurrentLimiter;
-import cn.yueshutong.springbootstartercurrentlimiting.handler.CurrentAspectHandler;
+import cn.yueshutong.springbootstartercurrentlimiting.handler.CurrentInterceptorHandler;
 import com.example.demo.pojo.vo.Response;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author DrGilbert
  * @date 2021/4/2 21:17
  */
 @Component
-public class CurrentLimitHandler implements CurrentAspectHandler {
+public class CurrentLimitHandler implements CurrentInterceptorHandler {
     @Override
-    public Response<String> around(ProceedingJoinPoint pjp, CurrentLimiter rateLimiter) {
-        return Response.createErr("接口访问繁忙!休息一下");
+    public void preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        response.getWriter().print(Response.createErr("系统繁忙！请稍后再试！"));
     }
 }
