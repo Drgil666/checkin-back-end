@@ -52,6 +52,7 @@ public class FaceController {
         List<ProcessInfo> processInfos = faceService.liveDetect(request.getImg());
         AssertionUtil.isTrue(processInfos.get(0).getLiveness() == 1,
                 ErrorCode.UNKNOWN_ERROR, "活体检测失败!请对着人脸拍摄");
+        byte[] imgFeature = faceService.getFaceFeature(request.getImg());
         switch (request.getType()) {
             case PhotoVO.TYPE_SIGNIN: {
                 User user = userService.getUser(userId);
@@ -59,12 +60,12 @@ public class FaceController {
                 if (photoId == null || photoId.length() == 0) {
                     return Response.createErr("您未录入人脸!请去个人中心录入!");
                 }
-                String userImg = photoService.getPhoto(photoId).getPhotoId();
-                Float result = faceService.compareFace(userImg, request.getImg());
+                byte[] userFeature = photoService.getPhoto(photoId).getPhotoId();
+                Float result = faceService.compareFace(userFeature, imgFeature);
                 AssertionUtil.notNull(result, ErrorCode.BIZ_PARAM_ILLEGAL, "人脸比对失败!");
                 if (result >= PhotoVO.COMPARE_THRESHOLD) {
                     Photo photo = new Photo();
-                    photo.setPhotoId(request.getImg());
+                    photo.setPhotoId(imgFeature);
                     if (photoService.createPhoto(photo) == null) {
                         return Response.createErr("签到照片存储失败!请重新签到!");
                     }
@@ -94,7 +95,7 @@ public class FaceController {
                     return Response.createErr("未检测到人脸!");
                 }
                 Photo photo = new Photo();
-                photo.setPhotoId(request.getImg());
+                photo.setPhotoId(imgFeature);
                 if (photoService.createPhoto(photo) != null) {
                     user.setPhotoId(photo.getId());
                     if (userService.updateUser(user) == 1) {

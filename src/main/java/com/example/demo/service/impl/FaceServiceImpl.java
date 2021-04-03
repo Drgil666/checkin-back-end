@@ -12,7 +12,6 @@ import com.example.demo.service.FaceService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.Base64Util;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.stereotype.Service;
@@ -112,20 +111,12 @@ public class FaceServiceImpl implements FaceService {
     /**
      * 人脸对比
      *
-     * @param img1 用户图片
-     * @param img2 拍摄图片
+     * @param feature1 用户图片
+     * @param feature2 拍摄图片
      * @return 相似度
      */
     @Override
-    public Float compareFace(String img1, String img2) {
-        ImageInfo imageInfo1 = getImageInfo(img1);
-        ImageInfo imageInfo2 = getImageInfo(img2);
-        List<FaceInfo> faceInfoList1 = detectFaces(img1);
-        List<FaceInfo> faceInfoList2 = detectFaces(img2);
-        AssertionUtil.isTrue(!(CollectionUtils.isEmpty(faceInfoList1) ||
-                CollectionUtils.isEmpty(faceInfoList2)), ErrorCode.UNKNOWN_ERROR, "未检测到人脸");
-        byte[] feature1 = extractFaceFeature(imageInfo1, faceInfoList1.get(0));
-        byte[] feature2 = extractFaceFeature(imageInfo2, faceInfoList2.get(0));
+    public Float compareFace(byte[] feature1, byte[] feature2) {
         FaceEngine faceEngine = null;
         try {
             faceEngine = faceEngineGeneralPool.borrowObject();
@@ -232,6 +223,19 @@ public class FaceServiceImpl implements FaceService {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取人脸信息
+     *
+     * @param img 图片base64
+     * @return 字节数组
+     */
+    @Override
+    public byte[] getFaceFeature(String img) {
+        ImageInfo imageInfo = getImageInfo(img);
+        List<FaceInfo> faceInfoList = detectFaces(img);
+        return extractFaceFeature(imageInfo, faceInfoList.get(0));
     }
 
     /**

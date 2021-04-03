@@ -25,7 +25,7 @@ public class PhotoServiceImplTest {
     @Test
     public void createPhoto() {
         Photo photo = new Photo();
-        photo.setPhotoId("111");
+        photo.setPhotoId(new byte[20]);
         photoService.createPhoto(photo);
         System.out.println(photo.getId());
     }
@@ -33,7 +33,7 @@ public class PhotoServiceImplTest {
     @Test
     public void updatePhoto() {
         Photo photo = photoService.getPhoto("5f9a6813735f570c5952b7ed");
-        photo.setPhotoId("222");
+        photo.setPhotoId(new byte[20]);
         photoService.updatePhoto(photo);
     }
 

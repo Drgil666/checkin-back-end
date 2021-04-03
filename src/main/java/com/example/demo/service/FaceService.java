@@ -22,11 +22,11 @@ public interface FaceService {
     /**
      * 人脸对比
      *
-     * @param img1 用户图片
-     * @param img2 拍摄图片
+     * @param feature1 用户图片
+     * @param feature2 拍摄图片
      * @return 相似度
      */
-    Float compareFace(String img1, String img2);
+    Float compareFace(byte[] feature1, byte[] feature2);
 
     /**
      * 获取人脸特征
@@ -44,4 +44,12 @@ public interface FaceService {
      * @return 脸的信息
      */
     List<ProcessInfo> liveDetect(String img);
+
+    /**
+     * 获取人脸信息
+     *
+     * @param img 图片base64
+     * @return 字节数组
+     */
+    byte[] getFaceFeature(String img);
 }

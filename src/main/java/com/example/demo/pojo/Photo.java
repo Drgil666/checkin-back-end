@@ -23,6 +23,6 @@ public class Photo {
     /**
      * 照片的Base64串
      */
-    @ApiModelProperty(value = "照片的Base64串", name = "photoId", required = true)
-    private String photoId;
+    @ApiModelProperty(value = "照片的字节串", name = "photoId", required = true)
+    private byte[] photoId;
 }
