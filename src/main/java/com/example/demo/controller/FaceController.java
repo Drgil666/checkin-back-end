@@ -69,6 +69,10 @@ public class FaceController {
                     if (photoService.createPhoto(photo) == null) {
                         return Response.createErr("签到照片存储失败!请重新签到!");
                     }
+                    Sign anotherSign = signService.getSignByCheckIdAndUserId(request.getCheckInId(), userId);
+                    if (anotherSign != null) {
+                        return Response.createErr("您已经签到!无需重复签到!");
+                    }
                     Sign sign = new Sign();
                     sign.setNick(user.getNick());
                     sign.setSignTime(new Date());
