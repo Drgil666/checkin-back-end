@@ -8,6 +8,8 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.User;
+import com.example.demo.pojo.vo.RedisUserVO;
+import com.example.demo.pojo.vo.RedisVerifyVO;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
@@ -16,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -32,13 +35,6 @@ public class TokenServiceImpl implements TokenService {
     private UserMapper userMapper;
     @Resource
     private AdminService adminService;
-    public static final Integer TYPE_USER = 1;
-    public static final Integer TYPE_ADMIN = 2;
-    public static final String ATTRIBUTE_USER = "user";
-    public static final String ATTRIBUTE_ADMIN = "admin";
-    public static final String ATTRIBUTE_TYPE = "type";
-    public static final String ATTRIBUTE_USERNAME = "username";
-    public static final String ATTRIBUTE_PASSWORD = "password";
 
     /**
      * 生成token
@@ -47,17 +43,19 @@ public class TokenServiceImpl implements TokenService {
      * @return 生成的token
      */
     @Override
-    public String createToken(@NotNull String id, @NotNull Integer type) {
+    public String createUserToken(@NotNull String id, @NotNull Integer type) {
         AssertionUtil.notNull(userService.isExist(id), ErrorCode.BIZ_PARAM_ILLEGAL, "用户不存在");
         String uuid = UUID.randomUUID().toString();
-        JSONObject json = new JSONObject();
-        json.put(ATTRIBUTE_USERNAME, id);
-        if (type.equals(TYPE_USER)) {
-            json.put(ATTRIBUTE_TYPE, ATTRIBUTE_USER);
-        } else if (type.equals(TYPE_ADMIN)) {
-            json.put(ATTRIBUTE_TYPE, ATTRIBUTE_ADMIN);
+        RedisUserVO redisUserVO = new RedisUserVO();
+        redisUserVO.setUsername(id);
+        if (type.equals(RedisUserVO.TYPE_USER)) {
+            redisUserVO.setType(RedisUserVO.ATTRIBUTE_USER);
+        } else if (type.equals(RedisUserVO.TYPE_ADMIN)) {
+            redisUserVO.setType(RedisUserVO.ATTRIBUTE_ADMIN);
+        } else {
+            throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "登录类型错误!");
         }
-        String newId = json.toJSONString();
+        String newId = JSON.toJSONString(redisUserVO);
         String exToken = tokenDao.getValue(newId);
         if (exToken != null) {
             tokenDao.deleteValue(exToken);
@@ -78,14 +76,14 @@ public class TokenServiceImpl implements TokenService {
     public Integer getUserIdByToken(@NotNull String token) {
         String jsonString = tokenDao.getValue(token);
         JSONObject json = JSONObject.parseObject(jsonString);
-        String username = json.getString(ATTRIBUTE_USERNAME);
-        String type = json.getString(ATTRIBUTE_TYPE);
-        AssertionUtil.isTrue(!(username == null || type == null), ErrorCode.BIZ_PARAM_ILLEGAL, "Token不存在!");
-        if (ATTRIBUTE_USER.equals(type)) {
-            User user = userMapper.getUserByUserName(username);
+        RedisUserVO redisUserVO = JSONObject.toJavaObject(json, RedisUserVO.class);
+        AssertionUtil.isTrue(!(redisUserVO.getUsername() == null || redisUserVO.getType() == null),
+                ErrorCode.BIZ_PARAM_ILLEGAL, "Token不存在!");
+        if (RedisUserVO.ATTRIBUTE_USER.equals(redisUserVO.getType())) {
+            User user = userMapper.getUserByUserName(redisUserVO.getUsername());
             return user.getId();
-        } else if (ATTRIBUTE_ADMIN.equals(type)) {
-            Admin admin = adminService.getAdminByUsername(username);
+        } else if (RedisUserVO.ATTRIBUTE_ADMIN.equals(redisUserVO.getType())) {
+            Admin admin = adminService.getAdminByUsername(redisUserVO.getUsername());
             return admin.getId();
         } else {
             throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "登录类型错误!");
@@ -116,6 +114,65 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String getLoginType(@NotNull String token) {
         JSONObject jsonObject = JSON.parseObject(tokenDao.getValue(token));
-        return jsonObject.getString(ATTRIBUTE_TYPE);
+        return jsonObject.getString(RedisUserVO.ATTRIBUTE_TYPE);
+    }
+
+    /**
+     * 生成用户的验证码
+     *
+     * @param token 用户Token
+     * @return 验证码
+     */
+    @Override
+    public String createMailToken(@NotNull String token) {
+        AssertionUtil.isTrue(loginCheck(token) &&
+                        getLoginType(token).equals(RedisUserVO.ATTRIBUTE_ADMIN),
+                ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
+        String verificationCode = "1223345";
+        Integer adminId = getUserIdByToken(token);
+        Admin admin = adminService.getAdmin(adminId);
+        RedisVerifyVO redisVerifyVO = new RedisVerifyVO();
+        redisVerifyVO.setDate(new Date());
+        redisVerifyVO.setUsername(admin.getUsername());
+        String exVerificationCode = tokenDao.getValue(redisVerifyVO.getUsername());
+        if (exVerificationCode != null) {
+            tokenDao.deleteValue(exVerificationCode);
+            tokenDao.deleteValue(redisVerifyVO.getUsername());
+        }
+        tokenDao.setValue(verificationCode, JSON.toJSONString(redisVerifyVO));
+        tokenDao.setValue(redisVerifyVO.getUsername(), verificationCode);
+        return verificationCode;
+    }
+
+    /**
+     * 校验管理员的验证码
+     *
+     * @param token            用户Token
+     * @param verificationCode 验证码
+     * @return 是否一致
+     */
+    @Override
+    public Boolean checkMailToken(@NotNull String token, @NotNull String verificationCode) {
+        AssertionUtil.isTrue(loginCheck(token) &&
+                        getLoginType(token).equals(RedisUserVO.ATTRIBUTE_ADMIN),
+                ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
+        String jsonString = tokenDao.getValue(verificationCode);
+        AssertionUtil.notNull(jsonString, ErrorCode.BIZ_PARAM_ILLEGAL, "验证码不存在!");
+        JSONObject jsonObject = JSONObject.parseObject(jsonString);
+        AssertionUtil.notNull(jsonObject, ErrorCode.BIZ_PARAM_ILLEGAL, "验证码不存在!");
+        RedisVerifyVO redisVerifyVO = JSONObject.toJavaObject(jsonObject, RedisVerifyVO.class);
+        if (System.currentTimeMillis() - redisVerifyVO.getDate().getTime() >= RedisVerifyVO.VALIDITY) {
+            throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "验证码已超时!");
+        }
+        Integer adminId = getUserIdByToken(token);
+        Admin admin = adminService.getAdmin(adminId);
+        if (tokenDao.getValue(admin.getUsername()).equals(verificationCode) &&
+                redisVerifyVO.getUsername().equals(admin.getUsername())) {
+            tokenDao.deleteValue(verificationCode);
+            tokenDao.deleteValue(redisVerifyVO.getUsername());
+            return true;
+        } else {
+            return false;
+        }
     }
 }

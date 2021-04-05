@@ -5,6 +5,7 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.LoginVO;
+import com.example.demo.pojo.vo.RedisUserVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.BcryptService;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-
-import static com.example.demo.service.impl.TokenServiceImpl.TYPE_ADMIN;
 
 /**
  * @author chentao
@@ -78,7 +77,7 @@ public class AdminController {
         AssertionUtil.notNull(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
         Admin admin = adminService.getAdminByUsername(username);
         if (bcryptService.checkPassword(password, admin.getPassword())) {
-            String token = tokenService.createToken(username, TYPE_ADMIN);
+            String token = tokenService.createUserToken(username, RedisUserVO.TYPE_ADMIN);
             return Response.createSuc(token);
         } else {
             return Response.createErr("用户名或密码错误!");

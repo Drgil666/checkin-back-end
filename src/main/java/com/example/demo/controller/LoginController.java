@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import static com.example.demo.service.impl.TokenServiceImpl.TYPE_USER;
+import static com.example.demo.pojo.vo.RedisUserVO.TYPE_USER;
 
 /**
  * @author Gilbert
@@ -42,13 +42,13 @@ public class LoginController {
         }
         Integer userId = userService.isExist(username);
         if (userId != 0) {
-            String token = tokenService.createToken(username, TYPE_USER);
+            String token = tokenService.createUserToken(username, TYPE_USER);
             return Response.createSuc(token);
         } else {
             User user = new User();
             user.setUsername(username);
             userService.createUser(user);
-            String token = tokenService.createToken(username, TYPE_USER);
+            String token = tokenService.createUserToken(username, TYPE_USER);
             return Response.createSuc(token);
         }
     }

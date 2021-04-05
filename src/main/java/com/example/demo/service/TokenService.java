@@ -14,7 +14,7 @@ public interface TokenService {
      * @param type 用户类型
      * @return 生成的token
      */
-    String createToken(@NotNull String id, @NotNull Integer type);
+    String createUserToken(@NotNull String id, @NotNull Integer type);
 
     /**
      * 通过Token获取用户id
@@ -39,4 +39,21 @@ public interface TokenService {
      * @return 用户的登录类型
      */
     String getLoginType(@NotNull String token);
+
+    /**
+     * 生成用户的验证码
+     *
+     * @param token 用户Token
+     * @return 验证码
+     */
+    String createMailToken(@NotNull String token);
+
+    /**
+     * 校验管理员的验证码
+     *
+     * @param token            用户Token
+     * @param verificationCode 验证码
+     * @return 是否一致
+     */
+    Boolean checkMailToken(@NotNull String token, @NotNull String verificationCode);
 }

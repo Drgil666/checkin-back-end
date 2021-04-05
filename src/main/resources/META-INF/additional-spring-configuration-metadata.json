@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "domainUrl",
+      "type": "java.lang.String",
+      "description": "Description for domainUrl."
+    }
+  ]
+}
