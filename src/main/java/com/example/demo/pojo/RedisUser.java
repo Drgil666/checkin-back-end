@@ -1,4 +1,4 @@
-package com.example.demo.pojo.vo;
+package com.example.demo.pojo;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2021/4/5 10:35
  */
 @Data
-public class RedisUserVO {
+public class RedisUser {
     /**
      * 用户登录类型
      */

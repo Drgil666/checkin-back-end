@@ -3,9 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Admin;
+import com.example.demo.pojo.RedisUser;
 import com.example.demo.pojo.vo.CUDRequest;
 import com.example.demo.pojo.vo.LoginVO;
-import com.example.demo.pojo.vo.RedisUserVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.BcryptService;
@@ -77,7 +77,7 @@ public class AdminController {
         AssertionUtil.notNull(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
         Admin admin = adminService.getAdminByUsername(username);
         if (bcryptService.checkPassword(password, admin.getPassword())) {
-            String token = tokenService.createUserToken(username, RedisUserVO.TYPE_ADMIN);
+            String token = tokenService.createUserToken(username, RedisUser.TYPE_ADMIN);
             return Response.createSuc(token);
         } else {
             return Response.createErr("用户名或密码错误!");

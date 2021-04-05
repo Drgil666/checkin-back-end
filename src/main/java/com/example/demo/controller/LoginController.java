@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import static com.example.demo.pojo.vo.RedisUserVO.TYPE_USER;
+import static com.example.demo.pojo.RedisUser.TYPE_USER;
 
 /**
  * @author Gilbert
