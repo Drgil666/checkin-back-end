@@ -165,6 +165,12 @@
             <artifactId>spring-boot-starter-current-limiting</artifactId>
             <version>0.0.5.RELEASE</version>
         </dependency>
+        <!--用户登录界面验证码-->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+        </dependency>
     </dependencies>
 
     <build>

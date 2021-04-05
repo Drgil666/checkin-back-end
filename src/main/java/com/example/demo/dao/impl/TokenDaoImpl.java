@@ -46,4 +46,5 @@ public class TokenDaoImpl implements TokenDao {
     public void deleteValue(String key) {
         stringRedisTemplate.delete(key);
     }
+
 }

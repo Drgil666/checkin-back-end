@@ -1,4 +1,4 @@
-package com.example.demo.pojo;
+package com.example.demo.pojo.vo;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.Date;
  * @date 2021/4/5 10:37
  */
 @Data
-public class RedisVerify {
+public class RedisMailVerifyValueVO {
     /**
      * 验证码
      */
