@@ -10,6 +10,7 @@ import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
+import com.example.demo.utils.RegexUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,6 +57,7 @@ public class UserController {
                 }
             }
             case CUDRequest.UPDATE_METHOD: {
+                RegexUtil.checkUser(request.getData());
                 if (userService.updateUser(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
