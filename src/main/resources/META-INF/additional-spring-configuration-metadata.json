@@ -3,7 +3,7 @@
     {
       "name": "domainUrl",
       "type": "java.lang.String",
-      "description": "Description for domainUrl."
+      "description": "后端url."
     },
     {
       "name": "face.app.id",
@@ -29,6 +29,11 @@
       "name": "face.compare-size",
       "type": "java.lang.String",
       "description": "虹软SDK的人脸比对最大个数."
+    },
+    {
+      "name": "mail.validity",
+      "type": "java.lang.String",
+      "description": "邮件验证码的有效时间."
     }
   ]
 }

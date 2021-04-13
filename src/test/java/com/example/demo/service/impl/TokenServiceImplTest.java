@@ -43,7 +43,7 @@ public class TokenServiceImplTest {
 
     @Test
     public void createMailToken() {
-        System.out.println(tokenService.createMailToken("f8a5fb2b-0e07-4e6d-8319-098339849c4c"));
+        System.out.println(tokenService.createMailToken("c65daa8b-5554-4a88-8b9f-ea1c6159ba39"));
     }
 
     @Test

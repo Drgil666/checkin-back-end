@@ -173,7 +173,7 @@ public class TokenServiceImpl implements TokenService {
                         getLoginType(token).equals(ATTRIBUTE_ADMIN),
                 ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
         RedisMailVerifyValueVO valueVO = getRedisMailVerify(token);
-        if (System.currentTimeMillis() - valueVO.getDate().getTime() >= RedisMailVerifyValueVO.VALIDITY) {
+        if (System.currentTimeMillis() - valueVO.getDate().getTime() >= RedisMailVerifyValueVO.validity) {
             throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "验证码已超时!");
         }
         Integer adminId = getUserIdByToken(token);

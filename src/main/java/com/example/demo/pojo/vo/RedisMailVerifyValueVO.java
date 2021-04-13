@@ -1,6 +1,7 @@
 package com.example.demo.pojo.vo;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
@@ -21,5 +22,6 @@ public class RedisMailVerifyValueVO {
     /**
      * 有效市场（单位毫秒）
      */
-    public static final Long VALIDITY = 5 * 60 * 1000L;
+    @Value("${mail.validity}*5*60*1000")
+    public static Long validity;
 }
