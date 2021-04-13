@@ -37,7 +37,7 @@ public class KaptchaController {
     @ApiOperation(value = "获取验证码")
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws Exception {
-        byte[] captchaChallengeAsJpeg = null;
+        byte[] captchaChallengeAsJpeg;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             // 生产验证码字符串并保存到session中
@@ -66,21 +66,20 @@ public class KaptchaController {
     /**
      * 3、校对验证码
      *
-     * @param httpServletRequest
-     * @return
+     * @param httpServletRequest request
+     * @return 校验结果
      */
     @ResponseBody
     @PostMapping
     @ApiOperation(value = "验证验证码")
-    public Response<Object> imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest,
+    public Response<String> imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest,
                                                              @ApiParam(value = "尝试的验证码") @RequestParam("tryCode") String tryCode) {
         String rightCode = (String) httpServletRequest.getSession().getAttribute("rightCode");
         AssertionUtil.notNull(rightCode, ErrorCode.BIZ_PARAM_ILLEGAL, "验证码获取失败");
         if (!rightCode.equals(tryCode)) {
             return Response.createErr("验证码错误");
         } else {
-            return Response.createSuc("登录成功");
-
+            return Response.createSuc(null);
         }
     }
 }

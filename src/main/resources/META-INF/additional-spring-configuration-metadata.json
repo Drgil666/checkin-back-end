@@ -4,6 +4,31 @@
       "name": "domainUrl",
       "type": "java.lang.String",
       "description": "Description for domainUrl."
+    },
+    {
+      "name": "face.app.id",
+      "type": "java.lang.String",
+      "description": "虹软SDK的appId."
+    },
+    {
+      "name": "face.sdk.key",
+      "type": "java.lang.String",
+      "description": "虹软SDK的SDK_Key."
+    },
+    {
+      "name": "face.sdk.lib-path",
+      "type": "java.lang.String",
+      "description": "虹软SDK的引擎目录."
+    },
+    {
+      "name": "face.detect-size",
+      "type": "java.lang.String",
+      "description": "虹软SDK的最大检测人脸个数."
+    },
+    {
+      "name": "face.compare-size",
+      "type": "java.lang.String",
+      "description": "虹软SDK的人脸比对最大个数."
     }
   ]
 }

@@ -13,18 +13,18 @@ import java.util.regex.Pattern;
 public class RegexUtil {
 
     public static final String USER_EMAIL = "\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?";
-    public static final String USER_IDCARD = "[1-9]\\d{16}[a-zA-Z0-9]{1}";
+    public static final String USER_ID_CARD = "[1-9]\\d{16}[a-zA-Z0-9]{1}";
     public static final String USER_MOBILE = "(\\+\\d+)?1[3456789]\\d{9}$";
     public static final String USER_PHONE = "(\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8}$";
-    public static final String USER_BIRTHDAT = "[1-9]{4}([-./])\\d{1,2}\\1\\d{1,2}";
-    public static final String DIGHT = "^[-\\+]?[\\d]+$";
+    public static final String USER_BIRTHDAY = "[1-9]{4}([-./])\\d{1,2}\\1\\d{1,2}";
+    public static final String DIGIT = "^[-\\+]?[\\d]+$";
     public static final String DECIMALS = "\\-?[1-9]\\d+(\\.\\d+)?";
     public static final String CHAR = "[a-z|A-Z]+";
-    public static final String BLANKSPACE = "\\s+";
+    public static final String BLANK_SPACE = "\\s+";
     public static final String CHINESE = "^[\u4E00-\u9FA5]+$";
     public static final String URL = "(https?://(w{3}\\.)?)?\\w+\\.\\w+(\\.[a-zA-Z]+)*(:\\d{1,5})?(/\\w*)*(\\??(.+=.*)?(&.+=.*)?)?";
     public static final String POSTCODE = "[1-9]\\d{5}";
-    public static final String IPADDRESS = "[1-9](\\d{1,2})?\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))";
+    public static final String IP_ADDRESS = "[1-9](\\d{1,2})?\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))";
 
     /**
      * 验证用户信息
@@ -32,7 +32,6 @@ public class RegexUtil {
      * @param user 用户类，包含用户所有信息
      */
     public static void checkUser(User user) {
-        System.out.println(user);
         AssertionUtil.notNull(user.getNick(), ErrorCode.BIZ_PARAM_ILLEGAL, "姓名不能为空");
         AssertionUtil.isTrue(checkDigit(user.getStuNo()), ErrorCode.BIZ_PARAM_ILLEGAL, "学号格式错误");
         AssertionUtil.isTrue(checkEmail(user.getMail()), ErrorCode.BIZ_PARAM_ILLEGAL, "邮箱格式错误");
@@ -45,8 +44,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkEmail(String email) {
-        String regex = USER_EMAIL;
-        return Pattern.matches(regex, email);
+        return Pattern.matches(USER_EMAIL, email);
     }
 
     /**
@@ -56,8 +54,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkIdCard(String idCard) {
-        String regex = USER_IDCARD;
-        return Pattern.matches(regex, idCard);
+        return Pattern.matches(USER_ID_CARD, idCard);
     }
 
     /**
@@ -71,8 +68,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkMobile(String mobile) {
-        String regex = USER_MOBILE;
-        return Pattern.matches(regex, mobile);
+        return Pattern.matches(USER_MOBILE, mobile);
     }
 
     /**
@@ -87,8 +83,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkPhone(String phone) {
-        String regex = USER_PHONE;
-        return Pattern.matches(regex, phone);
+        return Pattern.matches(USER_PHONE, phone);
     }
 
     /**
@@ -98,8 +93,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkDigit(String digit) {
-        String regex = DIGHT;
-        return Pattern.matches(regex, digit);
+        return Pattern.matches(DIGIT, digit);
     }
 
     /**
@@ -109,8 +103,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkDecimals(String decimals) {
-        String regex = DECIMALS;
-        return Pattern.matches(regex, decimals);
+        return Pattern.matches(DECIMALS, decimals);
     }
 
     /**
@@ -120,8 +113,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkBlankSpace(String blankSpace) {
-        String regex = BLANKSPACE;
-        return Pattern.matches(regex, blankSpace);
+        return Pattern.matches(BLANK_SPACE, blankSpace);
     }
 
     /**
@@ -131,8 +123,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkChinese(String chinese) {
-        String regex = CHINESE;
-        return Pattern.matches(regex, chinese);
+        return Pattern.matches(CHINESE, chinese);
     }
 
     /**
@@ -142,8 +133,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkBirthday(String birthday) {
-        String regex = USER_BIRTHDAT;
-        return Pattern.matches(regex, birthday);
+        return Pattern.matches(USER_BIRTHDAY, birthday);
     }
 
     /**
@@ -153,8 +143,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkUrl(String url) {
-        String regex = URL;
-        return Pattern.matches(regex, url);
+        return Pattern.matches(URL, url);
     }
 
     /**
@@ -164,8 +153,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkPostcode(String postcode) {
-        String regex = POSTCODE;
-        return Pattern.matches(regex, postcode);
+        return Pattern.matches(POSTCODE, postcode);
     }
 
     /**
@@ -175,30 +163,28 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkIpAddress(String ipAddress) {
-        String regex = IPADDRESS;
-        return Pattern.matches(regex, ipAddress);
+        return Pattern.matches(IP_ADDRESS, ipAddress);
     }
 
     /**
      * 判断字符串是否符合正则表达式
      *
-     * @param str
-     * @param regex
-     * @return
+     * @param str   被判断的字符串
+     * @param regex 正则表达式
+     * @return 比较结果
      */
     public static boolean find(String str, String regex) {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(str);
-        boolean b = m.find();
-        return b;
+        return m.find();
     }
 
 
     /**
      * 判断是否是字母
      *
-     * @param value
-     * @return
+     * @param value 被判断的字符串
+     * @return 是否是字母
      */
     public static boolean checkChar(String value) {
         Pattern pattern = Pattern.compile(CHAR);

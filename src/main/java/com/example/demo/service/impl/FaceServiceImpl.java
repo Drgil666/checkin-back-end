@@ -14,6 +14,7 @@ import com.example.demo.utils.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -29,13 +30,16 @@ import java.util.concurrent.Executors;
 @Slf4j
 @Service
 public class FaceServiceImpl implements FaceService {
-    public static final String APP_ID = "Aabc3fgCYw5dfJEAAuJ9kwo9hzhY6Yu1azbQ6nkE5RjY";
-    //    public static final String SDK_KEY = "Hzpq8QyVckTpsKEPLgSetXtS3k7CiYByNsFKb3qrjznD";
-    public static final String SDK_KEY = "Hzpq8QyVckTpsKEPLgSetXtRudY5Vw7NJ4q7sGBZuvt5";
-    //    public static final String SDK_LIB_PATH = "Y:\\Users\\DrGilbert\\IdeaProjects\\checkin-back-end\\libs\\WIN64";
-    public static final String SDK_LIB_PATH = "/var/lib/jenkins/workspace/zjgsu-checkin-back-end/libs/LINUX64";
-    public static final Integer DETECT_POO_SIZE = 5;
-    public static final Integer COMPARE_POO_SIZE = 5;
+    @Value("${face.app.id}")
+    public static String appId;
+    @Value("${face.sdk.key}")
+    public static String sdkKey;
+    @Value("${face.sdk.lib-path}")
+    public static String sdkLibPath;
+    @Value("${face.detect-size}")
+    public static Integer detectPooSize = 5;
+    @Value("${face.compare-size}")
+    public static Integer comparePooSize = 5;
     private ExecutorService compareExecutorService;
     private GenericObjectPool<FaceEngine> faceEngineGeneralPool;
     private GenericObjectPool<FaceEngine> faceEngineComparePool;
@@ -43,9 +47,9 @@ public class FaceServiceImpl implements FaceService {
     @PostConstruct
     public void init() {
         GenericObjectPoolConfig detectPoolConfig = new GenericObjectPoolConfig();
-        detectPoolConfig.setMaxIdle(DETECT_POO_SIZE);
-        detectPoolConfig.setMaxTotal(DETECT_POO_SIZE);
-        detectPoolConfig.setMinIdle(DETECT_POO_SIZE);
+        detectPoolConfig.setMaxIdle(detectPooSize);
+        detectPoolConfig.setMaxTotal(detectPooSize);
+        detectPoolConfig.setMinIdle(detectPooSize);
         detectPoolConfig.setLifo(false);
         EngineConfiguration detectCfg = new EngineConfiguration();
         FunctionConfiguration detectFunctionCfg = new FunctionConfiguration();
@@ -58,11 +62,11 @@ public class FaceServiceImpl implements FaceService {
         detectCfg.setFunctionConfiguration(detectFunctionCfg);
         detectCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);
         detectCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);
-        faceEngineGeneralPool = new GenericObjectPool(new FaceEngineFactory(SDK_LIB_PATH, APP_ID, SDK_KEY, null, detectCfg), detectPoolConfig);
+        faceEngineGeneralPool = new GenericObjectPool(new FaceEngineFactory(sdkLibPath, appId, sdkKey, null, detectCfg), detectPoolConfig);
         GenericObjectPoolConfig comparePoolConfig = new GenericObjectPoolConfig();
-        comparePoolConfig.setMaxIdle(COMPARE_POO_SIZE);
-        comparePoolConfig.setMaxTotal(COMPARE_POO_SIZE);
-        comparePoolConfig.setMinIdle(COMPARE_POO_SIZE);
+        comparePoolConfig.setMaxIdle(comparePooSize);
+        comparePoolConfig.setMaxTotal(comparePooSize);
+        comparePoolConfig.setMinIdle(comparePooSize);
         comparePoolConfig.setLifo(false);
         EngineConfiguration compareCfg = new EngineConfiguration();
         FunctionConfiguration compareFunctionCfg = new FunctionConfiguration();
@@ -70,8 +74,8 @@ public class FaceServiceImpl implements FaceService {
         compareCfg.setFunctionConfiguration(compareFunctionCfg);
         compareCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);
         compareCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);
-        faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(SDK_LIB_PATH, APP_ID, SDK_KEY, null, compareCfg), comparePoolConfig);
-        compareExecutorService = Executors.newFixedThreadPool(COMPARE_POO_SIZE);
+        faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(sdkLibPath, appId, sdkKey, null, compareCfg), comparePoolConfig);
+        compareExecutorService = Executors.newFixedThreadPool(comparePooSize);
     }
 
     /**
