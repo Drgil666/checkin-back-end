@@ -31,15 +31,15 @@ import java.util.concurrent.Executors;
 @Service
 public class FaceServiceImpl implements FaceService {
     @Value("${face.app.id}")
-    public static String appId;
+    private String appId;
     @Value("${face.sdk.key}")
-    public static String sdkKey;
+    private String sdkKey;
     @Value("${face.sdk.lib-path}")
-    public static String sdkLibPath;
+    private String sdkLibPath;
     @Value("${face.detect-size}")
-    public static Integer detectPooSize = 5;
+    private Integer detectPooSize;
     @Value("${face.compare-size}")
-    public static Integer comparePooSize = 5;
+    private Integer comparePooSize;
     private ExecutorService compareExecutorService;
     private GenericObjectPool<FaceEngine> faceEngineGeneralPool;
     private GenericObjectPool<FaceEngine> faceEngineComparePool;
