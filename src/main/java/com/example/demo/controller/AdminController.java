@@ -75,7 +75,7 @@ public class AdminController {
     public Response<String> login(@ApiParam(value = "包含签到信息") @RequestBody LoginVO data) {
         String username = data.getUsername();
         String password = data.getPassword();
-        AssertionUtil.notNull(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
+        AssertionUtil.isTrue(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
         Admin admin = adminService.getAdminByUsername(username);
         if (bcryptService.checkPassword(password, admin.getPassword())) {
             String token = tokenService.createUserToken(username, TYPE_ADMIN);
