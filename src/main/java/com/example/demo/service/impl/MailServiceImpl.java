@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ErrorCode;
+import com.example.demo.exception.ErrorException;
 import com.example.demo.service.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +55,7 @@ public class MailServiceImpl implements MailService {
             //发送邮件
             javaMailSender.send(message);
         } catch (MailException | MessagingException ex) {
-            // simply log it and go on...
-            ex.printStackTrace();
+            throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "邮件发送失败!");
         }
     }
 
@@ -83,9 +84,8 @@ public class MailServiceImpl implements MailService {
             //发送
             javaMailSender.send(message);
             //日志信息
-            logger.info("邮件已经发送。");
         } catch (MessagingException e) {
-            logger.error("发送邮件时发生异常！", e);
+            throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "邮件发送失败!");
         }
     }
 
@@ -111,9 +111,8 @@ public class MailServiceImpl implements MailService {
             helper.addAttachment(fileName, file);
             javaMailSender.send(message);
             //日志信息
-            logger.info("邮件已经发送。");
         } catch (MessagingException e) {
-            logger.error("发送邮件时发生异常！", e);
+            throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "邮件发送失败!");
         }
 
     }
