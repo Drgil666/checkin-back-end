@@ -28,9 +28,6 @@ public class Base64Util {
             return null;
         }
         String base64Process = base64Process(base64);
-
         return Base64.getDecoder().decode(base64Process);
-
-
     }
 }
