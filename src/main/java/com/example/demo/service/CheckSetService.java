@@ -64,6 +64,6 @@ public interface CheckSetService {
      * @param nick 签到名
      * @return checkSet列表
      */
-    List<CheckSet> getCheckSetListByNickAdmin(@NotNull String nick);
+    List<CheckSet> getCheckSetListByNickAdmin(String nick);
 
 }
