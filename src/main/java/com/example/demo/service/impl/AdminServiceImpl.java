@@ -89,4 +89,16 @@ public class AdminServiceImpl implements AdminService {
     public Boolean adminExist(@NotNull String username) {
         return adminMapper.adminExist(username) > 0;
     }
+
+    /**
+     * 获取管理员等级
+     *
+     * @param id 管理员id
+     * @return 管理员等级
+     */
+    @Override
+    public String getAdminType(@NotNull Integer id) {
+        Admin admin = getAdmin(id);
+        return admin.getType();
+    }
 }
