@@ -46,6 +46,7 @@ public class LoginController {
             return Response.createSuc(token);
         } else {
             User user = new User();
+            user.setAvatarUrl(data.getAvatarUrl());
             user.setUsername(username);
             userService.createUser(user);
             String token = tokenService.createUserToken(username, TYPE_USER);

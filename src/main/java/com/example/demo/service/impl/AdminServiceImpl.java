@@ -97,7 +97,7 @@ public class AdminServiceImpl implements AdminService {
      * @return 管理员等级
      */
     @Override
-    public String getAdminType(@NotNull Integer id) {
+    public Integer getAdminType(@NotNull Integer id) {
         Admin admin = getAdmin(id);
         return admin.getType();
     }

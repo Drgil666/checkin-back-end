@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+
 /**
  * @author DrGilbert
  * @date 2021/3/23 20:29
@@ -34,14 +36,20 @@ public class AuthorizeUtil {
         private final String name;
     }
 
-
     public static final Character[] CHARACTER_LIST = Character.values();
+    public static final HashMap<String, Integer> CHARACTER_MAP = getCharacterMap();
+
+    public static HashMap<String, Integer> getCharacterMap() {
+        HashMap<String, Integer> hashMap = new HashMap<>(10);
+        for (Character character : CHARACTER_LIST) {
+            hashMap.put(character.name, character.code);
+        }
+        return hashMap;
+    }
 
     public static Integer getCharacterByName(String name) {
-        for (Character character : CHARACTER_LIST) {
-            if (character.getName().equals(name)) {
-                return character.getCode();
-            }
+        if (CHARACTER_MAP.containsKey(name)) {
+            return CHARACTER_MAP.get(name);
         }
         return null;
     }

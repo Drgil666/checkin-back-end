@@ -62,5 +62,5 @@ public interface AdminService {
      * @param id 管理员id
      * @return 管理员等级
      */
-    String getAdminType(@NotNull Integer id);
+    Integer getAdminType(@NotNull Integer id);
 }
