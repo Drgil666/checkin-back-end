@@ -41,7 +41,9 @@ public class SchoolController {
     @ApiOperation(value = "创建/更新/删除School")
     public Response<School> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                    @ApiParam(value = "包含学校信息，参数信息") @RequestBody CUDRequest<School, Integer> request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 schoolService.createSchool(request.getData());
@@ -76,7 +78,9 @@ public class SchoolController {
     @ApiOperation(value = "获取School")
     public Response<School> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                    @ApiParam(value = "school的Id") @RequestParam("id") Integer id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id为空!");
         School school = schoolService.getSchool(id);
         if (school != null) {
@@ -94,7 +98,9 @@ public class SchoolController {
                                                                @ApiParam(value = "当前页") @RequestParam("current") Integer current,
                                                                @ApiParam(value = "页大小") @RequestParam("pageSize") Integer pageSize,
                                                                @ApiParam(value = "排序规则") @RequestParam("sorter") String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         AssertionUtil.notNull(keyword, ErrorCode.INNER_PARAM_ILLEGAL, "keyword为空!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<School> schoolList = schoolService.getSchoolListByKeyword(keyword);
@@ -123,7 +129,9 @@ public class SchoolController {
     @ApiOperation(value = "根据专业id查找学校")
     public Response<School> getSchoolByMajorId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                @ApiParam(value = "专业id") @RequestParam("id") Integer id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "专业id不能为空!");
         School school = schoolService.getSchoolByMajorId(id);
         if (school != null) {

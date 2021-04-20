@@ -120,9 +120,9 @@ public class TokenServiceImpl implements TokenService {
         keyVO.setUuid(token);
         String keyJson = JSON.toJSONString(keyVO);
         String valueJson = tokenDao.getValue(keyJson);
-        AssertionUtil.notNull(valueJson, ErrorCode.BIZ_PARAM_ILLEGAL, "Token不存在!");
+        AssertionUtil.notNull(valueJson, ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "Token已失效或不存在!");
         JSONObject jsonObject = JSONObject.parseObject(valueJson);
-        AssertionUtil.notNull(jsonObject, ErrorCode.BIZ_PARAM_ILLEGAL, "Token数据错误!");
+        AssertionUtil.notNull(jsonObject, ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "Token已失效或不存在!");
         return tokenDao.getValue(valueJson).equals(keyJson);
     }
 

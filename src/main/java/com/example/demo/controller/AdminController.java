@@ -42,8 +42,9 @@ public class AdminController {
     @ApiOperation(value = "创建/更新Admin")
     public Response<Admin> admin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "包含管理员信息，操作信息") @RequestBody CUDRequest<Admin, Integer> request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
-
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (adminService.adminExist(request.getData().getUsername())) {
@@ -90,7 +91,9 @@ public class AdminController {
     @ApiOperation(value = "通过管理员id获取管理员信息")
     public Response<Admin> admin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "管理员id") @RequestParam(value = "id", required = false) Integer id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         if (id == null) {
             id = tokenService.getUserIdByToken(token);
         }

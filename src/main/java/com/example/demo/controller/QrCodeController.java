@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.QrCodeService;
 import com.example.demo.service.TokenService;
-import com.example.demo.utils.AssertionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,7 +32,9 @@ public class QrCodeController {
     @ApiOperation(value = "根据信息创建二维码")
     public Response<String> createQr(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                      @ApiParam(value = "二维码相关信息") @RequestBody String vo) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         String qrCode = qrCodeService.createQr(vo);
         if (qrCode != null) {
             return Response.createSuc(qrCode);
