@@ -1,4 +1,4 @@
-package com.example.demo.utils;
+package com.example.demo.config;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;

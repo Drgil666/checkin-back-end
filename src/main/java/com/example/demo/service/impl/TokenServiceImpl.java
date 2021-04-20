@@ -149,7 +149,7 @@ public class TokenServiceImpl implements TokenService {
         AssertionUtil.isTrue(loginCheck(token) &&
                         getLoginType(token).equals(ATTRIBUTE_ADMIN),
                 ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
-        String verificationCode = MailVerificationUtil.getRandomVerificationCode(6);
+        String verificationCode = MailVerificationUtil.getRandomVerificationCode();
         Integer adminId = getUserIdByToken(token);
         Admin admin = adminService.getAdmin(adminId);
         RedisMailVerifyValueVO valueVO = new RedisMailVerifyValueVO();

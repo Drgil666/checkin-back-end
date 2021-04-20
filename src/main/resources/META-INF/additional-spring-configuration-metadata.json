@@ -34,6 +34,11 @@
       "name": "mail.validity",
       "type": "java.lang.String",
       "description": "邮件验证码的有效时间."
+    },
+    {
+      "name": "mail.code.length",
+      "type": "java.lang.String",
+      "description": "邮件验证码的数字长度."
     }
   ]
 }

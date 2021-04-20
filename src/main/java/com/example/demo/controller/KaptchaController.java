@@ -7,10 +7,11 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +26,14 @@ import java.io.ByteArrayOutputStream;
 @Controller
 @RequestMapping("/api/kaptcha")
 @Api(tags = "验证码")
+@Slf4j
+@CrossOrigin(origins = "*")
 public class KaptchaController {
     /**
      * 1、验证码工具
      */
-    @Autowired
-    DefaultKaptcha defaultKaptcha;
+    @Resource
+    DefaultKaptcha kaptcha;
 
     @ResponseBody
     @GetMapping
@@ -41,10 +44,10 @@ public class KaptchaController {
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             // 生产验证码字符串并保存到session中
-            String createText = defaultKaptcha.createText();
+            String createText = kaptcha.createText();
             httpServletRequest.getSession().setAttribute("rightCode", createText);
             // 使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
-            BufferedImage challenge = defaultKaptcha.createImage(createText);
+            BufferedImage challenge = kaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
         } catch (IllegalArgumentException e) {
             httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -72,8 +75,8 @@ public class KaptchaController {
     @ResponseBody
     @PostMapping
     @ApiOperation(value = "验证验证码")
-    public Response<String> imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest,
-                                                             @ApiParam(value = "尝试的验证码") @RequestParam("tryCode") String tryCode) {
+    public Response<String> verify(HttpServletRequest httpServletRequest,
+                                   @ApiParam(value = "尝试的验证码") @RequestParam("tryCode") String tryCode) {
         String rightCode = (String) httpServletRequest.getSession().getAttribute("rightCode");
         AssertionUtil.notNull(rightCode, ErrorCode.BIZ_PARAM_ILLEGAL, "验证码获取失败");
         if (!rightCode.equals(tryCode)) {

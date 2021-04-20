@@ -53,7 +53,7 @@ public class AuthorizeUtil {
      * @param role     用户角色
      * @return 是否有权利
      */
-    Boolean isAuthorized(@NotNull String userRole, @NotNull String role) {
+    public static Boolean isAuthorized(@NotNull String userRole, @NotNull String role) {
         if (role.equals(Character.TYPE_USER.name)) {
             return role.equals(userRole);
         } else {
