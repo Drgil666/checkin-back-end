@@ -94,7 +94,7 @@ public class CheckSetServiceImpl implements CheckSetService {
      * nick 签到名
      */
     @Override
-    public List<CheckSet> getCheckSetListByNickAdmin(@NotNull String nick) {
+    public List<CheckSet> getCheckSetListByNickAdmin(String nick) {
         return checkSetMapper.getCheckSetListByNickAdmin(nick);
     }
 }
