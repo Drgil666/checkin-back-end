@@ -96,9 +96,9 @@ public class MajorController {
     public Response<ReturnPage<Major>> getAcademyListByAcademyId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                                  @ApiParam(value = "学院id") @RequestParam("id") Integer id,
                                                                  @ApiParam(value = "学院名") @RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
-                                                                 @ApiParam(value = "当前页") @RequestParam("current") Integer current,
-                                                                 @ApiParam(value = "页大小") @RequestParam("pageSize") Integer pageSize,
-                                                                 @ApiParam(value = "排序规则") @RequestParam("sorter") String sorter) throws Exception {
+                                                                 @ApiParam(value = "当前页") @RequestParam(required = false, value = "current") Integer current,
+                                                                 @ApiParam(value = "页大小") @RequestParam(required = false, value = "pageSize") Integer pageSize,
+                                                                 @ApiParam(value = "排序规则") @RequestParam(required = false, value = "sorter") String sorter) throws Exception {
         if (!tokenService.loginCheck(token)) {
             return Response.createTokenAuthorizedErr();
         }
