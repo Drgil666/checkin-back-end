@@ -1,12 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.User;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.MailService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
-import com.example.demo.utils.AssertionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +33,9 @@ public class MailController {
     @ResponseBody
     @PostMapping()
     public Response<String> createVerification(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Integer userId = tokenService.getUserIdByToken(token);
         User user = userService.getUser(userId);
         String userMail = user.getMail();
@@ -48,6 +48,9 @@ public class MailController {
     @PostMapping("/verify")
     public Response<String> verify(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                    @ApiParam(value = "code") @RequestBody String code) {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         if (tokenService.checkMailToken(token, code)) {
             return Response.createSuc(null);
         } else {

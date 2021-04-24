@@ -14,6 +14,6 @@ public class ErrorExceptionHandler {
     @ExceptionHandler(ErrorException.class)
     @ResponseBody
     public Response<String> resultError(ErrorException e) {
-        return Response.createErr(e.getMessage());
+        return Response.createErr(e.getCode().getCode(), e.getMessage());
     }
 }

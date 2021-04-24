@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.example.demo.exception.ErrorCode;
+import com.example.demo.exception.ErrorException;
 import com.google.common.base.CaseFormat;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,12 +46,12 @@ public class OrderToolUtil {
      * @param s 要转化的字符串
      * @return 转化好的字符串
      */
-    public static String toOrderString(String s) throws Exception {
+    public static String toOrderString(String s) {
         Map<String, String> sorter;
         try {
             sorter = JSONObject.parseObject(s, SORTER_TYPE);
         } catch (JSONException e) {
-            throw new Exception("sorter param illegal:" + e);
+            throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "Sorter参数不合法!");
         }
         StringBuilder orderBy = new StringBuilder();
         for (Map.Entry<String, String> entry : sorter.entrySet()) {

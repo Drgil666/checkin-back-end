@@ -18,6 +18,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.MailVerificationUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,6 +49,8 @@ public class TokenServiceImpl implements TokenService {
     public static final String ATTRIBUTE_TYPE = "type";
     public static final String ATTRIBUTE_USERNAME = "username";
     public static final String ATTRIBUTE_PASSWORD = "password";
+    @Value("${mail.validity}")
+    private Long validity;
 
     /**
      * 生成token
@@ -117,9 +120,9 @@ public class TokenServiceImpl implements TokenService {
         keyVO.setUuid(token);
         String keyJson = JSON.toJSONString(keyVO);
         String valueJson = tokenDao.getValue(keyJson);
-        AssertionUtil.notNull(valueJson, ErrorCode.BIZ_PARAM_ILLEGAL, "Token不存在!");
+        AssertionUtil.notNull(valueJson, ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "Token已失效或不存在!");
         JSONObject jsonObject = JSONObject.parseObject(valueJson);
-        AssertionUtil.notNull(jsonObject, ErrorCode.BIZ_PARAM_ILLEGAL, "Token数据错误!");
+        AssertionUtil.notNull(jsonObject, ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "Token已失效或不存在!");
         return tokenDao.getValue(valueJson).equals(keyJson);
     }
 
@@ -173,7 +176,7 @@ public class TokenServiceImpl implements TokenService {
                         getLoginType(token).equals(ATTRIBUTE_ADMIN),
                 ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
         RedisMailVerifyValueVO valueVO = getRedisMailVerify(token);
-        if (System.currentTimeMillis() - valueVO.getDate().getTime() >= RedisMailVerifyValueVO.validity) {
+        if (System.currentTimeMillis() - valueVO.getDate().getTime() >= validity * 60 * 1000) {
             throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "验证码已超时!");
         }
         Integer adminId = getUserIdByToken(token);

@@ -41,7 +41,9 @@ public class MajorController {
     @ApiOperation(value = "创建/更新/删除Academy")
     public Response<Major> major(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "包含专业信息，参数信息") @RequestBody CUDRequest<Major, Integer> request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 majorService.createMajor(request.getData());
@@ -76,7 +78,9 @@ public class MajorController {
     @ApiOperation(value = "获取major")
     public Response<Major> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                   @ApiParam(value = "major的Id") @RequestParam("id") Integer id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id为空!");
         Major major = majorService.getMajor(id);
         if (major != null) {
@@ -92,10 +96,12 @@ public class MajorController {
     public Response<ReturnPage<Major>> getAcademyListByAcademyId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                                  @ApiParam(value = "学院id") @RequestParam("id") Integer id,
                                                                  @ApiParam(value = "学院名") @RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
-                                                                 @ApiParam(value = "当前页") @RequestParam("current") Integer current,
-                                                                 @ApiParam(value = "页大小") @RequestParam("pageSize") Integer pageSize,
-                                                                 @ApiParam(value = "排序规则") @RequestParam("sorter") String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+                                                                 @ApiParam(value = "当前页") @RequestParam(required = false, value = "current") Integer current,
+                                                                 @ApiParam(value = "页大小") @RequestParam(required = false, value = "pageSize") Integer pageSize,
+                                                                 @ApiParam(value = "排序规则") @RequestParam(required = false, value = "sorter") String sorter) throws Exception {
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         AssertionUtil.notNull(id, ErrorCode.INNER_PARAM_ILLEGAL, "keyword为空!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<Major> academyList = majorService.getMajorListByAcademyIdAndKeyWord(id, keyword);

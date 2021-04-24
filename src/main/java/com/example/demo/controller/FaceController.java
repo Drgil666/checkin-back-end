@@ -46,7 +46,9 @@ public class FaceController {
     @PostMapping()
     public Response<Float> compareDetect(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                          @ApiParam(value = "包含大签到信息，操作信息") @RequestBody PhotoVO request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Integer userId = tokenService.getUserIdByToken(token);
         AssertionUtil.notNull(userId, ErrorCode.BIZ_PARAM_ILLEGAL, "userId为空!");
         List<ProcessInfo> processInfos = faceService.liveDetect(request.getImg());

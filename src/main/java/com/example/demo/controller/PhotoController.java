@@ -9,7 +9,6 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.PhotoService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
-import com.example.demo.utils.AssertionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -41,7 +40,9 @@ public class PhotoController {
     @ApiOperation(value = "创建/更新/删除照片")
     public Response<Photo> photo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "包含照片信息，操作信息") @RequestBody CUDRequest<Photo, Integer> request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 photoService.createPhoto(request.getData());
@@ -69,7 +70,9 @@ public class PhotoController {
     @ApiOperation(value = "通过照片id获取照片信息")
     public Response<Photo> photo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "照片id") @RequestParam(value = "id", required = false) String id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Photo photo;
         if (id != null) {
             photo = photoService.getPhoto(id);
@@ -90,7 +93,9 @@ public class PhotoController {
     @ApiOperation(value = "通过用户id查找照片")
     public Response<Photo> photoByUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                          @ApiParam(value = "用户id") @RequestParam(value = "userId", required = false) Integer userId) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }

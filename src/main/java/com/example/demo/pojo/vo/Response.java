@@ -31,4 +31,8 @@ public class Response<T> {
     public static <T> Response<T> createErr(int code, String msg) {
         return new Response<T>(code, msg, null);
     }
+
+    public static <T> Response<T> createTokenAuthorizedErr() {
+        return new Response<>(5, "Token失效或不存在!", null);
+    }
 }

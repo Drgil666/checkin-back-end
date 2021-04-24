@@ -53,4 +53,9 @@ public class User {
      */
     @ApiModelProperty(value = "专业", name = "major", required = true)
     private Integer major;
+    /**
+     * 用户头像
+     */
+    @ApiModelProperty(value = "用户头像", name = "avatarUrl", required = true)
+    private String avatarUrl;
 }

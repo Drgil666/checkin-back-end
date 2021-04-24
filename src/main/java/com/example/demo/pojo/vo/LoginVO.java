@@ -15,4 +15,6 @@ public class LoginVO {
     private String username;
     @ApiModelProperty(value = "密码", name = "password", required = true)
     private String password;
+    @ApiModelProperty(value = "头像", name = "avatarUrl")
+    private String avatarUrl;
 }

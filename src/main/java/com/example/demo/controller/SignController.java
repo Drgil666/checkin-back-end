@@ -10,7 +10,6 @@ import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.SignService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
-import com.example.demo.utils.AssertionUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -45,7 +44,9 @@ public class SignController {
     @ApiOperation(value = "创建/更新/删除签到记录")
     public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                @ApiParam(value = "包含签到记录信息，操作信息") @RequestBody CUDRequest<Sign, Integer> request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
@@ -89,7 +90,9 @@ public class SignController {
     @ApiOperation(value = "根据签到记录id查找对应的签到记录")
     public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                @ApiParam(value = "签到记录信息id") @RequestParam("id") Integer id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Sign sign = signService.getSign(id);
         if (sign != null) {
             return Response.createSuc(sign);
@@ -106,7 +109,9 @@ public class SignController {
                                                        @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                        @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                        @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         ListPageUtil.paging(current, pageSize, sorter);
         List<Sign> signVOList = signService.getSignByCheckId(checkId);
         PageInfo<Sign> pageInfo = new PageInfo<>(signVOList);
@@ -119,7 +124,9 @@ public class SignController {
     @ApiOperation(value = "通过小签到id和用户id查找签到记录")
     public Response<Sign> getSignByCheckIdAndUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                     @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Integer userId = tokenService.getUserIdByToken(token);
         Sign sign = signService.getSignByCheckIdAndUserId(checkId, userId);
         if (sign != null) {
@@ -137,7 +144,9 @@ public class SignController {
                                                       @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                       @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                       @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }

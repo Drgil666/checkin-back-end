@@ -55,4 +55,12 @@ public interface AdminService {
      * @return 是否存在
      */
     Boolean adminExist(@NotNull String username);
+
+    /**
+     * 获取管理员等级
+     *
+     * @param id 管理员id
+     * @return 管理员等级
+     */
+    Integer getAdminType(@NotNull Integer id);
 }

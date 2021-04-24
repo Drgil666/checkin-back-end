@@ -28,7 +28,7 @@ public class Admin {
     @ApiModelProperty(value = "昵称", name = "nick")
     private String nick;
     @ApiModelProperty(value = "用户类型", name = "type", required = true)
-    private String type;
+    private Integer type;
     @ApiModelProperty(value = "用户学校id", name = "type", required = true)
     private String schoolId;
 }

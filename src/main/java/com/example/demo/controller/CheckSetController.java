@@ -39,7 +39,9 @@ public class CheckSetController {
     @PostMapping()
     public Response<CheckSet> checkSet(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                        @ApiParam(value = "包含大签到信息，操作信息") @RequestBody CUDRequest<CheckSet, Integer> request) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Integer userId = tokenService.getUserIdByToken(token);
         request.getData().setUserId(userId);
         switch (request.getMethod()) {
@@ -73,7 +75,9 @@ public class CheckSetController {
     @ApiOperation(value = "根据CheckSetId获取CheckSet")
     public Response<CheckSet> getCheckSet(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                           @ApiParam(value = "大签到id") @RequestParam("checkSetId") Integer checkSetId) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         CheckSet checkset = checkSetService.getCheckSet(checkSetId);
         if (checkset != null) {
             return Response.createSuc(checkset);
@@ -90,7 +94,9 @@ public class CheckSetController {
                                                             @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                             @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                             @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckSetListByNickAdmin(nick);
         PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
@@ -107,7 +113,9 @@ public class CheckSetController {
                                                               @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                               @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                               @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }
@@ -125,7 +133,9 @@ public class CheckSetController {
                                                             @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                             @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                             @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
+        if (!tokenService.loginCheck(token)) {
+            return Response.createTokenAuthorizedErr();
+        }
         Integer stuId = tokenService.getUserIdByToken(token);
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckSet> checkSetList = checkSetService.getCheckListByStu(stuId);
