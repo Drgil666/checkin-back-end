@@ -95,14 +95,14 @@ public class AcademyController {
     @ApiOperation(value = "根据学院名获取Academy列表")
     @Authorize(value = AuthorizeUtil.Character.TYPE_SCHOOL)
     public Response<ReturnPage<Academy>> getAcademyListByKeyword(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                                                 @ApiParam(value = "学院名称") @RequestParam("keyword") String keyword,
+                                                                 @ApiParam(value = "学院名称") @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                                                                 @ApiParam(value = "学校id") @RequestParam(value = "id") Integer id,
                                                                  @ApiParam(value = "当前页") @RequestParam("current") Integer current,
                                                                  @ApiParam(value = "页大小") @RequestParam("pageSize") Integer pageSize,
                                                                  @ApiParam(value = "排序规则") @RequestParam("sorter") String sorter) throws Exception {
-
         AssertionUtil.notNull(keyword, ErrorCode.INNER_PARAM_ILLEGAL, "keyword为空!");
         ListPageUtil.paging(current, pageSize, sorter);
-        List<Academy> academyList = academyService.getAcademyListByKeyword(keyword);
+        List<Academy> academyList = academyService.getAcademyListByKeyword(id, keyword);
         PageInfo<Academy> pageInfo = new PageInfo<>(academyList);
         ReturnPage<Academy> returnPage = ListPageUtil.returnPage(pageInfo);
         return Response.createSuc(returnPage);
@@ -122,23 +122,5 @@ public class AcademyController {
         } else {
             return Response.createErr("获取学院失败!");
         }
-    }
-
-    @ResponseBody
-    @GetMapping("/academy/school/list")
-    @ApiOperation(value = "根据学校id获取Academy列表")
-    //TODO:接口修改
-    public Response<ReturnPage<Academy>> getAcademyListBySchoolId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                                                  @ApiParam(value = "学院id") @RequestParam("id") Integer id,
-                                                                  @ApiParam(value = "当前页") @RequestParam(required = false, value = "current") Integer current,
-                                                                  @ApiParam(value = "页大小") @RequestParam(required = false, value = "pageSize") Integer pageSize,
-                                                                  @ApiParam(value = "排序规则") @RequestParam(required = false, value = "sorter") String sorter) throws Exception {
-
-        AssertionUtil.notNull(id, ErrorCode.INNER_PARAM_ILLEGAL, "id为空!");
-        ListPageUtil.paging(current, pageSize, sorter);
-        List<Academy> academyList = academyService.getAcademyListBySchoolId(id);
-        PageInfo<Academy> pageInfo = new PageInfo<>(academyList);
-        ReturnPage<Academy> returnPage = ListPageUtil.returnPage(pageInfo);
-        return Response.createSuc(returnPage);
     }
 }

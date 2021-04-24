@@ -75,8 +75,8 @@ public class AcademyServiceImpl implements AcademyService {
      * @return 学院列表
      */
     @Override
-    public List<Academy> getAcademyListByKeyword(@NotNull String keyword) {
-        return academyMapper.getAcademyListByKeyword(keyword);
+    public List<Academy> getAcademyListByKeyword(@NotNull Integer schoolId, @NotNull String keyword) {
+        return academyMapper.getAcademyList(schoolId, keyword);
     }
 
     /**
@@ -88,16 +88,5 @@ public class AcademyServiceImpl implements AcademyService {
     @Override
     public Academy getAcademyByMajorId(@NotNull Integer id) {
         return academyMapper.getAcademyByMajorId(id);
-    }
-
-    /**
-     * 根据学校id获取学院列表
-     *
-     * @param id 学校id
-     * @return 学院列表
-     */
-    @Override
-    public List<Academy> getAcademyListBySchoolId(@NotNull Integer id) {
-        return academyMapper.getAcademyListBySchoolId(id);
     }
 }
