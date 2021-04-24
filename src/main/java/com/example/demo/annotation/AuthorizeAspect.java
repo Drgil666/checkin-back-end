@@ -48,13 +48,12 @@ public class AuthorizeAspect {
      */
     @Around("permission()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long startTime = System.currentTimeMillis();
         /*
          * 获取当前http请求中的token
-         * 解析token :
-         * 1、token是否存在
-         * 2、token格式是否正确
-         * 3、token是否已过期（解析信息或者redis中是否存在）
+         * 解析Token :
+         * 1、Token是否存在
+         * 2、Token格式是否正确
+         * 3、Token是否已过期（解析信息或者redis中是否存在）
          * */
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -66,10 +65,7 @@ public class AuthorizeAspect {
         if (!tokenService.loginCheck(token)) {
             throw new ErrorException(ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "对不起，您没有权限访问！");
         }
-        // 校验token的业务逻辑
 
-        //假设token里只是一个userId,查询到他有删除和查看的权限，没有添加和修改的权限
-        // 解析token之后，获取当前用户的账号信息，查看它对应的角色和权限信息
         Integer userId = tokenService.getUserIdByToken(token);
         String loginType = tokenService.getLoginType(token);
         Integer permissionCodes = null;
@@ -87,35 +83,14 @@ public class AuthorizeAspect {
         Authorize authorize = method.getAnnotation(Authorize.class);
 
         Integer value = authorize.value().getCode();
-        System.out.println(permissionCodes);
-        System.out.println(value);
         // 将注解的值和token解析后的值进行对比，查看是否有该权限，如果权限通过，允许访问方法；否则不允许，并抛出异常
         if (permissionCodes > value) {
             throw new ErrorException(ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "对不起，您没有权限访问！");
-            //AssertionUtil.notNull(permissionCodes, ErrorCode.BIZ_PARAM_ILLEGAL,"对不起，您没有权限访问！");
         }
         // 执行具体方法
         Object result = proceedingJoinPoint.proceed();
 
-        long endTime = System.currentTimeMillis();
-
-        /*
-         * 记录相关执行结果
-         * 可以存入MongoDB 后期做数据分析
-         * */
-        // 打印请求 url
-//        System.out.println("URL            : " + request.getRequestURL().toString());
-//        // 打印 Http method
-//        System.out.println("HTTP Method    : " + request.getMethod());
-//        // 打印调用 controller 的全路径以及执行方法
-//        System.out.println("controller     : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
-//        // 调用方法
-//        System.out.println("Method         : " + proceedingJoinPoint.getSignature().getName());
-//        // 执行耗时
-//        System.out.println("cost-time      : " + (endTime - startTime) + " ms");
-
         return result;
-
     }
 
 }
