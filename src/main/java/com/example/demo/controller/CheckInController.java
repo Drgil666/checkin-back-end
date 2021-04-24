@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckIn;
@@ -8,6 +9,7 @@ import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckInService;
 import com.example.demo.service.TokenService;
+import com.example.demo.utils.AuthorizeUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -37,11 +39,10 @@ public class CheckInController {
     @ResponseBody
     @PostMapping()
     @ApiOperation(value = "创建/更新小签到")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<CheckIn> checkin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                      @ApiParam(value = "包含小签到具体信息，操作信息") @RequestBody CUDRequest<CheckIn, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 checkInService.createCheckIn(request.getData());
@@ -74,14 +75,13 @@ public class CheckInController {
     @ResponseBody
     @GetMapping("/teacher/list")
     @ApiOperation(value = "根据大签到id获取所有对应的小签到信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<CheckIn>> getCheckInBySetId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                            @ApiParam(value = "大签到id") @RequestParam("setId") Integer setId,
                                                            @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                            @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                            @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         ListPageUtil.paging(current, pageSize, sorter);
         List<CheckIn> checkInList = checkInService.getCheckInListBySetId(setId);
         PageInfo<CheckIn> pageInfo = new PageInfo<>(checkInList);
@@ -92,14 +92,13 @@ public class CheckInController {
     @ResponseBody
     @GetMapping("/stu/list")
     @ApiOperation(value = "根据小签到id和当前用户id判断学生是否已签到")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<CheckIn>> getCheckInByStu(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                          @ApiParam(value = "大签到id") @RequestParam("setId") Integer setId,
                                                          @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                          @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                          @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         ListPageUtil.paging(current, pageSize, sorter);
         Integer userId = tokenService.getUserIdByToken(token);
         List<CheckIn> checkInList = checkInService.getCheckInListByStu(setId, userId);
@@ -111,11 +110,10 @@ public class CheckInController {
     @ResponseBody
     @GetMapping("/isSign")
     @ApiOperation(value = "根据小签到id和当前用户id判断学生是否已签到")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Boolean> isSign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                     @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Integer userId = tokenService.getUserIdByToken(token);
         Boolean isSign = checkInService.isSign(userId, checkId);
         return Response.createSuc(isSign);
@@ -124,11 +122,10 @@ public class CheckInController {
     @ResponseBody
     @GetMapping()
     @ApiOperation(value = "通过小签到id获取具体签到信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<CheckIn> getCheckIn(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                         @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkInId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         CheckIn checkIn = checkInService.getCheckIn(checkInId);
         if (checkIn != null) {
             return Response.createSuc(checkIn);

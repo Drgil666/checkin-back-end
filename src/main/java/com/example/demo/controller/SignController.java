@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Sign;
@@ -10,6 +11,7 @@ import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.SignService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.AuthorizeUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -42,11 +44,10 @@ public class SignController {
     @ResponseBody
     @PostMapping()
     @ApiOperation(value = "创建/更新/删除签到记录")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                @ApiParam(value = "包含签到记录信息，操作信息") @RequestBody CUDRequest<Sign, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
@@ -88,11 +89,10 @@ public class SignController {
     @ResponseBody
     @GetMapping()
     @ApiOperation(value = "根据签到记录id查找对应的签到记录")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                @ApiParam(value = "签到记录信息id") @RequestParam("id") Integer id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Sign sign = signService.getSign(id);
         if (sign != null) {
             return Response.createSuc(sign);
@@ -104,14 +104,13 @@ public class SignController {
     @ResponseBody
     @GetMapping("/checkId")
     @ApiOperation(value = "通过小签到id查找对应的签到记录")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<Sign>> getSignByCheckId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                        @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId,
                                                        @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                        @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                        @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         ListPageUtil.paging(current, pageSize, sorter);
         List<Sign> signVOList = signService.getSignByCheckId(checkId);
         PageInfo<Sign> pageInfo = new PageInfo<>(signVOList);
@@ -122,11 +121,10 @@ public class SignController {
     @ResponseBody
     @GetMapping("/checkId/userId")
     @ApiOperation(value = "通过小签到id和用户id查找签到记录")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Sign> getSignByCheckIdAndUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                     @ApiParam(value = "小签到id") @RequestParam("checkId") Integer checkId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Integer userId = tokenService.getUserIdByToken(token);
         Sign sign = signService.getSignByCheckIdAndUserId(checkId, userId);
         if (sign != null) {
@@ -139,14 +137,13 @@ public class SignController {
     @ResponseBody
     @GetMapping("/userId")
     @ApiOperation(value = "通过用户id查找签到记录")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<Sign>> getSignByUserId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                       @ApiParam(value = "用户id") @RequestParam("userId") Integer userId,
                                                       @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                       @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                       @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }

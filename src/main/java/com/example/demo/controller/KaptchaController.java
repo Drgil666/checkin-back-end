@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.utils.AssertionUtil;
+import com.example.demo.utils.AuthorizeUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +40,7 @@ public class KaptchaController {
     @ResponseBody
     @GetMapping
     @ApiOperation(value = "获取验证码")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_NORMAL)
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws Exception {
         byte[] captchaChallengeAsJpeg;
@@ -75,6 +78,7 @@ public class KaptchaController {
     @ResponseBody
     @PostMapping
     @ApiOperation(value = "验证验证码")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<String> verify(HttpServletRequest httpServletRequest,
                                    @ApiParam(value = "尝试的验证码") @RequestParam("tryCode") String tryCode) {
         String rightCode = (String) httpServletRequest.getSession().getAttribute("rightCode");

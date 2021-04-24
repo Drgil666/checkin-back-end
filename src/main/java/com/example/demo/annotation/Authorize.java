@@ -1,4 +1,6 @@
-package com.example.demo.annoation;
+package com.example.demo.annotation;
+
+import com.example.demo.utils.AuthorizeUtil;
 
 import java.lang.annotation.*;
 
@@ -11,5 +13,5 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 public @interface Authorize {
-    String value();
+    AuthorizeUtil.Character value();
 }

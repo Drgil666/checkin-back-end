@@ -12,6 +12,12 @@ import java.util.HashMap;
  * @date 2021/3/23 20:29
  */
 public class AuthorizeUtil {
+    public static final String ROOT_ATTRIBUTE = "root";
+    public static final String SCHOOL_ATTRIBUTE = "school";
+    public static final String ACADEMY_ATTRIBUTE = "academy";
+    public static final String MAJOR_ATTRIBUTE = "major";
+    public static final String NORMAL_ATTRIBUTE = "normal";
+    public static final String USER_ATTRIBUTE = "user";
 
     @AllArgsConstructor
     @Getter
@@ -19,19 +25,27 @@ public class AuthorizeUtil {
         /**
          * 超级用户
          */
-        TYPE_ROOT(0, "root"),
+        TYPE_ROOT(0, ROOT_ATTRIBUTE),
         /**
          * 校级管理员
          */
-        TYPE_SCHOOL(1, "school"),
+        TYPE_SCHOOL(1, SCHOOL_ATTRIBUTE),
         /**
          * 院级管理员
          */
-        TYPE_ACADEMY(2, "academy"),
+        TYPE_ACADEMY(2, ACADEMY_ATTRIBUTE),
+        /**
+         * 普通管理员
+         */
+        TYPE_MAJOR(3, MAJOR_ATTRIBUTE),
+        /**
+         * 普通管理员
+         */
+        TYPE_NORMAL(4, NORMAL_ATTRIBUTE),
         /**
          * 普通用户
          */
-        TYPE_USER(3, "user");
+        TYPE_USER(5, USER_ATTRIBUTE);
         private final Integer code;
         private final String name;
     }

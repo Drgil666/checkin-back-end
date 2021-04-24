@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.User;
@@ -9,6 +10,7 @@ import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.AssertionUtil;
+import com.example.demo.utils.AuthorizeUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.example.demo.utils.RegexUtil;
 import com.github.pagehelper.PageInfo;
@@ -40,11 +42,10 @@ public class UserController {
     @ResponseBody
     @PostMapping()
     @ApiOperation(value = "创建/更新/删除用户")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> user(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                @ApiParam(value = "包含用户信息，操作信息") @RequestBody CUDRequest<User, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {
@@ -75,11 +76,10 @@ public class UserController {
     @ResponseBody
     @GetMapping()
     @ApiOperation(value = "通过用户id获取用户")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> user(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                @ApiParam(value = "用户id") @RequestParam(value = "id", required = false) Integer userId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         if (userId == null) {
             userId = tokenService.getUserIdByToken(token);
         }
@@ -95,11 +95,10 @@ public class UserController {
     @ResponseBody
     @GetMapping("/stuNo")
     @ApiOperation(value = "通过学号获取用户信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByStuNo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                          @ApiParam(value = "学号") @RequestParam("stuNo") String stuNo) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         User user = userService.getUserByStuNo(stuNo);
         if (user != null) {
             return Response.createSuc(user);
@@ -111,11 +110,10 @@ public class UserController {
     @ResponseBody
     @GetMapping("/mail")
     @ApiOperation(value = "通过邮箱获取用户信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByMail(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                         @ApiParam(value = "邮箱") @RequestParam("mail") String mail) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         User user = userService.getUserByMail(mail);
         if (user != null) {
             return Response.createSuc(user);
@@ -127,11 +125,10 @@ public class UserController {
     @ResponseBody
     @GetMapping("/nick")
     @ApiOperation(value = "通过账户名获取用户信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByUserName(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                             @ApiParam(value = "账户名") @RequestParam("username") String username) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         User user = userService.getUserByUserName(username);
         if (user != null) {
             return Response.createSuc(user);
@@ -143,14 +140,13 @@ public class UserController {
     @ResponseBody
     @GetMapping("/admin/list")
     @ApiOperation(value = "通过昵称获取用户信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<User>> getCheckSetByNick(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                         @ApiParam(value = "昵称") @RequestParam(value = "nick", defaultValue = "") String nick,
                                                         @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                                                         @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                         @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Integer userId = tokenService.getUserIdByToken(token);
         if (userId == null) {
             return Response.createErr("获取userId失败!userId为空");
@@ -171,11 +167,10 @@ public class UserController {
     @ResponseBody
     @PostMapping("/update/photo")
     @ApiOperation(value = "更新照片")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> updatePhoto(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                       @ApiParam(value = "照片id") @RequestBody String photoId) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Integer userId = tokenService.getUserIdByToken(token);
         User user = userService.getUser(userId);
         user.setPhotoId(photoId);

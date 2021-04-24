@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Major;
@@ -9,6 +10,7 @@ import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.MajorService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.AssertionUtil;
+import com.example.demo.utils.AuthorizeUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -39,11 +41,10 @@ public class MajorController {
     @ResponseBody
     @PostMapping("/major")
     @ApiOperation(value = "创建/更新/删除Academy")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_SCHOOL)
     public Response<Major> major(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "包含专业信息，参数信息") @RequestBody CUDRequest<Major, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 majorService.createMajor(request.getData());
@@ -76,11 +77,10 @@ public class MajorController {
     @ResponseBody
     @GetMapping("/major")
     @ApiOperation(value = "获取major")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Major> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                   @ApiParam(value = "major的Id") @RequestParam("id") Integer id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id为空!");
         Major major = majorService.getMajor(id);
         if (major != null) {
@@ -93,15 +93,14 @@ public class MajorController {
     @ResponseBody
     @GetMapping("/major/academy/list")
     @ApiOperation(value = "根据学院id获取Major列表")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<Major>> getAcademyListByAcademyId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                                  @ApiParam(value = "学院id") @RequestParam("id") Integer id,
                                                                  @ApiParam(value = "学院名") @RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
                                                                  @ApiParam(value = "当前页") @RequestParam(required = false, value = "current") Integer current,
                                                                  @ApiParam(value = "页大小") @RequestParam(required = false, value = "pageSize") Integer pageSize,
                                                                  @ApiParam(value = "排序规则") @RequestParam(required = false, value = "sorter") String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         AssertionUtil.notNull(id, ErrorCode.INNER_PARAM_ILLEGAL, "keyword为空!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<Major> academyList = majorService.getMajorListByAcademyIdAndKeyWord(id, keyword);

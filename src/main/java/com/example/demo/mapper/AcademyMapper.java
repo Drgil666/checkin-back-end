@@ -36,7 +36,7 @@ public interface AcademyMapper {
      * @param id 学院id
      * @return 对应的学院
      */
-    @Select("select * from academy where id#{id}")
+    @Select("select * from academy where id=#{id}")
     Academy getAcademy(@Param("id") Integer id);
 
     /**

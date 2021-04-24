@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.School;
@@ -9,6 +10,7 @@ import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.SchoolService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.AssertionUtil;
+import com.example.demo.utils.AuthorizeUtil;
 import com.example.demo.utils.ListPageUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -39,11 +41,10 @@ public class SchoolController {
     @ResponseBody
     @PostMapping("/school")
     @ApiOperation(value = "创建/更新/删除School")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_ROOT)
     public Response<School> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                    @ApiParam(value = "包含学校信息，参数信息") @RequestBody CUDRequest<School, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
                 schoolService.createSchool(request.getData());
@@ -76,11 +77,10 @@ public class SchoolController {
     @ResponseBody
     @GetMapping("/school")
     @ApiOperation(value = "获取School")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<School> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                    @ApiParam(value = "school的Id") @RequestParam("id") Integer id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "id为空!");
         School school = schoolService.getSchool(id);
         if (school != null) {
@@ -93,14 +93,13 @@ public class SchoolController {
     @ResponseBody
     @GetMapping("/school/list")
     @ApiOperation(value = "根据学校名获取School列表")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_ROOT)
     public Response<ReturnPage<School>> getSchoolListByKeyword(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                                @ApiParam(value = "学校名称") @RequestParam(required = false, value = "keyword", defaultValue = "") String keyword,
                                                                @ApiParam(value = "当前页") @RequestParam(required = false, value = "current") Integer current,
                                                                @ApiParam(value = "页大小") @RequestParam(required = false, value = "pageSize") Integer pageSize,
                                                                @ApiParam(value = "排序规则") @RequestParam(required = false, value = "sorter") String sorter) throws Exception {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         AssertionUtil.notNull(keyword, ErrorCode.INNER_PARAM_ILLEGAL, "keyword为空!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<School> schoolList = schoolService.getSchoolListByKeyword(keyword);
@@ -112,9 +111,9 @@ public class SchoolController {
     @ResponseBody
     @GetMapping("/academy/school")
     @ApiOperation(value = "根据学院id查找学校")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<School> getSchoolByAcademyId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                  @ApiParam(value = "学院id") @RequestParam("id") Integer id) {
-        AssertionUtil.isTrue(tokenService.loginCheck(token), ErrorCode.INNER_PARAM_ILLEGAL, "您没有权限!请重新登录!");
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "学院id不能为空!");
         School school = schoolService.getSchoolByAcademyId(id);
         if (school != null) {
@@ -127,11 +126,10 @@ public class SchoolController {
     @ResponseBody
     @GetMapping("/major/school")
     @ApiOperation(value = "根据专业id查找学校")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<School> getSchoolByMajorId(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                @ApiParam(value = "专业id") @RequestParam("id") Integer id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         AssertionUtil.notNull(id, ErrorCode.BIZ_PARAM_ILLEGAL, "专业id不能为空!");
         School school = schoolService.getSchoolByMajorId(id);
         if (school != null) {
