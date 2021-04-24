@@ -38,7 +38,15 @@ public interface AdminService {
      * @param id 签到id
      * @return 对应的管理员账户信息
      */
-    Admin getAdmin(@NotNull Integer id);
+    Admin getAdminById(@NotNull Integer id);
+
+    /**
+     * 根据openId获取管理员
+     *
+     * @param openId openId
+     * @return 管理员账户信息
+     */
+    Admin getAdminByOpenId(@NotNull String openId);
 
     /**
      * 管理员登录
@@ -54,7 +62,7 @@ public interface AdminService {
      * @param username 用户名
      * @return 是否存在
      */
-    Boolean adminExist(@NotNull String username);
+    Boolean adminExistByUsername(@NotNull String username);
 
     /**
      * 获取管理员等级
@@ -63,4 +71,12 @@ public interface AdminService {
      * @return 管理员等级
      */
     Integer getAdminType(@NotNull Integer id);
+
+    /**
+     * openId是否已被绑定
+     *
+     * @param openId openId
+     * @return 是否被绑定
+     */
+    Integer adminExistByOpenId(@NotNull String openId);
 }

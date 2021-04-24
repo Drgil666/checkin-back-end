@@ -15,8 +15,8 @@ public interface AdminMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into admin (username,password,nick,type,school_id)" +
-            " values (#{admin.username},#{admin.password},#{admin.nick},#{admin.type},#{admin.schoolId})")
+    @Insert("insert into admin (username,password,nick,type,open_id)" +
+            " values (#{admin.username},#{admin.password},#{admin.nick},#{admin.type},#{admin.openId})")
     Boolean createAdmin(@Param("admin") Admin admin);
 
     /**
@@ -27,7 +27,7 @@ public interface AdminMapper {
      */
     @Insert("update admin set id=#{admin.id}," +
             "username=#{admin.username},password=#{admin.password}," +
-            "nick=#{admin.nick},type=#{admin.type},school_id=#{admin.schoolId} where id=#{admin.id}")
+            "nick=#{admin.nick},type=#{admin.type},open_id=#{admin.openId} where id=#{admin.id}")
     Long updateAdmin(@Param("admin") Admin admin);
 
     /**
@@ -46,7 +46,16 @@ public interface AdminMapper {
      * @return 对应的管理员账户信息
      */
     @Select("select * from admin where id=#{id}")
-    Admin getAdmin(@Param("id") Integer id);
+    Admin getAdminById(@Param("id") Integer id);
+
+    /**
+     * 根据openId获取管理员
+     *
+     * @param openId openId
+     * @return 管理员账户信息
+     */
+    @Select("select * from admin where open_id=#{openId}")
+    Admin getAdminByOpenId(@Param("openId") String openId);
 
     /**
      * 管理员登录
@@ -64,5 +73,14 @@ public interface AdminMapper {
      * @return 是否存在
      */
     @Select("select count(*) from admin where username=#{username} LIMIT 1")
-    Integer adminExist(@Param("username") String username);
+    Integer adminExistByUsername(@Param("username") String username);
+
+    /**
+     * openId是否已被绑定
+     *
+     * @param openId openId
+     * @return 是否被绑定
+     */
+    @Select("select count(*) from admin where open_id=#{openId} LIMIT 1")
+    Integer adminExistByOpenId(@Param("openId") String openId);
 }

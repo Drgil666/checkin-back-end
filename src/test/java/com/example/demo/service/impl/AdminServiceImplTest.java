@@ -32,7 +32,7 @@ public class AdminServiceImplTest {
 
     @Test
     public void updateAdmin() {
-        Admin admin = adminService.getAdmin(1);
+        Admin admin = adminService.getAdminById(1);
         admin.setPassword("1234567ct");
         System.out.println(adminService.updateAdmin(admin));
     }

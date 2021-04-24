@@ -48,7 +48,7 @@ public class AdminController {
 
         switch (request.getMethod()) {
             case CUDRequest.CREATE_METHOD: {
-                if (adminService.adminExist(request.getData().getUsername())) {
+                if (adminService.adminExistByUsername(request.getData().getUsername())) {
                     return Response.createErr("用户名已被注册!");
                 }
                 adminService.createAdmin(request.getData());
@@ -77,7 +77,7 @@ public class AdminController {
     public Response<String> login(@ApiParam(value = "包含签到信息") @RequestBody LoginVO data) {
         String username = data.getUsername();
         String password = data.getPassword();
-        AssertionUtil.isTrue(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
+        AssertionUtil.isTrue(adminService.adminExistByUsername(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
         Admin admin = adminService.getAdminByUsername(username);
         if (bcryptService.checkPassword(password, admin.getPassword())) {
             String token = tokenService.createUserToken(username, TYPE_ADMIN);
@@ -97,7 +97,7 @@ public class AdminController {
         if (id == null) {
             id = tokenService.getUserIdByToken(token);
         }
-        Admin admin = adminService.getAdmin(id);
+        Admin admin = adminService.getAdminById(id);
         if (admin != null) {
             return Response.createSuc(admin);
         } else {

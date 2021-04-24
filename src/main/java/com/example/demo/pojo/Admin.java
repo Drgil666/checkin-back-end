@@ -27,8 +27,14 @@ public class Admin {
      */
     @ApiModelProperty(value = "昵称", name = "nick")
     private String nick;
+    /**
+     * 用户类型
+     */
     @ApiModelProperty(value = "用户类型", name = "type", required = true)
     private Integer type;
-    @ApiModelProperty(value = "用户学校id", name = "type", required = true)
-    private String schoolId;
+    /**
+     * 用户对应的openId
+     */
+    @ApiModelProperty(value = "用户对应的openId", name = "openId", required = true)
+    private String openId;
 }
