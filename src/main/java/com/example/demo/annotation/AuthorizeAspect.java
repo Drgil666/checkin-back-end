@@ -20,6 +20,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
+/**
+ * @author zxl
+ */
 @Aspect
 @Component
 @Slf4j
@@ -56,6 +59,7 @@ public class AuthorizeAspect {
          * 3、Token是否已过期（解析信息或者redis中是否存在）
          * */
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
 
         String token = request.getHeader(TOKEN);
@@ -68,7 +72,7 @@ public class AuthorizeAspect {
 
         Integer userId = tokenService.getUserIdByToken(token);
         String loginType = tokenService.getLoginType(token);
-        Integer permissionCodes = null;
+        Integer permissionCodes;
         if (loginType.equals(TYPE_ADMIN)) {
             permissionCodes = (adminService.getAdminType(userId));
         } else if (loginType.equals(TYPE_USER)) {
@@ -84,13 +88,12 @@ public class AuthorizeAspect {
 
         Integer value = authorize.value().getCode();
         // 将注解的值和token解析后的值进行对比，查看是否有该权限，如果权限通过，允许访问方法；否则不允许，并抛出异常
-        if (permissionCodes > value) {
+        if (permissionCodes >= value) {
             throw new ErrorException(ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "对不起，您没有权限访问！");
         }
         // 执行具体方法
-        Object result = proceedingJoinPoint.proceed();
 
-        return result;
+        return proceedingJoinPoint.proceed();
     }
 
 }

@@ -5,7 +5,7 @@ import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Sign;
 import com.example.demo.pojo.User;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.SignService;
@@ -46,11 +46,11 @@ public class SignController {
     @ApiOperation(value = "创建/更新/删除签到记录")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Sign> sign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                               @ApiParam(value = "包含签到记录信息，操作信息") @RequestBody CUDRequest<Sign, Integer> request) {
+                               @ApiParam(value = "包含签到记录信息，操作信息") @RequestBody CudRequestVO<Sign, Integer> request) {
 
         Integer stuId = tokenService.getUserIdByToken(token);
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 User user = userService.getUser(stuId);
                 request.getData().setStuId(stuId);
                 request.getData().setNick(user.getNick());
@@ -62,7 +62,7 @@ public class SignController {
                     return Response.createErr("添加签到记录失败!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 User user = userService.getUser(stuId);
                 request.getData().setStuId(stuId);
                 request.getData().setNick(user.getNick());
@@ -73,7 +73,7 @@ public class SignController {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
                 }
             }
-            case CUDRequest.DELETE_METHOD: {
+            case CudRequestVO.DELETE_METHOD: {
                 if (signService.deleteSign(request.getKey()) > 0) {
                     return Response.createSuc(null);
                 } else {
@@ -81,7 +81,7 @@ public class SignController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }

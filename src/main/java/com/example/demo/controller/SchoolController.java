@@ -4,7 +4,7 @@ import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.School;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.SchoolService;
@@ -43,10 +43,10 @@ public class SchoolController {
     @ApiOperation(value = "创建/更新/删除School")
     @Authorize(value = AuthorizeUtil.Character.TYPE_ROOT)
     public Response<School> school(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                   @ApiParam(value = "包含学校信息，参数信息") @RequestBody CUDRequest<School, Integer> request) {
+                                   @ApiParam(value = "包含学校信息，参数信息") @RequestBody CudRequestVO<School, Integer> request) {
 
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 schoolService.createSchool(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -54,14 +54,14 @@ public class SchoolController {
                     return Response.createErr("创建学校失败!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 if (schoolService.updateSchool(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
                 }
             }
-            case CUDRequest.DELETE_METHOD: {
+            case CudRequestVO.DELETE_METHOD: {
                 if (schoolService.deleteSchool(request.getKey()) > 0) {
                     return Response.createSuc(null);
                 } else {
@@ -69,7 +69,7 @@ public class SchoolController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }

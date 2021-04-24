@@ -4,7 +4,7 @@ import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckIn;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckInService;
@@ -41,10 +41,10 @@ public class CheckInController {
     @ApiOperation(value = "创建/更新小签到")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<CheckIn> checkin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                     @ApiParam(value = "包含小签到具体信息，操作信息") @RequestBody CUDRequest<CheckIn, Integer> request) {
+                                     @ApiParam(value = "包含小签到具体信息，操作信息") @RequestBody CudRequestVO<CheckIn, Integer> request) {
 
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 checkInService.createCheckIn(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -52,14 +52,14 @@ public class CheckInController {
                     return Response.createErr("添加签到环节失败!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 if (checkInService.updateCheckIn(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新签到环节失败!");
                 }
             }
-            case CUDRequest.DELETE_METHOD: {
+            case CudRequestVO.DELETE_METHOD: {
                 if (checkInService.deleteCheckIn(request.getKey()) > 0) {
                     return Response.createSuc(null);
                 } else {
@@ -67,7 +67,7 @@ public class CheckInController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }

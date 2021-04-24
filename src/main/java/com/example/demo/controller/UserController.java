@@ -4,7 +4,7 @@ import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.User;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.TokenService;
@@ -44,10 +44,10 @@ public class UserController {
     @ApiOperation(value = "创建/更新/删除用户")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> user(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                               @ApiParam(value = "包含用户信息，操作信息") @RequestBody CUDRequest<User, Integer> request) {
+                               @ApiParam(value = "包含用户信息，操作信息") @RequestBody CudRequestVO<User, Integer> request) {
 
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 if (userService.isExist(request.getData().getUsername()) != null) {
                     userService.createUser(request.getData());
                     if (request.getData().getId() != null) {
@@ -59,7 +59,7 @@ public class UserController {
                     return Response.createErr("用户已存在或数据有误!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 RegexUtil.checkUser(request.getData());
                 if (userService.updateUser(request.getData()) == 1) {
                     return Response.createSuc(request.getData());

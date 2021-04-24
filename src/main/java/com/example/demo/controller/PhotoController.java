@@ -5,7 +5,7 @@ import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Photo;
 import com.example.demo.pojo.User;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.PhotoService;
 import com.example.demo.service.TokenService;
@@ -42,10 +42,10 @@ public class PhotoController {
     @ApiOperation(value = "创建/更新/删除照片")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Photo> photo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                 @ApiParam(value = "包含照片信息，操作信息") @RequestBody CUDRequest<Photo, Integer> request) {
+                                 @ApiParam(value = "包含照片信息，操作信息") @RequestBody CudRequestVO<Photo, Integer> request) {
 
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 photoService.createPhoto(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());
@@ -53,7 +53,7 @@ public class PhotoController {
                     return Response.createErr("创建照片失败!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 if (photoService.updatePhoto(request.getData()) != null) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -61,7 +61,7 @@ public class PhotoController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }

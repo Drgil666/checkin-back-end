@@ -4,7 +4,7 @@ import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Admin;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.LoginVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.AdminService;
@@ -44,10 +44,10 @@ public class AdminController {
     @ApiOperation(value = "创建/更新Admin")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Admin> admin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                 @ApiParam(value = "包含管理员信息，操作信息") @RequestBody CUDRequest<Admin, Integer> request) {
+                                 @ApiParam(value = "包含管理员信息，操作信息") @RequestBody CudRequestVO<Admin, Integer> request) {
 
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 if (adminService.adminExistByUsername(request.getData().getUsername())) {
                     return Response.createErr("用户名已被注册!");
                 }
@@ -58,7 +58,7 @@ public class AdminController {
                     return Response.createErr("创建管理员失败!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 if (adminService.updateAdmin(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -66,7 +66,7 @@ public class AdminController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }

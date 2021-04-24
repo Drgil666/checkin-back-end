@@ -4,7 +4,7 @@ import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.CheckSet;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.pojo.vo.ReturnPage;
 import com.example.demo.service.CheckSetService;
@@ -41,24 +41,24 @@ public class CheckSetController {
     @PostMapping()
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<CheckSet> checkSet(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                       @ApiParam(value = "包含大签到信息，操作信息") @RequestBody CUDRequest<CheckSet, Integer> request) {
+                                       @ApiParam(value = "包含大签到信息，操作信息") @RequestBody CudRequestVO<CheckSet, Integer> request) {
 
         Integer userId = tokenService.getUserIdByToken(token);
         request.getData().setUserId(userId);
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
+            case CudRequestVO.CREATE_METHOD: {
                 checkSetService.createCheckSet(request.getData());
                 AssertionUtil.notNull(request.getData().getId(), ErrorCode.INNER_PARAM_ILLEGAL, "添加签到记录失败!");
                 return Response.createSuc(request.getData());
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 if (checkSetService.updateCheckSet(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
                     throw new ErrorException(ErrorCode.BIZ_PARAM_ILLEGAL, "更新失败!");
                 }
             }
-            case CUDRequest.DELETE_METHOD: {
+            case CudRequestVO.DELETE_METHOD: {
                 if (checkSetService.deleteCheckSet(request.getKey()) > 0) {
                     return Response.createSuc(null);
                 } else {
@@ -66,7 +66,7 @@ public class CheckSetController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }

@@ -48,9 +48,10 @@ public interface AcademyMapper {
     Long deleteAcademy(@Param("id") List<Integer> id);
 
     /**
-     * 根据学院名查找学院列表
+     * 根据学院名与学校id查找学院列表
      *
-     * @param keyword 学院名
+     * @param schoolId 学校id
+     * @param keyword  学院名
      * @return 学院列表
      */
     @Select("select * from academy where school_id=#{schoolId} and nick like CONCAT('%',#{keyword},'%')")
