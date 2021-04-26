@@ -88,7 +88,7 @@ public class AuthorizeAspect {
 
         Integer value = authorize.value().getCode();
         // 将注解的值和token解析后的值进行对比，查看是否有该权限，如果权限通过，允许访问方法；否则不允许，并抛出异常
-        if (permissionCodes >= value) {
+        if (permissionCodes > value) {
             throw new ErrorException(ErrorCode.TOKEN_AUTHORIZE_ILLEGAL, "对不起，您没有权限访问！");
         }
         // 执行具体方法
