@@ -93,7 +93,7 @@ public class SchoolController {
     @ResponseBody
     @GetMapping("/school/list")
     @ApiOperation(value = "根据学校名获取School列表")
-    @Authorize(value = AuthorizeUtil.Character.TYPE_ROOT)
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<School>> getSchoolListByKeyword(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                                @ApiParam(value = "学校名称") @RequestParam(required = false, value = "keyword", defaultValue = "") String keyword,
                                                                @ApiParam(value = "当前页") @RequestParam(required = false, value = "current") Integer current,

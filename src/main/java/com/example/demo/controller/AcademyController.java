@@ -93,13 +93,13 @@ public class AcademyController {
     @ResponseBody
     @GetMapping("/academy/list")
     @ApiOperation(value = "根据学院名获取Academy列表")
-    @Authorize(value = AuthorizeUtil.Character.TYPE_SCHOOL)
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<Academy>> getAcademyListByKeyword(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                                  @ApiParam(value = "学院名称") @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                                                                  @ApiParam(value = "学校id") @RequestParam(value = "id") Integer id,
-                                                                 @ApiParam(value = "当前页") @RequestParam("current") Integer current,
-                                                                 @ApiParam(value = "页大小") @RequestParam("pageSize") Integer pageSize,
-                                                                 @ApiParam(value = "排序规则") @RequestParam("sorter") String sorter) throws Exception {
+                                                                 @ApiParam(value = "当前页") @RequestParam(value = "current", required = false) Integer current,
+                                                                 @ApiParam(value = "页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                                 @ApiParam(value = "排序规则") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
         AssertionUtil.notNull(keyword, ErrorCode.INNER_PARAM_ILLEGAL, "keyword为空!");
         ListPageUtil.paging(current, pageSize, sorter);
         List<Academy> academyList = academyService.getAcademyListByKeyword(id, keyword);
