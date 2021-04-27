@@ -129,13 +129,14 @@ public class CheckSetController {
     @ApiOperation(value = "学生获得自己完成的大签到")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<CheckSet>> getCheckSetBySign(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
+                                                            @ApiParam(value = "签到名称") @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                                                             @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
                                                             @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                             @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
 
         Integer stuId = tokenService.getUserIdByToken(token);
         ListPageUtil.paging(current, pageSize, sorter);
-        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(stuId);
+        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(stuId, keyword);
         PageInfo<CheckSet> pageInfo = new PageInfo<>(checkSetList);
         ReturnPage<CheckSet> returnPage = ListPageUtil.returnPage(pageInfo);
         return Response.createSuc(returnPage);
