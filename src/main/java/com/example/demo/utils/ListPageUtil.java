@@ -15,7 +15,7 @@ public class ListPageUtil {
     /**
      * 分页上限
      */
-    public static Integer INT_LIMIT = Integer.MAX_VALUE;
+    public static Integer PAGE_SIZE_LIMIT = 100000;
 
     /**
      * 创建分页
@@ -24,10 +24,10 @@ public class ListPageUtil {
      * @param pageSize 页面大小
      * @param sorter   排序方式
      */
-    public static void paging(Integer current, Integer pageSize, String sorter) throws Exception {
+    public static void paging(Integer current, Integer pageSize, String sorter) {
         if (current == null && pageSize == null) {
             current = 1;
-            pageSize = 100000;
+            pageSize = PAGE_SIZE_LIMIT;
         }
         AssertionUtil.notNull(current, ErrorCode.BIZ_PARAM_ILLEGAL, "current参数错误!");
         AssertionUtil.notNull(pageSize, ErrorCode.BIZ_PARAM_ILLEGAL, "pageSize参数错误!");
