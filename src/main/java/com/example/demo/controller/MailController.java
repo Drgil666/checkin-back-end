@@ -36,7 +36,6 @@ public class MailController {
     @PostMapping()
     @Authorize(value = AuthorizeUtil.Character.TYPE_NORMAL)
     public Response<String> createVerification(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token) {
-
         Integer userId = tokenService.getUserIdByToken(token);
         User user = userService.getUser(userId);
         String userMail = user.getMail();
@@ -46,10 +45,10 @@ public class MailController {
     }
 
     @ResponseBody
-    @PostMapping("/verify")
+    @GetMapping("/verify")
     @Authorize(value = AuthorizeUtil.Character.TYPE_NORMAL)
-    public Response<String> verify(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                   @ApiParam(value = "code") @RequestBody String code) {
+    public Response<String> verify(@ApiParam(value = "加密验证参数") @RequestParam("Token") String token,
+                                   @ApiParam(value = "code") @RequestParam("code") String code) {
 
         if (tokenService.checkMailToken(token, code)) {
             return Response.createSuc(null);
