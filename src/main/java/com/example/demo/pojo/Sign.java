@@ -44,4 +44,9 @@ public class Sign {
      */
     @ApiModelProperty(value = "签到人学号", name = "stuNo", required = true)
     private String stuNo;
+    /**
+     * 用户头像
+     */
+    @ApiModelProperty(value = "用户头像", name = "avatarUrl")
+    private String avatarUrl;
 }
