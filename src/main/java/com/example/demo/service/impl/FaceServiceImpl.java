@@ -21,7 +21,9 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author DrGilbert
@@ -75,7 +77,9 @@ public class FaceServiceImpl implements FaceService {
         compareCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);
         compareCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);
         faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(sdkLibPath, appId, sdkKey, null, compareCfg), comparePoolConfig);
-        compareExecutorService = Executors.newFixedThreadPool(comparePooSize);
+        compareExecutorService = new ThreadPoolExecutor(comparePooSize, comparePooSize,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
     }
 
     /**
