@@ -51,12 +51,13 @@ public interface CheckSetMapper {
     /**
      * 学生获取CheckSet列表
      *
-     * @param stuId 学生id
+     * @param stuId   学生id
+     * @param keyword 签到名
      * @return CheckSet列表
      */
     @Select("select DISTINCT checkset.* from checkset,checkin,signin " +
-            "where checkset.id=checkin.set_id and checkin.id=signin.check_id and signin.stu_id=#{stuId}")
-    List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId);
+            "where checkset.id=checkin.set_id and checkin.id=signin.check_id and signin.stu_id=#{stuId} and checkset.nick like CONCAT('%',#{keyword},'%')")
+    List<CheckSet> getCheckListByStu(@Param("stuId") Integer stuId, @Param("keyword") String keyword);
 
     /**
      * 教师通过用户id和签到名获取签到列表

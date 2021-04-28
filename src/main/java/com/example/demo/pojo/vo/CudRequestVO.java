@@ -14,8 +14,8 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@ApiModel(description = "CUDRequest")
-public class CUDRequest<T, K> {
+@ApiModel(description = "CudRequestVO")
+public class CudRequestVO<T, K> {
     public static final String CREATE_METHOD = "create";
     public static final String UPDATE_METHOD = "update";
     public static final String DELETE_METHOD = "delete";

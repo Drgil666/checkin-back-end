@@ -43,12 +43,13 @@ public interface AcademyService {
     Long deleteAcademy(@NotNull List<Integer> id);
 
     /**
-     * 根据学院名查找学院列表
+     * 根据学院名和学校id查找学院列表
      *
-     * @param keyword 学院名
+     * @param schoolId 学校id
+     * @param keyword  学院名
      * @return 学院列表
      */
-    List<Academy> getAcademyListByKeyword(@NotNull String keyword);
+    List<Academy> getAcademyListByKeyword(@NotNull Integer schoolId, @NotNull String keyword);
 
     /**
      * 根据专业id获取学院
@@ -57,12 +58,4 @@ public interface AcademyService {
      * @return 学院
      */
     Academy getAcademyByMajorId(@NotNull Integer id);
-
-    /**
-     * 根据学校id获取学院列表
-     *
-     * @param id 学校id
-     * @return 学院列表
-     */
-    List<Academy> getAcademyListBySchoolId(@NotNull Integer id);
 }

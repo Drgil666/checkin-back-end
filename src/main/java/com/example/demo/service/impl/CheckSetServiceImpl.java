@@ -69,13 +69,14 @@ public class CheckSetServiceImpl implements CheckSetService {
     /**
      * 学生获取CheckSet列表
      *
-     * @param stuId 学生id
+     * @param stuId   学生id
+     * @param keyword 签到名
      * @return CheckSet列表
      */
     @Override
-    public List<CheckSet> getCheckListByStu(@NotNull Integer stuId) {
+    public List<CheckSet> getCheckListByStu(@NotNull Integer stuId, String keyword) {
         AssertionUtil.notNull(stuId, ErrorCode.BIZ_PARAM_ILLEGAL, "stuId不能为空!");
-        return checkSetMapper.getCheckListByStu(stuId);
+        return checkSetMapper.getCheckListByStu(stuId, keyword);
     }
 
     /**

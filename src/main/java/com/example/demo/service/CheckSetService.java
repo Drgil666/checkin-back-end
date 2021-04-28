@@ -44,10 +44,11 @@ public interface CheckSetService {
     /**
      * 学生获取CheckSet列表
      *
-     * @param stuId 学生id
+     * @param stuId   学生id
+     * @param keyword 签到名
      * @return CheckSet列表
      */
-    List<CheckSet> getCheckListByStu(@NotNull Integer stuId);
+    List<CheckSet> getCheckListByStu(@NotNull Integer stuId, String keyword);
 
     /**
      * 教师通过用户id和签到名获取签到列表

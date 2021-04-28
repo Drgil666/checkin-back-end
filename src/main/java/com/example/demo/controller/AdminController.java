@@ -1,15 +1,17 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorException;
 import com.example.demo.pojo.Admin;
-import com.example.demo.pojo.vo.CUDRequest;
+import com.example.demo.pojo.vo.CudRequestVO;
 import com.example.demo.pojo.vo.LoginVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.BcryptService;
 import com.example.demo.service.TokenService;
 import com.example.demo.utils.AssertionUtil;
+import com.example.demo.utils.AuthorizeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,14 +42,13 @@ public class AdminController {
     @ResponseBody
     @PostMapping()
     @ApiOperation(value = "创建/更新Admin")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Admin> admin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                 @ApiParam(value = "包含管理员信息，操作信息") @RequestBody CUDRequest<Admin, Integer> request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+                                 @ApiParam(value = "包含管理员信息，操作信息") @RequestBody CudRequestVO<Admin, Integer> request) {
+
         switch (request.getMethod()) {
-            case CUDRequest.CREATE_METHOD: {
-                if (adminService.adminExist(request.getData().getUsername())) {
+            case CudRequestVO.CREATE_METHOD: {
+                if (adminService.adminExistByUsername(request.getData().getUsername())) {
                     return Response.createErr("用户名已被注册!");
                 }
                 adminService.createAdmin(request.getData());
@@ -57,7 +58,7 @@ public class AdminController {
                     return Response.createErr("创建管理员失败!");
                 }
             }
-            case CUDRequest.UPDATE_METHOD: {
+            case CudRequestVO.UPDATE_METHOD: {
                 if (adminService.updateAdmin(request.getData()) == 1) {
                     return Response.createSuc(request.getData());
                 } else {
@@ -65,7 +66,7 @@ public class AdminController {
                 }
             }
             default: {
-                return Response.createErr(CUDRequest.METHOD_ERROR);
+                return Response.createErr(CudRequestVO.METHOD_ERROR);
             }
         }
     }
@@ -76,7 +77,7 @@ public class AdminController {
     public Response<String> login(@ApiParam(value = "包含签到信息") @RequestBody LoginVO data) {
         String username = data.getUsername();
         String password = data.getPassword();
-        AssertionUtil.isTrue(adminService.adminExist(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
+        AssertionUtil.isTrue(adminService.adminExistByUsername(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或者密码错误!");
         Admin admin = adminService.getAdminByUsername(username);
         if (bcryptService.checkPassword(password, admin.getPassword())) {
             String token = tokenService.createUserToken(username, TYPE_ADMIN);
@@ -89,15 +90,14 @@ public class AdminController {
     @ResponseBody
     @GetMapping()
     @ApiOperation(value = "通过管理员id获取管理员信息")
+    @Authorize(value = AuthorizeUtil.Character.TYPE_NORMAL)
     public Response<Admin> admin(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                  @ApiParam(value = "管理员id") @RequestParam(value = "id", required = false) Integer id) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         if (id == null) {
             id = tokenService.getUserIdByToken(token);
         }
-        Admin admin = adminService.getAdmin(id);
+        Admin admin = adminService.getAdminById(id);
         if (admin != null) {
             return Response.createSuc(admin);
         } else {

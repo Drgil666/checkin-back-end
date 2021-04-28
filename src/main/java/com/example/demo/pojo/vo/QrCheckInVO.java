@@ -11,7 +11,7 @@ import java.util.Date;
  * @date 2021/3/16 10:44
  */
 @Data
-@ApiModel(description = "CUDRequest")
+@ApiModel(description = "CudRequestVO")
 public class QrCheckInVO {
     @ApiModelProperty(value = "签到id", name = "checkInId", required = true)
     private Integer checkInId;

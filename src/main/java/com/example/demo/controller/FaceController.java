@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.arcsoft.face.FaceInfo;
+import com.example.demo.annotation.Authorize;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.pojo.Photo;
 import com.example.demo.pojo.ProcessInfo;
@@ -10,6 +11,7 @@ import com.example.demo.pojo.vo.PhotoVO;
 import com.example.demo.pojo.vo.Response;
 import com.example.demo.service.*;
 import com.example.demo.utils.AssertionUtil;
+import com.example.demo.utils.AuthorizeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -44,11 +46,10 @@ public class FaceController {
 
     @ResponseBody
     @PostMapping()
+    @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<Float> compareDetect(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                          @ApiParam(value = "包含大签到信息，操作信息") @RequestBody PhotoVO request) {
-        if (!tokenService.loginCheck(token)) {
-            return Response.createTokenAuthorizedErr();
-        }
+
         Integer userId = tokenService.getUserIdByToken(token);
         AssertionUtil.notNull(userId, ErrorCode.BIZ_PARAM_ILLEGAL, "userId为空!");
         List<ProcessInfo> processInfos = faceService.liveDetect(request.getImg());

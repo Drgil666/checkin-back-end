@@ -64,8 +64,19 @@ public class AdminServiceImpl implements AdminService {
      * @return 对应的管理员账户信息
      */
     @Override
-    public Admin getAdmin(@NotNull Integer id) {
-        return adminMapper.getAdmin(id);
+    public Admin getAdminById(@NotNull Integer id) {
+        return adminMapper.getAdminById(id);
+    }
+
+    /**
+     * 根据openId获取管理员
+     *
+     * @param openId openId
+     * @return 管理员账户信息
+     */
+    @Override
+    public Admin getAdminByOpenId(@NotNull String openId) {
+        return adminMapper.getAdminByOpenId(openId);
     }
 
     /**
@@ -86,8 +97,8 @@ public class AdminServiceImpl implements AdminService {
      * @return 是否存在
      */
     @Override
-    public Boolean adminExist(@NotNull String username) {
-        return adminMapper.adminExist(username) > 0;
+    public Boolean adminExistByUsername(@NotNull String username) {
+        return adminMapper.adminExistByUsername(username) > 0;
     }
 
     /**
@@ -98,7 +109,18 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public Integer getAdminType(@NotNull Integer id) {
-        Admin admin = getAdmin(id);
+        Admin admin = getAdminById(id);
         return admin.getType();
+    }
+
+    /**
+     * openId是否已被绑定
+     *
+     * @param openId openId
+     * @return 是否被绑定
+     */
+    @Override
+    public Integer adminExistByOpenId(@NotNull String openId) {
+        return adminMapper.adminExistByOpenId(openId);
     }
 }

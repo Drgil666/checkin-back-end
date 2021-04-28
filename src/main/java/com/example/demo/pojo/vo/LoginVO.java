@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2021/3/16 10:46
  */
 @Data
-@ApiModel(description = "CUDRequest")
+@ApiModel(description = "CudRequestVO")
 public class LoginVO {
     @ApiModelProperty(value = "用户名", name = "username", required = true)
     private String username;

@@ -36,7 +36,7 @@ public interface AcademyMapper {
      * @param id 学院id
      * @return 对应的学院
      */
-    @Select("select * from academy where id#{id}")
+    @Select("select * from academy where id=#{id}")
     Academy getAcademy(@Param("id") Integer id);
 
     /**
@@ -48,13 +48,14 @@ public interface AcademyMapper {
     Long deleteAcademy(@Param("id") List<Integer> id);
 
     /**
-     * 根据学院名查找学院列表
+     * 根据学院名与学校id查找学院列表
      *
-     * @param keyword 学院名
+     * @param schoolId 学校id
+     * @param keyword  学院名
      * @return 学院列表
      */
-    @Select("select * from academy where nick like CONCAT('%',#{keyword},'%')")
-    List<Academy> getAcademyListByKeyword(@Param("keyword") String keyword);
+    @Select("select * from academy where school_id=#{schoolId} and nick like CONCAT('%',#{keyword},'%')")
+    List<Academy> getAcademyList(@Param("schoolId") Integer schoolId, @Param("keyword") String keyword);
 
     /**
      * 根据专业id获取学院
@@ -64,13 +65,4 @@ public interface AcademyMapper {
      */
     @Select("select * from academy inner join major on academy.id = major.academy_id")
     Academy getAcademyByMajorId(@Param("id") Integer id);
-
-    /**
-     * 根据学校id获取学院列表
-     *
-     * @param id 学校id
-     * @return 学院列表
-     */
-    @Select("select * from academy where school_id=#{id}")
-    List<Academy> getAcademyListBySchoolId(@Param("id") Integer id);
 }

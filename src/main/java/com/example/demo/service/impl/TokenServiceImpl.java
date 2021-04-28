@@ -151,7 +151,7 @@ public class TokenServiceImpl implements TokenService {
                 ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
         String verificationCode = MailVerificationUtil.getRandomVerificationCode();
         Integer adminId = getUserIdByToken(token);
-        Admin admin = adminService.getAdmin(adminId);
+        Admin admin = adminService.getAdminById(adminId);
         RedisMailVerifyValueVO valueVO = new RedisMailVerifyValueVO();
         valueVO.setDate(new Date());
         valueVO.setVerificationCode(verificationCode);
@@ -180,7 +180,7 @@ public class TokenServiceImpl implements TokenService {
             throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "验证码已超时!");
         }
         Integer adminId = getUserIdByToken(token);
-        Admin admin = adminService.getAdmin(adminId);
+        Admin admin = adminService.getAdminById(adminId);
         if (valueVO.getVerificationCode().equals(verificationCode)) {
             tokenDao.deleteValue(admin.getUsername());
             return true;
@@ -202,7 +202,7 @@ public class TokenServiceImpl implements TokenService {
         RedisMailVerifyKeyVO keyVO = new RedisMailVerifyKeyVO();
         AssertionUtil.isTrue(loginCheck(token) && getLoginType(token).equals(ATTRIBUTE_ADMIN), ErrorCode.BIZ_PARAM_ILLEGAL, "您没有权限!");
         Integer adminId = getUserIdByToken(token);
-        Admin admin = adminService.getAdmin(adminId);
+        Admin admin = adminService.getAdminById(adminId);
         keyVO.setUsername(admin.getUsername());
         String keyJson = JSON.toJSONString(keyVO);
         String valueJson = tokenDao.getValue(keyJson);

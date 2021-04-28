@@ -61,7 +61,7 @@ public class CheckSetServiceImplTest {
 
     @Test
     public void getCheckByStu() {
-        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(1);
+        List<CheckSet> checkSetList = checkSetService.getCheckListByStu(1, "");
         System.out.println(checkSetList);
     }
 }
