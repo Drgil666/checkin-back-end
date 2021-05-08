@@ -55,6 +55,7 @@ public class SignController {
                 request.getData().setStuId(stuId);
                 request.getData().setNick(user.getNick());
                 request.getData().setStuNo(user.getStuNo());
+                request.getData().setAvatarUrl(user.getAvatarUrl());
                 signService.createSign(request.getData());
                 if (request.getData().getId() != null) {
                     return Response.createSuc(request.getData());

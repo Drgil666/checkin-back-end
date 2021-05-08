@@ -18,8 +18,8 @@ public interface SignMapper {
      * @return 是否创建成功
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into signin (stu_id,sign_time,photo_id,check_id,nick,stu_no) values " +
-            "(#{sign.stuId},#{sign.signTime},#{sign.photoId},#{sign.checkId},#{sign.nick},#{sign.stuNo})")
+    @Insert("insert into signin (stu_id,sign_time,photo_id,check_id,nick,stu_no,avatar_url) values " +
+            "(#{sign.stuId},#{sign.signTime},#{sign.photoId},#{sign.checkId},#{sign.nick},#{sign.stuNo},#{sign.avatarUrl})")
     Boolean createSign(@Param("sign") Sign sign);
 
     /**
@@ -29,7 +29,7 @@ public interface SignMapper {
      * @return 更新好的sign
      */
     @Insert("update signin set id=#{sign.id},stu_id=#{sign.stuId},sign_time=#{sign.signTime}," +
-            "photo_id=#{sign.photoId},check_id=#{sign.checkId},nick=#{sign.nick},stu_no=#{sign.stuNo} where id=#{sign.id}")
+            "photo_id=#{sign.photoId},check_id=#{sign.checkId},nick=#{sign.nick},stu_no=#{sign.stuNo},avatar_url=#{sign.avatarUrl} where id=#{sign.id}")
     Long updateSign(@Param("sign") Sign sign);
 
     /**
