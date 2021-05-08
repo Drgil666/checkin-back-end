@@ -83,6 +83,7 @@ public class FaceController {
                     sign.setStuNo(user.getStuNo());
                     sign.setPhotoId(photo.getId());
                     sign.setCheckId(request.getCheckInId());
+                    sign.setAvatarUrl(user.getAvatarUrl());
                     if (signService.createSign(sign)) {
                         return Response.createSuc(null);
                     } else {
