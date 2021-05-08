@@ -94,6 +94,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/stuNo")
+    @Deprecated
     @ApiOperation(value = "通过学号获取用户信息")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByStuNo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
@@ -109,6 +110,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/mail")
+    @Deprecated
     @ApiOperation(value = "通过邮箱获取用户信息")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByMail(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
@@ -124,6 +126,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/nick")
+    @Deprecated
     @ApiOperation(value = "通过账户名获取用户信息")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByUserName(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
@@ -143,9 +146,9 @@ public class UserController {
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<ReturnPage<User>> getCheckSetByNick(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                                         @ApiParam(value = "昵称") @RequestParam(value = "nick", defaultValue = "") String nick,
-                                                        @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
-                                                        @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
-                                                        @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) throws Exception {
+                                                        @ApiParam(value = "当前页面") @RequestParam(value = "current", required = false) Integer current,
+                                                        @ApiParam(value = "页面大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                        @ApiParam(value = "排序方式") @RequestParam(value = "sorter", required = false) String sorter) {
 
         Integer userId = tokenService.getUserIdByToken(token);
         if (userId == null) {
@@ -166,11 +169,11 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/update/photo")
+    @Deprecated
     @ApiOperation(value = "更新照片")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> updatePhoto(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                       @ApiParam(value = "照片id") @RequestBody String photoId) {
-
         Integer userId = tokenService.getUserIdByToken(token);
         User user = userService.getUser(userId);
         user.setPhotoId(photoId);
