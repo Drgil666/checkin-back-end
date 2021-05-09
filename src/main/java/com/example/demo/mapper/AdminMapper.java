@@ -83,4 +83,13 @@ public interface AdminMapper {
      */
     @Select("select count(*) from admin where open_id=#{openId} LIMIT 1")
     Integer adminExistByOpenId(@Param("openId") String openId);
+
+    /**
+     * 根据用户邮箱查找管理员
+     *
+     * @param mail 邮箱
+     * @return 管理员信息
+     */
+    @Select("select admin.* from admin,user where admin.open_id=user.username and user.mail=#{mail}")
+    Admin getAdminByMail(@Param("mail") String mail);
 }

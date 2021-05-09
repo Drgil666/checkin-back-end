@@ -123,4 +123,15 @@ public class AdminServiceImpl implements AdminService {
     public Integer adminExistByOpenId(@NotNull String openId) {
         return adminMapper.adminExistByOpenId(openId);
     }
+
+    /**
+     * 根据用户邮箱查找管理员
+     *
+     * @param mail 邮箱
+     * @return 管理员信息
+     */
+    @Override
+    public Admin getAdminByMail(@NotNull String mail) {
+        return adminMapper.getAdminByMail(mail);
+    }
 }

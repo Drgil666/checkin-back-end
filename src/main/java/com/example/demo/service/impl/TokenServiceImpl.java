@@ -8,10 +8,7 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.User;
-import com.example.demo.pojo.vo.RedisMailVerifyKeyVO;
-import com.example.demo.pojo.vo.RedisMailVerifyValueVO;
-import com.example.demo.pojo.vo.RedisUserKeyVO;
-import com.example.demo.pojo.vo.RedisUserValueVO;
+import com.example.demo.pojo.vo.*;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
@@ -51,6 +48,8 @@ public class TokenServiceImpl implements TokenService {
     public static final String ATTRIBUTE_PASSWORD = "password";
     @Value("${mail.validity}")
     private Long validity;
+    @Value("${mail.code.length}")
+    public Integer codeLength;
 
     /**
      * 生成token
@@ -141,16 +140,12 @@ public class TokenServiceImpl implements TokenService {
     /**
      * 生成用户的验证码
      *
-     * @param token 用户Token
+     * @param adminId 管理员id
      * @return 验证码
      */
     @Override
-    public String createMailToken(@NotNull String token) {
-        AssertionUtil.isTrue(loginCheck(token) &&
-                        getLoginType(token).equals(ATTRIBUTE_ADMIN),
-                ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
-        String verificationCode = MailVerificationUtil.getRandomVerificationCode();
-        Integer adminId = getUserIdByToken(token);
+    public String createVerificationCode(@NotNull Integer adminId) {
+        String verificationCode = MailVerificationUtil.getRandomVerificationCode(codeLength);
         Admin admin = adminService.getAdminById(adminId);
         RedisMailVerifyValueVO valueVO = new RedisMailVerifyValueVO();
         valueVO.setDate(new Date());
@@ -166,23 +161,25 @@ public class TokenServiceImpl implements TokenService {
     /**
      * 校验管理员的验证码
      *
-     * @param token            用户Token
+     * @param mailUserVO       用户Token信息
      * @param verificationCode 验证码
      * @return 是否一致
      */
     @Override
-    public Boolean checkMailToken(@NotNull String token, @NotNull String verificationCode) {
-        AssertionUtil.isTrue(loginCheck(token) &&
-                        getLoginType(token).equals(ATTRIBUTE_ADMIN),
-                ErrorCode.UNKNOWN_ERROR, "您没有权限!请重新登录!");
-        RedisMailVerifyValueVO valueVO = getRedisMailVerify(token);
+    public Boolean checkVerificationCode(@NotNull MailUserVO mailUserVO, @NotNull String verificationCode) {
+        Admin admin = adminService.getAdminById(mailUserVO.getAdminId());
+        RedisMailVerifyKeyVO keyVO = new RedisMailVerifyKeyVO();
+        keyVO.setUsername(admin.getUsername());
+        String keyJson = JSON.toJSONString(keyVO);
+        String valueJson = tokenDao.getValue(keyJson);
+        AssertionUtil.notNull(valueJson, ErrorCode.BIZ_PARAM_ILLEGAL, "验证码不存在!");
+        RedisMailVerifyValueVO valueVO = JSONObject.toJavaObject(JSONObject.parseObject(valueJson),
+                RedisMailVerifyValueVO.class);
         if (System.currentTimeMillis() - valueVO.getDate().getTime() >= validity * 60 * 1000) {
-            throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "验证码已超时!");
+            throw new ErrorException(ErrorCode.INNER_PARAM_ILLEGAL, "验证码已过期!");
         }
-        Integer adminId = getUserIdByToken(token);
-        Admin admin = adminService.getAdminById(adminId);
         if (valueVO.getVerificationCode().equals(verificationCode)) {
-            tokenDao.deleteValue(admin.getUsername());
+            tokenDao.deleteValue(keyJson);
             return true;
         } else {
             return false;
@@ -196,17 +193,5 @@ public class TokenServiceImpl implements TokenService {
         String valueJson = tokenDao.getValue(keyJson);
         AssertionUtil.notNull(valueJson, ErrorCode.BIZ_PARAM_ILLEGAL, "Token无效!");
         return JSONObject.toJavaObject(JSONObject.parseObject(valueJson), RedisUserValueVO.class);
-    }
-
-    RedisMailVerifyValueVO getRedisMailVerify(@NotNull String token) {
-        RedisMailVerifyKeyVO keyVO = new RedisMailVerifyKeyVO();
-        AssertionUtil.isTrue(loginCheck(token) && getLoginType(token).equals(ATTRIBUTE_ADMIN), ErrorCode.BIZ_PARAM_ILLEGAL, "您没有权限!");
-        Integer adminId = getUserIdByToken(token);
-        Admin admin = adminService.getAdminById(adminId);
-        keyVO.setUsername(admin.getUsername());
-        String keyJson = JSON.toJSONString(keyVO);
-        String valueJson = tokenDao.getValue(keyJson);
-        AssertionUtil.notNull(valueJson, ErrorCode.BIZ_PARAM_ILLEGAL, "Token无效!");
-        return JSONObject.toJavaObject(JSONObject.parseObject(valueJson), RedisMailVerifyValueVO.class);
     }
 }
