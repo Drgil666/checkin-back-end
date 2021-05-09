@@ -8,7 +8,10 @@ import com.example.demo.exception.ErrorException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.Admin;
 import com.example.demo.pojo.User;
-import com.example.demo.pojo.vo.*;
+import com.example.demo.pojo.vo.RedisMailVerifyKeyVO;
+import com.example.demo.pojo.vo.RedisMailVerifyValueVO;
+import com.example.demo.pojo.vo.RedisUserKeyVO;
+import com.example.demo.pojo.vo.RedisUserValueVO;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.TokenService;
 import com.example.demo.service.UserService;
@@ -161,13 +164,13 @@ public class TokenServiceImpl implements TokenService {
     /**
      * 校验管理员的验证码
      *
-     * @param mailUserVO       用户Token信息
+     * @param adminId          管理员id
      * @param verificationCode 验证码
      * @return 是否一致
      */
     @Override
-    public Boolean checkVerificationCode(@NotNull MailUserVO mailUserVO, @NotNull String verificationCode) {
-        Admin admin = adminService.getAdminById(mailUserVO.getAdminId());
+    public Boolean checkVerificationCode(@NotNull Integer adminId, @NotNull String verificationCode) {
+        Admin admin = adminService.getAdminById(adminId);
         RedisMailVerifyKeyVO keyVO = new RedisMailVerifyKeyVO();
         keyVO.setUsername(admin.getUsername());
         String keyJson = JSON.toJSONString(keyVO);

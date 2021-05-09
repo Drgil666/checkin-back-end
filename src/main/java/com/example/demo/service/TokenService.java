@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.pojo.vo.MailUserVO;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -52,9 +51,9 @@ public interface TokenService {
     /**
      * 校验管理员的验证码
      *
-     * @param mailUserVO       用户Token信息
+     * @param adminId          管理员id
      * @param verificationCode 验证码
      * @return 是否一致
      */
-    Boolean checkVerificationCode(@NotNull MailUserVO mailUserVO, @NotNull String verificationCode);
+    Boolean checkVerificationCode(@NotNull Integer adminId, @NotNull String verificationCode);
 }
