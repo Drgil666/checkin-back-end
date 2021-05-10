@@ -24,7 +24,7 @@ public class ListPageUtil {
      * @param pageSize 页面大小
      * @param sorter   排序方式
      */
-    public static void paging(Integer current, Integer pageSize, String sorter) throws Exception {
+    public static void paging(Integer current, Integer pageSize, String sorter) {
         if (current == null && pageSize == null) {
             current = 1;
             pageSize = 100000;
