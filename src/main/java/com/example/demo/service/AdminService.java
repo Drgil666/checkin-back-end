@@ -79,4 +79,12 @@ public interface AdminService {
      * @return 是否被绑定
      */
     Integer adminExistByOpenId(@NotNull String openId);
+
+    /**
+     * 根据用户邮箱查找管理员
+     *
+     * @param mail 邮箱
+     * @return 管理员信息
+     */
+    Admin getAdminByMail(@NotNull String mail);
 }

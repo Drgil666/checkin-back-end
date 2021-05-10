@@ -43,17 +43,17 @@ public interface TokenService {
     /**
      * 生成用户的验证码
      *
-     * @param token 用户Token
+     * @param adminId 管理员id
      * @return 验证码
      */
-    String createMailToken(@NotNull String token);
+    String createVerificationCode(@NotNull Integer adminId);
 
     /**
      * 校验管理员的验证码
      *
-     * @param token            用户Token
+     * @param adminId          管理员id
      * @param verificationCode 验证码
      * @return 是否一致
      */
-    Boolean checkMailToken(@NotNull String token, @NotNull String verificationCode);
+    Boolean checkVerificationCode(@NotNull Integer adminId, @NotNull String verificationCode);
 }

@@ -94,6 +94,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/stuNo")
+    @Deprecated
     @ApiOperation(value = "通过学号获取用户信息")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByStuNo(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
@@ -109,6 +110,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/mail")
+    @Deprecated
     @ApiOperation(value = "通过邮箱获取用户信息")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByMail(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
@@ -124,6 +126,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/nick")
+    @Deprecated
     @ApiOperation(value = "通过账户名获取用户信息")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> getUserByUserName(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
@@ -166,11 +169,11 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/update/photo")
+    @Deprecated
     @ApiOperation(value = "更新照片")
     @Authorize(value = AuthorizeUtil.Character.TYPE_USER)
     public Response<User> updatePhoto(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
                                       @ApiParam(value = "照片id") @RequestBody String photoId) {
-
         Integer userId = tokenService.getUserIdByToken(token);
         User user = userService.getUser(userId);
         user.setPhotoId(photoId);

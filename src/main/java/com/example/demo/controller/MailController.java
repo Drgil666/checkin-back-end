@@ -1,12 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.annotation.Authorize;
-import com.example.demo.pojo.User;
+import com.example.demo.exception.ErrorCode;
+import com.example.demo.pojo.Admin;
+import com.example.demo.pojo.vo.MailUserVO;
 import com.example.demo.pojo.vo.Response;
+import com.example.demo.service.AdminService;
 import com.example.demo.service.MailService;
 import com.example.demo.service.TokenService;
-import com.example.demo.service.UserService;
-import com.example.demo.utils.AuthorizeUtil;
+import com.example.demo.utils.AssertionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -30,28 +31,27 @@ public class MailController {
     @Resource
     private TokenService tokenService;
     @Resource
-    private UserService userService;
+    private AdminService adminService;
 
     @ResponseBody
     @PostMapping()
-    @Authorize(value = AuthorizeUtil.Character.TYPE_NORMAL)
-    public Response<String> createVerification(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token) {
-
-        Integer userId = tokenService.getUserIdByToken(token);
-        User user = userService.getUser(userId);
-        String userMail = user.getMail();
-        String code = tokenService.createMailToken(token);
-        mailService.sendSimpleMail(userMail, "ZjgsuCheckIn密码找回", code);
+    public Response<String> createVerification(@ApiParam(value = "加密验证参数") @RequestBody MailUserVO mailVO) {
+        String mail = mailVO.getMail();
+        Admin admin = adminService.getAdminByMail(mail);
+        AssertionUtil.notNull(admin, ErrorCode.BIZ_PARAM_ILLEGAL, "该用户不存在!");
+        String code = tokenService.createVerificationCode(admin.getId());
+        mailService.sendSimpleMail(mail, "ZjgsuCheckIn密码找回", "验证码是" + code);
         return Response.createSuc(code);
     }
 
     @ResponseBody
-    @PostMapping("/verify")
-    @Authorize(value = AuthorizeUtil.Character.TYPE_NORMAL)
-    public Response<String> verify(@ApiParam(value = "加密验证参数") @RequestHeader("Token") String token,
-                                   @ApiParam(value = "code") @RequestBody String code) {
-
-        if (tokenService.checkMailToken(token, code)) {
+    @GetMapping()
+    public Response<String> verify(@ApiParam(value = "加密验证参数") @RequestParam("mail") String mail,
+                                   @ApiParam(value = "code") @RequestParam("code") String code) {
+        AssertionUtil.notNull(mail, ErrorCode.BIZ_PARAM_ILLEGAL, "邮箱不能为空!");
+        Admin admin = adminService.getAdminByMail(mail);
+        AssertionUtil.notNull(admin, ErrorCode.BIZ_PARAM_ILLEGAL, "请求不合法!");
+        if (tokenService.checkVerificationCode(admin.getId(), code)) {
             return Response.createSuc(null);
         } else {
             return Response.createErr("验证码错误!");
