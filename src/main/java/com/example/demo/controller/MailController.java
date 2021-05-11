@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+import static com.example.demo.service.impl.TokenServiceImpl.TYPE_ADMIN;
+
 /**
  * @author Gilbert
  * @date 2021/4/16 15:49
@@ -52,7 +54,8 @@ public class MailController {
         Admin admin = adminService.getAdminByMail(mail);
         AssertionUtil.notNull(admin, ErrorCode.BIZ_PARAM_ILLEGAL, "请求不合法!");
         if (tokenService.checkVerificationCode(admin.getId(), code)) {
-            return Response.createSuc(null);
+            String token = tokenService.createUserToken(admin.getUsername(), TYPE_ADMIN);
+            return Response.createSuc(token);
         } else {
             return Response.createErr("验证码错误!");
         }
