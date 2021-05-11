@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class MailUserVO {
-    private Integer adminId;
     private String username;
     private String mail;
 }

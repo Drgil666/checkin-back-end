@@ -41,6 +41,7 @@ public class MailController {
         String mail = mailVO.getMail();
         Admin admin = adminService.getAdminByMail(mail);
         AssertionUtil.notNull(admin, ErrorCode.BIZ_PARAM_ILLEGAL, "该用户不存在!");
+        AssertionUtil.isTrue(admin.getUsername().equals(mailVO.getUsername()), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或邮箱错误不匹配!");
         String code = tokenService.createVerificationCode(admin.getId());
         mailService.sendSimpleMail(mail, "ZjgsuCheckIn密码找回", "验证码是" + code);
         return Response.createSuc(code);
@@ -48,11 +49,13 @@ public class MailController {
 
     @ResponseBody
     @GetMapping()
-    public Response<String> verify(@ApiParam(value = "加密验证参数") @RequestParam("mail") String mail,
+    public Response<String> verify(@RequestParam("username") String username,
+                                   @RequestParam("mail") String mail,
                                    @ApiParam(value = "code") @RequestParam("code") String code) {
         AssertionUtil.notNull(mail, ErrorCode.BIZ_PARAM_ILLEGAL, "邮箱不能为空!");
         Admin admin = adminService.getAdminByMail(mail);
         AssertionUtil.notNull(admin, ErrorCode.BIZ_PARAM_ILLEGAL, "请求不合法!");
+        AssertionUtil.isTrue(admin.getUsername().equals(username), ErrorCode.BIZ_PARAM_ILLEGAL, "用户名或邮箱错误不匹配!");
         if (tokenService.checkVerificationCode(admin.getId(), code)) {
             String token = tokenService.createUserToken(admin.getUsername(), TYPE_ADMIN);
             return Response.createSuc(token);
